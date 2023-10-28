@@ -1,5 +1,7 @@
 # loading all the required packages
 
+setwd("C:/Users/39339/OneDrive/Desktop/I semestre/Bayesian_Project/main")
+
 library(lubridate)
 library(rstan)
 library(dplyr)
@@ -30,32 +32,37 @@ na_count
 # per qualche ragione strana crea NAs, da vedere il perchè
 
 # serve preprocessing delle date, magari creando nuove features: ora, giorno, day, 
-# giorno della settimana, mese, anno 
+# giorno della settimana, mese, anno => uso dplyr + lurbidate per parsare al meglio il formato 
+# e passare da AM/PM a UTC
+
+# in teoria cosi dovrebbe andare, idk why crea tanti NAs
+
+temp = data.frame(ozono)
+
+temp$Data <- dmy_hms(temp$Data) 
+
+temp$Year <- year(temp$Data)    
+temp$Month <- month(temp$Data)
+temp$Day <- day(temp$Data)    
+temp$Hour <- hour(temp$Data)  
 
 # intanto meglio dare un occhio alle stazioni "chiuse temporaneamente"
 
+stazioni.usate <- stazioni[which(stazioni$IdSensore %in% unique(ozono$idSensore)),]
+start.stop <- data.frame(stazioni.usate$DataStart, stazioni.usate$DataStop)
+
+started.late <- start.stop[which(as.Date(start.stop$stazioni.usate.DataStart, format = "%d/%m/%Y") > 
+                   as.Date("01/01/2010", format = "%d/%m/%Y")),] 
+
+closed.early <- start.stop[which(as.Date(start.stop$stazioni.usate.DataStop, format = "%d/%m/%Y") > 
+                                                   as.Date("01/01/2010", format = "%d/%m/%Y")),] 
 
 
+# recap:  8 chiuse prima
+#         1 aperte dopo
+# ne abbiamo 51 totali, forse un po' too much toglierle tutte?
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# guardiamo le giornate di utilizzo imho 
 
 
 
