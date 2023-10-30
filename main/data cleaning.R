@@ -28,16 +28,9 @@ started.late <- start.stop[which(as.Date(start.stop$stazioni.usate.DataStart, fo
 closed.early <- start.stop[which(as.Date(start.stop$stazioni.usate.DataStop, format = "%d/%m/%Y") > 
                                    as.Date("01/01/2010", format = "%d/%m/%Y")),] 
 
-
-# recap:  8 chiuse prima
-#         1 aperte dopo
-# ne abbiamo 51 totali, forse un po' too much toglierle tutte?
-
 # guardiamo le giornate di utilizzo imho (?) 
 
-
 #### DATA PROCESSING ####
-
 
 # here i change format using lubridate and create Y/M/D/H vars to help future loops
 

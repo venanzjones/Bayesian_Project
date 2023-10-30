@@ -1,4 +1,3 @@
-
 library(leaflet)
 library(dplyr)
 # library(geojsonio)
@@ -38,5 +37,16 @@ mappa <- leaflet( data = stazioni) %>%
 mappa
 
 
+
+
+# for when rgdal will be back
+
+library(rgdal)
+library(sp)
+
+italy = readOGR("Reg01012021_g/Reg01012021_g_WGS84.shp", GDAL1_integer64_policy = TRUE)
+italy <- spTransform(italy, CRS("+proj=longlat +ellps=WGS84 +datum=WGS84"))
+
+lombardia = italy[italy$DEN_REG=='Lombardia', ]
 
 
