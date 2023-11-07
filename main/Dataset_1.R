@@ -31,9 +31,9 @@ sapply(ozono, function(y) sum(length(which(is.na(y)))))
 
 sensors <- unique(ozono$idSensore)
 years <- unique((ozono$Year))
-mesi <- 3:8
+mesi <- 3:10
 #We have to consider only from 5 to 10 in the month
-giorni_true <- c(31, 30, 31, 30, 31, 31)
+giorni_true <- c(31, 30, 31, 30, 31, 31, 30, 31)
 mis_month <- 0
 lista_sensori <- list()
 Na_mese <- matrix(rep(0, length(sensors)*length(mesi)*length(years)), nrow = length(sensors), ncol=(length(mesi)*length(years)))
@@ -91,27 +91,28 @@ for (i in 1:length(lista_sensori))
         #Update sui giorni mancanti
         if (length(miss))
         {
-          Na_giorni[i, 6*(j-1)+k] <- length(miss)
+          Na_giorni[i, length(mesi)*(j-1)+k] <- length(miss)
         }
         #Update su ore mancanti o Na
         if (sum(missing_hours))
         {
-          Na_ore[i, 6*(j-1)+k] <- sum(missing_hours)
+          Na_ore[i, length(mesi)*(j-1)+k] <- sum(missing_hours)
         }
       }
       else
       {
         mis_month <- mis_month + 1
         #Do something on Na_mese, i sensor, j index of year, k index month
-        Na_mese[i, 6*(j-1)+k] <- 1
+        Na_mese[i, length(mesi)*(j-1)+k] <- 1
       }
     }
   }
 }
 
 mis_month
-image(Na_mese)
-#Non sono un problema, balziamo il mese e andiamo avanti
+image(Na_mese, y = 1:104)
+sum(Na_mese>0)
+#Non sono un problema, balziamo il mese e andiamo avanti -> 128
 
 x11()
 par(mfrow=c(1,2))
@@ -141,9 +142,9 @@ Na_per_month
 counts <- NULL
 sensors <- unique(ozono$idSensore)
 years <- unique((ozono$Year))
-mesi <- 3:8
+mesi <- 3:10
 #We have to consider only from 5 to 10 in the month
-giorni_true <- c(31, 30, 31, 30, 31, 31)
+giorni_true <- c(31, 30, 31, 30, 31, 31, 30, 31)
 lista_sensori <- list()
 for (i in 1:length(sensors))
 {
@@ -194,7 +195,7 @@ for (i in 1:length(lista_sensori))
           missing_hours[d] <- 24-(dim(lista_giorni[[d]])[1])
           total_miss[d] <- missing_hours[d]+na[d]
         }
-        counts <- rbind(counts, c(sum(count), sensors[i], years[j], mesi[k], length(miss), sum(total_miss>5), sum(total_miss>10)))
+        counts <- rbind(counts, c(sum(count), sensors[i], years[j], mesi[k], length(miss), sum(total_miss>3), sum(total_miss>5), sum(total_miss>8), sum(total_miss>10)))
       }
       else
       {
@@ -205,7 +206,7 @@ for (i in 1:length(lista_sensori))
 }
 
 counts <- data.frame(counts)
-colnames(counts) <- c("Count", "idSensore", "Year", "Month", "Missing days", "Days with more than 5 hours missed", "Days with more than 10 hours missed")
+colnames(counts) <- c("Count", "idSensore", "Year", "Month", "Missing days", "Days with more than 3 hours missed", "Days with more than 5 hours missed", "Days with more than 8 hours missed", "Days with more than 10 hours missed")
 
 #Mancano dei giorni, il codice dovrà tenerne conto, facciamo media (?) ma successiva, prima vediamo se funziona
 #Mancano delle righe, verranno ttrattate come Nas, infatti se queste dovessero essere >180 allora assumiamo che una
@@ -223,33 +224,62 @@ tail(sort(counts$`Missing days`[which(counts$`Missing days`>0)]))
 #Devo contare in quanti mesi mancano più di 5 giorni
 sum(counts$`Missing days`>5)     #Li buttiamo tranquillamente
 
+sum(counts$`Days with more than 3 hours missed`)
+mean(counts$`Days with more than 3 hours missed`)
+median(counts$`Days with more than 3 hours missed`)
+hist(counts$`Days with more than 3 hours missed`)
+
 sum(counts$`Days with more than 5 hours missed`)
 mean(counts$`Days with more than 5 hours missed`)
-median(counts$`Days with more than 10 hours missed`)
-hist(counts$`Days with more than 10 hours missed`)
+median(counts$`Days with more than 5 hours missed`)
+hist(counts$`Days with more than 5 hours missed`)
 
-sum(counts$`Days with more than 10 hours missed`+counts$`Missing days`>5)
-#204 mesi verrebbero buttati a causa di Nas
+#Quando buttiamo il giorno? --> quando mancano più di x ore
+sum(counts$`Days with more than 8 hours missed`>5)
 
-#quanti mesi li mettiamo come Na?
-sum(counts$`Days with more than 10 hours missed`+counts$`Missing days`>0)
-#Su 3850 osservazioni totali -> 3646 mesi rimarrebbero
-#Subito Na -> 1200 (33%)
-#Più di un giorno diventa Na -> 918 Nas (25%)
-#Più di due giorni -> 631 (17%)        #My choice, e se sono due li stimiamo con una Bernoulli
-#Più di 3 -> 434 (11%)
+#Quanti ne rimangono?
+length(which(counts$`Missing days` + counts$`Days with more than 8 hours missed`>=5))+144 #Mesi rimossi
+(length(which(counts$`Missing days` + counts$`Days with more than 8 hours missed`<5)))/(51*104) #Voglio il 90%
 
-#Definitivo:
-#I mesi con più di 5 giorni mancanti vengono buttati, con meno di 5 giorni ma più di x (io direi 22) stimati dal modello
-#a meno che non sia meno di due giorni in quel caso lo stimiamo (es.Bernoulli)
+length(which(counts$`Missing days` + counts$`Days with more than 8 hours missed`>=6))+144 #Mesi rimossi
+(length(which(counts$`Missing days` + counts$`Days with more than 8 hours missed`<=5)))/(51*104)
 
-#Il giorno è "dichiarato mancante" se manca il giorno, oppure se mancano più di 10 ore di osservazioni.
-#Con meno di 10 ore di informazioni invece stimiamo il livello di O3 con un medione e usiamo questo come dato, 
-#nella pratica, consideriamo il giorno così com'è, infatti se la media è >180 anche uno dei due estremi è >180.
+#Aiuto qualcuno ci aiuti, tuttavia togliamo un giorno quando abbiamo più di 8 ore mancanti
+#Quando abbiamo meno di 6 giorni mancanti allora simuliamo il count con una bernoulliana
+
+max(counts$Count[which(counts$Month==3)])
+max(counts$Count[which(counts$Month==5)])
+max(counts$Count[which(counts$Month==6)])
+max(counts$Count[which(counts$Month==7)])
+max(counts$Count[which(counts$Month==8)])
+max(counts$Count[which(counts$Month==9)])
+sum(counts$Count[which(counts$Month==10)])
+
+#Marzo lo balziamo, non ha mai osservazioni
 
 ####Costruzione definitiva dataset####
 
-disc <- 0
+rm(list=ls())
+ozono = read.csv("datasetO3.csv")
+stazioni = read.csv("stazioni_O3.csv")
+ozono$Data <- mdy_hms(ozono$Data)
+ozono$Year <- year(ozono$Data-1)    
+ozono$Month <- month(ozono$Data-1)
+ozono$Day <- day(ozono$Data-1)    
+ozono$Hour <- hour(ozono$Data-1)
+
+counts <- NULL
+sensors <- unique(ozono$idSensore)
+years <- unique((ozono$Year))
+mesi <- 4:10
+#We have to consider only from 5 to 10 in the month
+giorni_true <- c(30, 31, 30, 31, 31, 30, 31)
+lista_sensori <- list()
+for (i in 1:length(sensors))
+{
+  lista_sensori[[i]] <- ozono[which(ozono$idSensore==sensors[i]) ,]
+}
+
 counts <- NULL
 set.seed(1)
 for (i in 1:length(lista_sensori))
@@ -296,33 +326,19 @@ for (i in 1:length(lista_sensori))
           missing_hours[d] <- 24-(dim(lista_giorni[[d]])[1])
           total_miss[d] <- missing_hours[d]+na[d]
         }
-        if (length(miss)+sum(total_miss>10)>5)
+        if (length(miss)+sum(total_miss>8)>5)
         {
-          disc <- disc + 1
+          counts <- rbind(counts, c(NA, sensors[i], years[j], mesi[k]))
         }
         else
         {
-          if (length(miss)+sum(total_miss>10)>2)
-          {
-            counts <- rbind(counts, c(NA, sensors[i], years[j], mesi[k]))
-          }
-          else
-          {
-            if (length(miss)+sum(total_miss>10))
-            {
-              added <- rbinom(n = 1, size = length(miss)+sum(total_miss>10), prob = sum(count)/giorni_true[k])
-              counts <- rbind(counts, c(sum(count)+added, sensors[i], years[j], mesi[k]))
-            }
-            else
-            {
-              counts <- rbind(counts, c(sum(count), sensors[i], years[j], mesi[k]))
-            }
-          }
+          added <- rbinom(n = 1, size = length(miss)+sum(total_miss>8), prob = sum(count)/(giorni_true[k]-(length(miss)+sum(total_miss>8))))
+          counts <- rbind(counts, c(sum(count)+added, sensors[i], years[j], mesi[k]))
         }
       }
       else
       {
-        disc <- disc + 1
+        counts <- rbind(counts, c(NA, sensors[i], years[j], mesi[k]))
       }
     }
   }
@@ -330,6 +346,8 @@ for (i in 1:length(lista_sensori))
 
 counts <- data.frame(counts)
 colnames(counts) <- c("Count", "idSensore", "Year", "Month")
+
+sum(is.na(counts$Count))/length(counts$Count)
 
 #Manca da creare un dataset per fare una sorta di matplot, righe sensori colonne time
 
@@ -360,6 +378,6 @@ for (s in 1:length(sensors))
   }
 }
 
-matplot(mat, type='l')
+matplot(t(mat), type='l')
 
 
