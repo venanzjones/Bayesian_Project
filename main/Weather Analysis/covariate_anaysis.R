@@ -1,8 +1,6 @@
-setwd("C:/Users/39339/OneDrive/Desktop/I semestre/Bayesian_Project/main")
-
 library(dplyr)
 library(tidyr)
-weather <- read.csv("weather_data.csv")
+weather <- read.csv("Weather Analysis/weather_data.csv")
 colnames(weather)[c(3,4,5,6)] = c("temp","prec_sum","prec_hours","max_wind")
 
 #temperature
