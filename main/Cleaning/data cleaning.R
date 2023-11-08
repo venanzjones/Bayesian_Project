@@ -1,6 +1,5 @@
 # loading all the required packages
 
-setwd("C:/Users/39339/OneDrive/Desktop/I semestre/Bayesian_Project/main")
 
 library(lubridate)
 library(rstan)
@@ -9,8 +8,8 @@ library(tidyr)
 
 # read data
 
-ozono = read.csv("C:/Users/39339/OneDrive/Desktop/I semestre/dati_ozono/datasetO3.csv")
-stazioni = read.csv("C:/Users/39339/OneDrive/Desktop/I semestre/dati_ozono/stazioni_O3.csv")
+ozono = read.csv("../Dati_iniziali/datasetO3.csv")
+stazioni = read.csv("../Dati_iniziali/stazioni_O3.csv")
 
 # rm idOperatore since they re = 1
 

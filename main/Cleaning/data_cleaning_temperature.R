@@ -1,5 +1,4 @@
 
-setwd("C:/Users/39339/OneDrive/Desktop/I semestre/Bayesian_Project/main")
 
 library(dplyr)
 library(lubridate)
