@@ -9,7 +9,7 @@ library(rnaturalearth)
 # devtools::install_github("ropensci/rnaturalearthhires")
 # library(rnaturalearthires)
 
-stazioni = read.csv("../Dati_iniziali/stazioni_O3.csv")
+stazioni = read.csv("./Dati_iniziali/stazioni_O3.csv")
 # ozono = read.csv("C:/Users/39339/OneDrive/Desktop/I semestre/dati_ozono/datasetO3.csv")
 
 italy_map <- ne_states(country = "Italy", returnclass = "sf") 

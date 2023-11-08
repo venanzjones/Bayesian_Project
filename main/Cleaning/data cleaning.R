@@ -8,8 +8,8 @@ library(tidyr)
 
 # read data
 
-ozono = read.csv("../Dati_iniziali/datasetO3.csv")
-stazioni = read.csv("../Dati_iniziali/stazioni_O3.csv")
+ozono = read.csv("./Dati_iniziali/datasetO3.csv")
+stazioni = read.csv("./Dati_iniziali/stazioni_O3.csv")
 
 # rm idOperatore since they re = 1
 
