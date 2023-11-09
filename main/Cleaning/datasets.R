@@ -166,8 +166,8 @@ sensors <- unique(ozono$idSensore)
 years <- unique((ozono$Year))
 mesi <- 4:10
 
-#counts <- read.csv("./Datasets/Dataset_1")
-counts <- read.csv("./Datasets/Dataset_2")
+counts <- read.csv("./Datasets/Dataset_1")
+#counts <- read.csv("./Datasets/Dataset_2")
 
 time <- NULL
 for (i in years) {
