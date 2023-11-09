@@ -1,5 +1,4 @@
 library(lubridate)
-library(rstan)
 library(dplyr)
 library(tidyr)
 
@@ -137,9 +136,10 @@ Na_per_month
 counts <- NULL
 sensors <- unique(ozono$idSensore)
 years <- unique((ozono$Year))
-mesi <- 3:10
+mesi <- 4:10
+missed_month <- 0
 # We have to consider only from 5 to 10 in the month
-giorni_true <- c(31, 30, 31, 30, 31, 31, 30, 31)
+giorni_true <- c(30, 31, 30, 31, 31, 30, 31)
 lista_sensori <- list()
 for (i in 1:length(sensors))
 {
@@ -174,24 +174,29 @@ for (i in 1:length(lista_sensori))
         # Il mese non è un problema, quindi devo vedere qua dentro quanti giorni butterei.
         miss <- setdiff(1:giorni_true[k], giorni)
         # Giorni interi mancanti
+        
         for (d in 1:length(giorni))
         {
           lista_giorni[[d]] <- temp_mese[which(temp_mese$Day == giorni[d]), ]
         }
-        count <- NULL
+        count <- rep(0, giorni_true[k])
         na <- NULL
         missing_hours <- NULL
         total_miss <- NULL
         for (d in 1:length(giorni))
         {
           na[d] <- sum(is.na(lista_giorni[[d]]$Valore))
-          count[d] <- (sum(na.omit(lista_giorni[[d]]$Valore) > 180) > 0)
           missing_hours[d] <- 24 - (dim(lista_giorni[[d]])[1])
           total_miss[d] <- missing_hours[d] + na[d]
+          if (sum(na.omit(lista_giorni[[d]]$Valore)>180))
+          {
+            count[d] <- 1
+            total_miss[d] <- 0
+          }
         }
         counts <- rbind(counts, c(sum(count), sensors[i], years[j], mesi[k], length(miss), sum(total_miss > 3), sum(total_miss > 5), sum(total_miss > 8), sum(total_miss > 10)))
       } else {
-        print(i)
+        missed_month <- missed_month + 1
       }
     }
   }
@@ -214,7 +219,7 @@ tail(sort(counts$`Missing days`[which(counts$`Missing days` > 0)]))
 # Mancano nel 10% dei mesi almeno un giorno. Quando ne manca uno ne mancano in media 2.2. Un'idea è stimare quanti
 # producano effetti in base agli altri quando ne mancano e.g. <5
 # Devo contare in quanti mesi mancano più di 5 giorni
-sum(counts$`Missing days` > 5) # Li buttiamo tranquillamente
+sum(counts$`Missing days` > 5) #Vanno sommati i giorni dove mancano le ore
 
 sum(counts$`Days with more than 3 hours missed`)
 mean(counts$`Days with more than 3 hours missed`)
@@ -228,28 +233,34 @@ hist(counts$`Days with more than 5 hours missed`)
 
 # Quando buttiamo il giorno? --> quando mancano più di x ore
 sum(counts$`Days with more than 8 hours missed` > 5)
+##IMPORTANTE##
+#In questi giorni io dico che mancano sia ore che informazioni
+#--> Se mancano 8 ore ma ho informazioni tengo il dato
 
 # Quanti ne rimangono?
-length(which(counts$`Missing days` + counts$`Days with more than 8 hours missed` >= 5)) + 144 # Mesi rimossi
-(length(which(counts$`Missing days` + counts$`Days with more than 8 hours missed` < 5))) / (51 * 104) # Voglio il 90%
+length(which(counts$`Missing days` + counts$`Days with more than 8 hours missed` >= 5)) + missed_month # Mesi rimossi
+(length(which(counts$`Missing days` + counts$`Days with more than 8 hours missed` < 5))) / (51 * length(years)*length(mesi)) 
+# Voglio il 90%
 
-length(which(counts$`Missing days` + counts$`Days with more than 8 hours missed` >= 6)) + 144 # Mesi rimossi
-(length(which(counts$`Missing days` + counts$`Days with more than 8 hours missed` <= 5))) / (51 * 104)
+length(which(counts$`Missing days` + counts$`Days with more than 8 hours missed` >= 6)) + missed_month # Mesi rimossi
+(length(which(counts$`Missing days` + counts$`Days with more than 8 hours missed` <= 5))) / (51 * length(years)*length(mesi))
 
 # Aiuto qualcuno ci aiuti, tuttavia togliamo un giorno quando abbiamo più di 8 ore mancanti
 # Quando abbiamo meno di 6 giorni mancanti allora simuliamo il count con una bernoulliana
 
-max(counts$Count[which(counts$Month == 3)])
+max(counts$Count[which(counts$Month == 4)])
 max(counts$Count[which(counts$Month == 5)])
 max(counts$Count[which(counts$Month == 6)])
 max(counts$Count[which(counts$Month == 7)])
 max(counts$Count[which(counts$Month == 8)])
 max(counts$Count[which(counts$Month == 9)])
-sum(counts$Count[which(counts$Month == 10)])
+max(counts$Count[which(counts$Month == 10)])
+
+#Ufficiale simulamo quando mancano 5 giorni o meno, e solo se non abbiamo info su quel giorno
 
 # Marzo lo balziamo, non ha mai osservazioni
 
-#### Costruzione definitiva dataset####
+#### Costruzione definitiva dataset####   (Da modificare)
 
 rm(list = ls())
 ozono <- read.csv("./Dati_iniziali/datasetO3.csv")
