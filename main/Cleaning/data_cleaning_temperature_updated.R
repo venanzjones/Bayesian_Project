@@ -1,6 +1,5 @@
 
-setwd("C:\Users\aless\Desktop\UNIVERSITA'\MAGISTRALE\CORSI\Bayesian Statistics\Progetto")
-
+setwd("C:/Users/39339/OneDrive/Desktop/I semestre/Bayesian_Project/main")
 library(dplyr)
 library(lubridate)
 
