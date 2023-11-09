@@ -37,19 +37,21 @@ counts_1 <- NULL
 counts_2 <- NULL
 N <- 8
 set.seed(1)
-for (sens in lista_sensori) {
+for (i in seq_along(sensors)) {
+    temp <- lista_sensori[[i]]
     lista_anni <- list()
     for (j in seq_along(years)) {
-        lista_anni[[j]] <- sens[which(sens$Year == years[j]), ]
+        lista_anni[[j]] <- temp[which(temp$Year == years[j]), ]
     }
 
-    for (y in lista_anni) {
+    for (j in seq_along(years)) {
+        temp_year <- lista_anni[[j]]
         lista_mesi <- list()
         for (k in seq_along(mesi)) {
-            lista_mesi[[k]] <- y[which(y$Month == mesi[k]), ]
+            lista_mesi[[k]] <- temp_year[which(temp_year$Month == mesi[k]), ]
         }
 
-        for (m in seq_along(mesi)) {
+        for (k in seq_along(mesi)) {
             temp_mese <- lista_mesi[[k]]
             giorni <- unique(lista_mesi[[k]]$Day)
             lista_giorni <- list()
@@ -86,44 +88,44 @@ for (sens in lista_sensori) {
                     count_2[d] <- ((sum(na.omit(means) > 120)) > 0)
                 }
 
-                if (length(miss) + sum((total_miss > 8) & (count_1 == 0)) > 5) {
+                if (length(miss) + sum((total_miss > 8) & ((!is.na(count_1) & (count_1 == 0))| is.na(count_1))) > 5) {
                     counts_1 <- rbind(
                         counts_1,
-                        c(NA, sens$idSensore[1], y$Year[1], mesi[k])
+                        c(NA, sensors[i], years[j], mesi[k])
                     )
                 } else {
                     added <- rbinom(
-                        n = 1, size = length(miss) + sum((total_miss > 8) & (count_1 == 0)),
-                        prob = sum(count_1) / (giorni_true[k] - (length(miss) + sum((total_miss > 8) & (count_1 == 0))))
+                        n = 1, size = length(miss) + sum((total_miss > 8) & ((!is.na(count_1) & (count_1 == 0))| is.na(count_1))),
+                        prob = sum(count_1) / (giorni_true[k] - (length(miss) + sum((total_miss > 8) & ((!is.na(count_1) & (count_1 == 0))| is.na(count_1)))))
                     )
                     counts_1 <- rbind(
                         counts_1,
-                        c(sum(count_1) + added, sens$idSensore[1], y$Year[1], mesi[k])
+                        c(sum(count_1) + added, sensors[i], years[j], mesi[k])
                     )
                 }
-                if (length(miss) + sum((total_miss > 8) & (count_2 == 0)) > 5) {
+                if (length(miss) + sum((total_miss > 8) & ((!is.na(count_2) & (count_2 == 0))| is.na(count_2))) > 5) {
                     counts_2 <- rbind(
                         counts_2,
-                        c(NA, sens$idSensore[1], y$Year[1], mesi[k])
+                        c(NA, sensors[i], years[j], mesi[k])
                     )
                 } else {
                     added <- rbinom(
-                        n = 1, size = length(miss) + sum((total_miss > 8) & (count_2 == 0)),
-                        prob = sum(count_2) / (giorni_true[k] - (length(miss) + sum((total_miss > 8) & (count_2 == 0))))
+                        n = 1, size = length(miss) + sum((total_miss > 8) & ((!is.na(count_2) & (count_2 == 0))| is.na(count_2))),
+                        prob = sum(count_2) / (giorni_true[k] - (length(miss) + sum((total_miss > 8) & ((!is.na(count_2) & (count_2 == 0))| is.na(count_2)))))
                     )
                     counts_2 <- rbind(
                         counts_2,
-                        c(sum(count_2) + added, sens$idSensore[1], y$Year[1], mesi[k])
+                        c(sum(count_2) + added, sensors[i], years[j], mesi[k])
                     )
                 }
             } else {
                 counts_1 <- rbind(
                     counts_1,
-                    c(NA, sens$idSensore[1], y$Year[1], mesi[k])
+                    c(NA, sensors[i], years[j], mesi[k])
                 )
                 counts_2 <- rbind(
                     counts_2,
-                    c(NA, sens$idSensore[1], y$Year[1], mesi[k])
+                    c(NA, sensors[i], years[j], mesi[k])
                 )
             }
         }
@@ -131,9 +133,11 @@ for (sens in lista_sensori) {
 }
 
 counts_1 <- data.frame(counts_1)
+counts_2 <- data.frame(counts_2)
+counts_3 <- NULL
 counts_3 <- cbind(counts_1$Count, counts_2)
 counts_3 <- data.frame(counts_3)
-counts_2 <- data.frame(counts_2)
+
 colnames(counts_1) <- c("Count", "idSensore", "Year", "Month")
 colnames(counts_2) <- c("Count", "idSensore", "Year", "Month")
 colnames(counts_3) <- c("Count_180", "Count_mean120", "idSensore", "Year", "Month")
@@ -162,24 +166,19 @@ sensors <- unique(ozono$idSensore)
 years <- unique((ozono$Year))
 mesi <- 4:10
 
-counts <- read.csv("./Datasets/Dataset_1")
-#counts <- read.csv("./Datasets/Dataset_2")
+#counts <- read.csv("./Datasets/Dataset_1")
+counts <- read.csv("./Datasets/Dataset_2")
 
 time <- NULL
-for (i in years)
-{
-    for (j in mesi)
-    {
+for (i in years) {
+    for (j in mesi) {
         time <- c(time, paste(i, j))
     }
 }
 mat <- matrix(rep(0, length(sensors) * length(time)), nrow = length(sensors), ncol = length(time))
-for (s in seq_along(sensors))
-{
-    for (i in seq_along(years))
-    {
-        for (j in seq_along(mesi))
-        {
+for (s in seq_along(sensors)) {
+    for (i in seq_along(years)) {
+        for (j in seq_along(mesi)) {
             if (length(which(counts$idSensore == sensors[s] & counts$Year == years[i] & counts$Month == mesi[j]))) {
                 mat[s, (i - 1) * length(mesi) + j] <- counts$Count[which(counts$idSensore == sensors[s] & counts$Year == years[i] & counts$Month == mesi[j])]
             } else {
