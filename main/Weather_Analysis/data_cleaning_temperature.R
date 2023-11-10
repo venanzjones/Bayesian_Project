@@ -1,0 +1,62 @@
+ozono <- read.csv("./Dati_iniziali/datasetO3.csv")
+stazioni <- read.csv("./Dati_iniziali/stazioni_O3.csv")
+stazioni.usate <- stazioni[which(stazioni$IdSensore %in% unique(ozono$idSensore)), ]
+rm(ozono)
+
+library(dplyr)
+library(lubridate)
+
+
+# then I will loop i in 1...51 and exploit paste to collect each df
+monthly_means_list <- list()
+
+for (i in 1:51) # change to 51 later
+{ 
+  
+  staz = read.csv(paste0("Weather_Analysis/weather/staz", i, ".csv"), skip = 2, header = T)
+  staz$time <- ymd(staz$time)
+  staz$Year <- year(staz$time)    
+  staz$Month <- month(staz$time)
+  staz$Day <- day(staz$time)  
+  
+  
+  staz <- staz[which(staz$Month %in% 5:10),]
+  threshold <- quantile(staz$windspeed_10m_max..km.h.,0.975)
+  # Create a new data frame with monthly means
+  monthly.means <- staz %>%
+    group_by(Year, Month) %>%
+    summarize(
+      mean_temperature = mean(temperature_2m_mean...C.),
+      mean_precipitation_sum = mean(precipitation_sum..mm.),
+      mean_precipitation_hours = mean(precipitation_hours..h.),
+      mean_windspeed_10m_max = mean(windspeed_10m_max..km.h.),
+      mean_radiation_sum = mean(shortwave_radiation_sum..MJ.m..),
+      count_highwind = sum(windspeed_10m_max..km.h. > threshold)
+    ) %>%
+    ungroup()
+  
+  monthly_means_list[[i]] <- monthly.means
+  
+}
+
+combined_df <- data.frame()
+
+# change to 51 later
+for (i in 1:51) {
+  monthly_means_list[[i]]$Station <- i
+  
+  combined_df <- bind_rows(combined_df, monthly_means_list[[i]])
+}
+
+sapply(combined_df, function(y) sum(length(which(is.na(y)))))
+
+# there are no NAs
+
+for (i in 1:51) {
+  combined_df[which(combined_df$Station == i),9] <- stazioni.usate$IdSensore[i]
+}
+
+
+setwd("../")
+write.csv(combined_df, "Weather_Analysis/weather_data.csv", row.names=FALSE)
+
