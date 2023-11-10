@@ -1,11 +1,16 @@
 library(dplyr)
 library(lubridate)
 
+ozono <- read.csv("./Dati_iniziali/datasetO3.csv")
+stazioni <- read.csv("./Dati_iniziali/stazioni_O3.csv")
+stazioni.usate <- stazioni[which(stazioni$IdSensore %in% unique(ozono$idSensore)), ]
+rm(ozono)
+
 # then I will loop i in 1...51 and exploit paste to collect each df
 monthly_means_list <- list()
 
 for (i in 1:51) {
-  staz <- read.csv(paste0("Weather_Analysis/weather/staz", i, ".csv"), skip = 2, header = T)
+  staz <- read.csv(paste0("./Weather_Analysis/weather/staz", i, ".csv"), skip = 2, header = T)
   staz$time <- ymd(staz$time)
   staz$Year <- year(staz$time)
   staz$Month <- month(staz$time)
@@ -27,6 +32,7 @@ for (i in 1:51) {
     ) %>%
     ungroup()
   monthly_means_list[[i]] <- monthly.means
+
 }
 
 combined_df <- data.frame()
@@ -45,4 +51,4 @@ for (i in 1:51) {
   combined_df[which(combined_df$Station == i), 9] <- stazioni.usate$IdSensore[i]
 }
 
-write.csv(combined_df, "Weather_Analysis/weather_data.csv", row.names = FALSE)
+write.csv(combined_df, "./Weather_Analysis/weather_data.csv", row.names = FALSE)
