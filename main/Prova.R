@@ -1,10 +1,9 @@
-#### MIO
 library(lubridate)
 library(dplyr)
 library(tidyr)
 
-ozono = read.csv("datasetO3.csv", header = TRUE)
-stazioni <- read.csv("stazioni_O3.csv")
+ozono <- read.csv("Dati_Iniziali/datasetO3.csv", header = TRUE)
+stazioni <- read.csv("Dati_Iniziali/stazioni_O3.csv")
 ozono$idOperatore <- NULL
 stazioni.usate <- stazioni[which(stazioni$IdSensore %in% unique(ozono$idSensore)), ]
 start.stop <- data.frame(stazioni.usate$DataStart, stazioni.usate$DataStop)
