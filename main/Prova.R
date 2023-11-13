@@ -1,3 +1,25 @@
+#### MIO
+library(lubridate)
+library(dplyr)
+library(tidyr)
+
+ozono = read.csv("datasetO3.csv", header = TRUE)
+stazioni <- read.csv("stazioni_O3.csv")
+ozono$idOperatore <- NULL
+stazioni.usate <- stazioni[which(stazioni$IdSensore %in% unique(ozono$idSensore)), ]
+start.stop <- data.frame(stazioni.usate$DataStart, stazioni.usate$DataStop)
+
+started.late <- start.stop[which(as.Date(start.stop$stazioni.usate.DataStart, format = "%d/%m/%Y") >
+                                   as.Date("01/01/2010", format = "%d/%m/%Y")), ]
+
+closed.early <- start.stop[which(as.Date(start.stop$stazioni.usate.DataStop, format = "%d/%m/%Y") >
+                                   as.Date("01/01/2010", format = "%d/%m/%Y")), ]
+ozono$Data <- mdy_hms(ozono$Data)
+ozono$Year <- year(ozono$Data - 1)
+ozono$Month <- month(ozono$Data - 1)
+ozono$Day <- day(ozono$Data - 1)
+ozono$Hour <- hour(ozono$Data - 1)
+
 ####Creazione dataset con massimo giornaliero e medione in caso manchino i dati####
 Massimi <- NULL
 sensors <- unique(ozono$idSensore)
@@ -69,10 +91,48 @@ Massimi <- data.frame(Massimi)
 names(Massimi) <- c('max', 'Giorno', 'idSensore', 'Anno', 'Mese')
 rm(ozono)
 
+# estraggo il mese dal dataset massimi, me li salvo in una lista
+# di mesi e la scorro, allo stesso tempo devo però salvarmi gli
+# indici delle righe per risalire al dataset massimi e fare medione
+
+## rpova con un mese
+temp_month <- Massimi[which(Massimi$idSensore == 5707 & Massimi$Anno == 2010 & Massimi$Mese == 4),]
+valori_popolati <- NULL
+
+for(k in 1:dim(temp_month)[1]){
+  # se i -1 sono >= 6 metto il mese con valore NA nel dataset finale
+  if (sum(temp_month$max[which(temp_month$max == -1)] >= 6)){
+    valori_popolati <- "NA"
+  }
+  
+  if (temp_month[k, "max"] == -1){
+    j = k+1
+    while(temp_month[j, "max"] == -1){
+      j <- j+1
+    }
+    valori_popolati[k:j-1] <- (temp_month[k-1,"max"]+temp_month[j, "max"])/2
+  }
+  else {
+    valori_popolati[k] <- temp_month[k, "max"]
+  }
+}
+
+temp_anno <-Massimi[which(Massimi$idSensore == 5707 & Massimi$Anno == 2010),]
+  
+
+
+
+
+
 if (new_month[1] == -1)  #Caso degenere
 {
   
 }
+
+
+
+
+
 
 for (a in 1:giorni_true[k])
 {
