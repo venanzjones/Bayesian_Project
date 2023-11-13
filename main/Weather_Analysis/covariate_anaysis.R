@@ -7,7 +7,7 @@ sapply(weather, function(y) sum(length(which(is.na(y)))))
 
 #temperature
 wrapped_temp <- weather[,c(1,2,3,9)] %>%   
-  pivot_wider(names_from = Station, values_from = temp)
+  pivot_wider(names_from = Station, values_from = temp, values_fill = 0)
 
 matplot(wrapped_temp[,-c(1,2)], pch = 16, type = 'l')
 
