@@ -81,6 +81,7 @@ for (i in 1:length(lista_sensori))
       else 
       {
         missed_month <- missed_month + 1
+
       }
     }
   }
@@ -214,3 +215,89 @@ for (i in 1:length(lista_sensori))
 
 counts <- data.frame(counts)
 colnames(counts) <- c("Count", "idSensore", "Year", "Month")
+
+
+
+
+
+## Coppe
+mm_na <- NULL
+
+# Filling the vector mm_na with whether a month is admissible or not
+for (i in seq_along(sensors)) {
+  temp_years <- unique(Massimi$Anno[which(Massimi$idSensore == sensors[i])])
+  for (j in seq_along(temp_years)) {
+    temp_mese <- unique(Massimi$Mese[which(Massimi$idSensore == sensors[i] & Massimi$Anno == temp_years[j])])
+    for (k in seq_along(temp_mese)) {
+      temp <- Massimi[which(Massimi$idSensore == sensors[i] & Massimi$Anno == temp_years[j] & Massimi$Mese == temp_mese[k]),]
+      if (sum(temp$max == -1) < 6) {
+        mm_na <- rbind(mm_na, c(1, sensors[i], temp_years[j], temp_mese[k]))
+      } else {
+        mm_na <- rbind(mm_na, c(0, sensors[i], temp_years[j], temp_mese[k]))
+      }
+    }
+  }
+}
+
+mm_na <- data.frame(mm_na)
+colnames(mm_na) <- c("Admissible", "idSensore", "Year", "Month")
+
+# filling Massimi replacing -1 values with a linear
+# interpolation of the 2 nearest admissible maximums
+
+findFirstDay <- function(row, df) {
+  while (row <= nrow(df)) {
+    if (df[row, "max"] != -1) {
+      return(row)
+      row <- row + 1
+    }
+  }
+  return(row)
+}
+
+findLastDay<- function(row, df) {
+  while (row >= 1) {
+    if (df[row, "max"] != -1) {
+      return(row)
+      row <- row - 1
+    }
+  }
+  return(row)
+}
+
+for (s in sensors) {
+  temp_df_id <- Massimi[which(Massimi$idSensore == s), ]
+  for (y in unique(temp_df_id$Anno)) {
+    temp_df <- temp_df_id[which(temp_df_id$Anno == y), ]
+    first_adm <- findLastDay(1, temp_df)
+    last_adm <- findFirstDay(nrow(temp_df), temp_df)
+    if (first_adm != 1) {
+      temp_df[1, "max"] <- temp_df[first_adm, "max"]
+    }
+    if (last_adm != nrow(temp_df)) {
+      temp_df[nrow(temp_df), "max"] <- temp_df[last_adm, "max"]
+    }
+    for (row in seq_len(nrow(temp_df))) {
+      if (temp_df[row, "max"] == -1) {
+        last_adm <- findLastDay(row, temp_df)
+        next_adm <- findFirstDay(row, temp_df)
+        temp_df[row, "max"] <- (temp_df[last_adm, "max"] - temp_df[next_adm, "max"]) /
+          (last_adm - next_adm) * (row - next_adm) + temp_df[next_adm, "max"]
+      }
+    }
+    Massimi[which(Massimi$idSensore == s & Massimi$Anno == y), ] <- temp_df
+  }
+}
+
+# filtering Massimi with the admissible months
+for (i in seq_along(sensors)) {
+  temp_years <- unique(Massimi$Anno[which(Massimi$idSensore == sensors[i])])
+  for (j in seq_along(temp_years)) {
+    temp_mese <- unique(Massimi$Mese[which(Massimi$idSensore == sensors[i] & Massimi$Anno == temp_years[j])])
+    for (k in seq_along(temp_mese)) {
+      if (mm_na[which(mm_na$idSensore == sensors[i] & mm_na$Year == temp_years[j] & mm_na$Month == temp_mese[k]), "Admissible"] == 0) {
+        Massimi[which(Massimi$idSensore == sensors[i] & Massimi$Anno == temp_years[j] & Massimi$Mese == temp_mese[k]), "max"] <- -1
+      }
+    }
+  }
+}
