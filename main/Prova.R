@@ -81,7 +81,6 @@ for (i in 1:length(lista_sensori))
       else 
       {
         missed_month <- missed_month + 1
-
       }
     }
   }
