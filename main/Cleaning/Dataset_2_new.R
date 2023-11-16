@@ -1,10 +1,40 @@
 ozono <- read.csv("./Dati_iniziali/datasetO3.csv")
 stazioni <- read.csv("./Dati_iniziali/stazioni_O3.csv")
+ozono$idOperatore <- NULL
+
 ozono$Data <- mdy_hms(ozono$Data)
 ozono$Year <- year(ozono$Data - 1)
 ozono$Month <- month(ozono$Data - 1)
 ozono$Day <- day(ozono$Data - 1)
 ozono$Hour <- hour(ozono$Data - 1)
+
+### STEP 1: fill the dataset with NAs where there are non registered values
+# 4748*51*24 = 5811552 osservazioni in tutto dal 1-1-2010 al 31-12-2022
+ozono$timestamp <- make_datetime(ozono$Year, ozono$Month, ozono$Day, ozono$Hour)
+
+# Generate a complete set of timestamps for all sensors
+all_timestamps <- expand.grid(
+  idSensore = unique(ozono$idSensore),
+  timestamp = seq(min(ozono$timestamp), max(ozono$timestamp), by = "1 hour")
+)
+
+# Merge the complete set of timestamps with your data
+complete_data <- left_join(all_timestamps, ozono, by = c("idSensore", "timestamp"))
+
+complete_data <- complete_data %>%
+  mutate(
+    Year = year(timestamp),
+    Month = month(timestamp),
+    Day = day(timestamp),
+    Hour = hour(timestamp)
+  )
+
+complete_data$Data <- NULL
+
+### STEP 2: creare un dataset che misura la media oraria delle ultime
+# 7 ore (+1 che è quella che sto considerando), aggiungendo anche una
+# colonna che indica se in quello slot di ore ci sono <= 3 NA 
+
 
 sensors <- unique(ozono$idSensore)
 years <- unique((ozono$Year))
