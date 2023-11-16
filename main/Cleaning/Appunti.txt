@@ -1,0 +1,5 @@
+Nel file Dataset_1 quello che è da salvare sono i conteggi negli Na e i plot dove si vede come sono distribuiti.
+
+Prova (al momento fuori dal main) è per creare il dataset definitivo sui massimi usando una media dei massimi giornalieri e che quindi dovrebbe essere poi giusto, quindi definitivo.
+
+Nel nuovo file Dataset_2_New proviamo a risolvere il problema analogo sulle medie mobili, costruiremo vari datasets per arrivare sempre più vicini alla soluzione, hopefully ci arriveremo.
