@@ -308,3 +308,45 @@ for (i in seq_len(nrow(mm_na))) {
 }
 
 View(maximum_df)
+
+count_180_df <- NULL
+for (s in sensors) {
+  temp_df_id <- maximum_df[which(maximum_df$idSensore == s), ]
+  for (y in 2010:2022) {
+    if (y %in% unique(temp_df_id$Anno)) {
+      temp_df <- temp_df_id[which(temp_df_id$Anno == y), ]
+      for (m in 4:10) {
+        if (m %in% unique(temp_df$Mese)) {
+          temp_df_m <- temp_df[which(temp_df$Mese == m), ]
+          count_180_df <- rbind(count_180_df, c(sum(temp_df_m$max > 180), s, y, m))
+        } else {
+          count_180_df <- rbind(count_180_df, c(NA, s, y, m))
+        }
+      }
+    } else {
+      for (m in 4:10) {
+        count_180_df <- rbind(count_180_df, c(NA, s, y, m))
+      }
+    }
+  }
+}
+
+count_180_df <- data.frame(count_180_df)
+colnames(count_180_df) <- c("Count_180", "idSensore", "Year", "Month")
+
+write.csv(count_180_df, "./Datasets/Dataset_180", row.names = FALSE)
+
+# Comparing the two datasets
+count_180_df <- read.csv("./Datasets/Dataset_180", header = TRUE)
+count_1_df <- read.csv("./Datasets/Dataset_1", header = TRUE, row.names = 1)
+
+nrow(count_180_df)
+nrow(count_1_df)
+
+sum(!is.na((count_180_df$Count_180 - count_1_df$Count)) & (count_180_df$Count_180 - count_1_df$Count) != 0)
+sum(is.na(count_180_df$Count_180))
+sum(is.na(count_1_df$Count))
+
+idx <- which(!is.na((count_180_df$Count_180 - count_1_df$Count)) & (count_180_df$Count_180 - count_1_df$Count) != 0)
+View(count_180_df[idx, ])
+View(count_1_df[idx, ])
