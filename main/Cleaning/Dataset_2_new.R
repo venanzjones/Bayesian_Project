@@ -1,3 +1,7 @@
+library(tidyr)
+library(lubridate)
+library(dplyr)
+
 ozono <- read.csv("./Dati_iniziali/datasetO3.csv")
 stazioni <- read.csv("./Dati_iniziali/stazioni_O3.csv")
 ozono$idOperatore <- NULL
@@ -34,6 +38,28 @@ complete_data$Data <- NULL
 ### STEP 2: creare un dataset che misura la media oraria delle ultime
 # 7 ore (+1 che è quella che sto considerando), aggiungendo anche una
 # colonna che indica se in quello slot di ore ci sono <= 3 NA 
+library(zoo)
+
+complete_data <- complete_data %>%
+  arrange(idSensore, timestamp) %>%
+  group_by(idSensore) %>%
+  mutate(
+    MovingAvg = rollapply(Valore, width = 8, FUN = function(x) {
+      if (sum(!is.na(x)) >= 4) {
+        mean(x, na.rm = TRUE)
+      } else {
+        NA
+      }
+    }, by = 1, align = "right", fill = NA),
+    Admissible = rollapply(!is.na(Valore), width = 8, FUN = function(x) sum(x) >= 4, by = 1, align = "right", fill = NA)
+  )
+
+## NOTA: dovrebbe essere corretto, capire solo se ci devo mettere 4 o 5 o 3
+# (sono stanca)
+
+### STEP 3: a questo punto seleziono solo i mesi che mi interessano
+# e faccio il count delle moving averages > 120
+
 
 
 sensors <- unique(ozono$idSensore)
