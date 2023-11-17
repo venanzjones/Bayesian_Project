@@ -55,74 +55,156 @@ complete_data <- complete_data %>%
   )
 
 ## NOTA: dovrebbe essere corretto, capire solo se ci devo mettere 4 o 5 o 3
-# (sono stanca)
 
-### STEP 3: a questo punto seleziono solo i mesi che mi interessano
+### STEP 3: a questo punto seleziono solo i mesi che mi interessano (4:10)
 # e faccio il count delle moving averages > 120
 
+# (30+31+30+31+31+30+31)*13*24*51 = 3405168 obs in filtered_data
+filtered_data <- complete_data %>%
+  filter(Month >= 4 & Month <= 10)
 
+# ora stesso lavoro fatto per count_180
+# massimi deve avere (30+31+30+31+31+30+31)*13*51 = 141882 obs
+# massimi è costruito con lo stesso criterio di quello per 180
 
-sensors <- unique(ozono$idSensore)
-years <- unique((ozono$Year))
+massimi <- filtered_data %>%
+  group_by(idSensore, Year, Month, Day) %>%
+  summarize(
+    max = ifelse(
+      sum(!is.na(MovingAvg)) >= 16,
+      max(MovingAvg, na.rm = TRUE),
+      ifelse(
+        sum(is.na(MovingAvg)) >= 8 & any(MovingAvg[!is.na(MovingAvg)] >= 120),
+        max(MovingAvg, na.rm = TRUE),
+        -1
+      )
+    )
+  ) %>%
+  ungroup()
+
+counts <- NULL
+sensors <- unique(massimi$idSensore)
+years <- unique(massimi$Year)
 mesi <- 4:10
-giorni_true <- c(30, 31, 30, 31, 31, 30, 31)
-lista_sensori <- list()
-for (i in 1:length(sensors))
-{
-  lista_sensori[[i]] <- ozono[which(ozono$idSensore == sensors[i]), ]
-}
+mm_na <- NULL
 
-for (i in 1:length(lista_sensori))
-{
-  temp <- lista_sensori[[i]]
-  lista_anni <- list()
-  for (j in 1:length(years))
-  {
-    lista_anni[[j]] <- temp[which(temp$Year == years[j]), ]
-  }
-  
-  for (j in 1:length(years))
-  {
-    temp_year <- lista_anni[[j]]
-    lista_mesi <- list()
-    for (k in 1:length(mesi))
-    {
-      lista_mesi[[k]] <- temp_year[which(temp_year$Month == mesi[k]), ]
-    }
-    
-    for (k in 1:length(mesi))
-    {
-      temp_mese <- lista_mesi[[k]]
-      giorni <- unique(lista_mesi[[k]]$Day)
-      lista_giorni <- list()
-      
-      if (length(giorni)) {
-        miss <- setdiff(1:giorni_true[k], giorni)
-        # Giorni interi mancanti, vanno riempiti di Nas
-        
-        for (d in 1:length(giorni))
-        {
-          lista_giorni[[d]] <- temp_mese[which(temp_mese$Day == giorni[d]), ]
-        }
-        for (d in 1:length(giorni))
-        {
-          obs <- rep(NA, giorni_true[k])
-          temp_giorno <- lista_giorni[[d]]
-          #Riempire il giorno, occhio al fatto che ci possono essere ore mancanti, 
-          #ogni temp_giorno deve avere dim=24
-          #Metterlo nel nuovo dataset
-          #new[giorni[d]] <- Vettore di observations
-        } 
-        #Il mese deve essere in ordine, riempirlo con l'ordine 1:giorni_true[k]
-        #Alcuni saranno in miss(tutti NAs) altri saranno in giorni
-        #new[miss] <- Vettore di Na
+# Filling the vector mm_na with whether a month is admissible or not
+# a month is admissible iff it has >= 6 non NA (ie -1) for max variable
+for (i in seq_along(sensors)) {
+  temp_years <- unique(massimi$Year[which(massimi$idSensore == sensors[i])])
+  for (j in seq_along(temp_years)) {
+    temp_mese <- unique(massimi$Month[which(massimi$idSensore == sensors[i] & massimi$Year == temp_years[j])])
+    for (k in seq_along(temp_mese)) {
+      temp <- massimi[which(massimi$idSensore == sensors[i] & massimi$Year == temp_years[j] & massimi$Month == temp_mese[k]),]
+      if (sum(temp$max == -1) < 6) {
+        mm_na <- rbind(mm_na, c(1, sensors[i], temp_years[j], temp_mese[k]))
       } else {
-        #Riempire il mese di NAs
+        mm_na <- rbind(mm_na, c(0, sensors[i], temp_years[j], temp_mese[k]))
       }
-      #Aggiungere il mese al nuovo dataset
     }
   }
 }
 
-counts <- data.frame(counts)
-colnames(counts) <- c("Count", "idSensore", "Year", "Month", "Missing days", "Days with more than 3 hours missed", "Days with more than 5 hours missed", "Days with more than 8 hours missed", "Days with more than 10 hours missed")
+# mm_na deve avere 51*7*13 = 4641 obs
+mm_na <- data.frame(mm_na)
+colnames(mm_na) <- c("Admissible", "idSensore", "Year", "Month")
+
+# filling massimi replacing -1 values with a linear
+# interpolation of the 2 nearest admissible maximums
+# usiamo lo stesso criterio di riempimento usato per count_180
+
+findFirstDay <- function(row, df) {
+  while (row <= nrow(df)) {
+    if (df[row, "max"] != -1) {
+      return(row)
+    }
+    row <- row + 1
+  }
+  return(row)
+}
+
+findLastDay<- function(row, df) {
+  while (row >= 1) {
+    if (df[row, "max"] != -1) {
+      return(row)
+    }
+    row <- row - 1
+  }
+  return(row)
+}
+
+maximum_df <- NULL
+for (s in sensors) {
+  temp_df_id <- massimi[which(massimi$idSensore == s), ]
+  for (y in unique(temp_df_id$Year)) {
+    temp_df <- temp_df_id[which(temp_df_id$Year == y), ]
+    first_adm <- findFirstDay(1, temp_df)
+    last_adm <- findLastDay(nrow(temp_df), temp_df)
+    if (first_adm != 1 & first_adm != (nrow(temp_df) + 1)) {
+      temp_df[1, "max"] <- temp_df[first_adm, "max"]
+    }
+    if (last_adm != nrow(temp_df) & last_adm != 0) {
+      temp_df[nrow(temp_df), "max"] <- temp_df[last_adm, "max"]
+    }
+    if (first_adm == (nrow(temp_df) + 1) | last_adm == 0) {
+      temp_df[1, "max"] <- -1
+      temp_df[nrow(temp_df), "max"] <- -1
+      print("error occurred")
+    } else {
+      for (row in seq_len(nrow(temp_df))) {
+        if (temp_df[row, "max"] == -1) {
+          last_adm <- findLastDay(row, temp_df)
+          next_adm <- findFirstDay(row, temp_df)
+          temp_df[row, "max"] <- (temp_df[next_adm, "max"] - temp_df[last_adm, "max"]) /
+            (next_adm - last_adm) * (row - last_adm) + temp_df[last_adm, "max"]
+        }
+      }
+    }
+    maximum_df <- rbind(maximum_df, temp_df)
+  }
+}
+
+maximum_df <- data.frame(maximum_df)
+colnames(maximum_df) <- c("max", "Day", "idSensore", "Year", "Month")
+
+# Placing Nas where a month is not admissible
+for (i in seq_len(nrow(mm_na))) {
+  if (mm_na[i, "Admissible"] == 0) {
+    maximum_df[which(maximum_df$idSensore == mm_na[i, "idSensore"] &
+                       maximum_df$Year == mm_na[i, "Year"] &
+                       maximum_df$Month == mm_na[i, "Month"]), "max"] <- NA
+  }
+}
+
+View(maximum_df)
+
+count_120_df <- NULL
+for (s in sensors) {
+  temp_df_id <- maximum_df[which(maximum_df$idSensore == s), ]
+  for (y in 2010:2022) {
+    if (y %in% unique(temp_df_id$Year)) {
+      temp_df <- temp_df_id[which(temp_df_id$Year == y), ]
+      for (m in 4:10) {
+        if (m %in% unique(temp_df$Month)) {
+          temp_df_m <- temp_df[which(temp_df$Month == m), ]
+          count_120_df <- rbind(count_120_df, c(sum(temp_df_m$max > 120), s, y, m))
+        } else {
+          count_120_df <- rbind(count_120_df, c(NA, s, y, m))
+        }
+      }
+    } else {
+      for (m in 4:10) {
+        count_120_df <- rbind(count_120_df, c(NA, s, y, m))
+      }
+    }
+  }
+}
+
+count_120_df <- data.frame(count_120_df)
+colnames(count_120_df) <- c("Count_120", "idSensore", "Year", "Month")
+
+write.csv(count_120_df, "./Datasets/Dataset_120", row.names = FALSE)
+
+# QUANTI NA CI SONO?
+sum(is.na(count_120_df$Count_120))
+372/4641 # 0.08015514
