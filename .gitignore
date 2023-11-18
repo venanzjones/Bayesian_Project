@@ -3,6 +3,7 @@
 .RData
 .Ruserdata
 .RdataTmp
+.vscode
 main/Dati_iniziali/datasetO3.csv
 main/Dati_iniziali/stazioni_O3.csv
 Theory/
