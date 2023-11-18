@@ -206,7 +206,7 @@ for (s in sensors) {
 count_120_df <- data.frame(count_120_df)
 colnames(count_120_df) <- c("Count_120", "idSensore", "Year", "Month")
 
-write.csv(count_120_df, "./Datasets/Dataset_120", row.names = FALSE)
+write.csv(count_120_df, "./Datasets/Dataset_120.csv", row.names = FALSE)
 
 ##Na analysis
 sum(is.na(count_120_df$Count_120))

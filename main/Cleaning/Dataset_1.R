@@ -2,234 +2,309 @@ library(lubridate)
 library(dplyr)
 library(tidyr)
 
-ozono <- read.csv("./Dati_iniziali/datasetO3.csv")
-stazioni <- read.csv("./Dati_iniziali/stazioni_O3.csv")
+ozono <- read.csv("Dati_Iniziali/datasetO3.csv", header = TRUE)
+stazioni <- read.csv("Dati_Iniziali/stazioni_O3.csv")
 ozono$idOperatore <- NULL
-stazioni.usate <- stazioni[which(stazioni$IdSensore %in% unique(ozono$idSensore)), ]
-start.stop <- data.frame(stazioni.usate$DataStart, stazioni.usate$DataStop)
 
-started.late <- start.stop[which(as.Date(start.stop$stazioni.usate.DataStart, format = "%d/%m/%Y") >
-  as.Date("01/01/2010", format = "%d/%m/%Y")), ]
-
-closed.early <- start.stop[which(as.Date(start.stop$stazioni.usate.DataStop, format = "%d/%m/%Y") >
-  as.Date("01/01/2010", format = "%d/%m/%Y")), ]
 ozono$Data <- mdy_hms(ozono$Data)
 ozono$Year <- year(ozono$Data - 1)
 ozono$Month <- month(ozono$Data - 1)
 ozono$Day <- day(ozono$Data - 1)
 ozono$Hour <- hour(ozono$Data - 1)
 
-sapply(ozono, function(y) sum(length(which(is.na(y)))))
-
-#### Tentativo plot Nas####
-
-# Prima plot di mesi mancanti, poi giorni, poi ore, tutti e tre da considerare insieme
-
-# In generale, in ogni riga voglio un sensore, e nelle colonne le varie cose
-# Ideale sarebbe un plot con colori, tipo rosso manca mese, verde mancano giorni e blu mancano ore
-
-sensors <- unique(ozono$idSensore)
-years <- unique((ozono$Year))
-mesi <- 3:10
-# We have to consider only from 5 to 10 in the month
-giorni_true <- c(31, 30, 31, 30, 31, 31, 30, 31)
-mis_month <- 0
-lista_sensori <- list()
-Na_mese <- matrix(rep(0, length(sensors) * length(mesi) * length(years)), nrow = length(sensors), ncol = (length(mesi) * length(years)))
-Na_giorni <- matrix(rep(0, length(sensors) * length(mesi) * length(years)), nrow = length(sensors), ncol = (length(mesi) * length(years)))
-Na_ore <- matrix(rep(0, length(sensors) * length(mesi) * length(years)), nrow = length(sensors), ncol = (length(mesi) * length(years)))
-for (i in 1:length(sensors))
-{
-  lista_sensori[[i]] <- ozono[which(ozono$idSensore == sensors[i]), ]
-}
-
-for (i in 1:length(lista_sensori))
-{
-  # Entro qua per ogni sensore
-  temp <- lista_sensori[[i]]
-  lista_anni <- list()
-  for (j in 1:length(years))
-  {
-    lista_anni[[j]] <- temp[which(temp$Year == years[j]), ]
-  }
-  # Ogni elemento di lista_anni è per un sensore per un anno
-
-  for (j in 1:length(years))
-  {
-    temp_year <- lista_anni[[j]]
-    lista_mesi <- list()
-    for (k in 1:length(mesi))
-    {
-      lista_mesi[[k]] <- temp_year[which(temp_year$Month == mesi[k]), ]
-    }
-
-    # Mese per anno per sensore, se il mese non c'è lista_mesi[[k]] è un null
-
-    for (k in 1:length(mesi))
-    {
-      temp_mese <- lista_mesi[[k]]
-      giorni <- unique(lista_mesi[[k]]$Day)
-      lista_giorni <- list()
-
-      # Se il mese non c'è non entra nell'if, altrimenti si prende temp_mese che è un mese di un anno di un sensore
-
-      if (length(giorni)) {
-        miss <- setdiff(1:giorni_true[k], giorni)
-        for (d in 1:length(giorni))
-        {
-          lista_giorni[[d]] <- temp_mese[which(temp_mese$Day == giorni[d]), ]
-        }
-        na <- NULL
-        missing_hours <- NULL
-        for (d in 1:length(giorni))
-        {
-          na[d] <- sum(is.na(lista_giorni[[d]]$Valore))
-          missing_hours[d] <- 24 - (dim(lista_giorni[[d]])[1])
-        }
-        # Update sui giorni mancanti
-        if (length(miss)) {
-          Na_giorni[i, length(mesi) * (j - 1) + k] <- length(miss)
-        }
-        # Update su ore mancanti o Na
-        if (sum(missing_hours)) {
-          Na_ore[i, length(mesi) * (j - 1) + k] <- sum(missing_hours)
-        }
-      } else {
-        mis_month <- mis_month + 1
-        # Do something on Na_mese, i sensor, j index of year, k index month
-        Na_mese[i, length(mesi) * (j - 1) + k] <- 1
-      }
-    }
-  }
-}
-
-mis_month
-image(Na_mese, y = 1:104)
-sum(Na_mese > 0)
-# Non sono un problema, balziamo il mese e andiamo avanti -> 128
-
-x11()
-par(mfrow = c(1, 2))
-image(Na_giorni)
-image(Na_ore)
-
-C <- NULL
-for (i in 1:length(sensors))
-{
-  C[i] <- cor(Na_giorni[i, ], Na_ore[i, ])
-}
-mean(na.omit(C))
-
-Means_per_col <- colMeans(Na_ore)
-Na_per_month <- rep(0, length(mesi))
-for (i in 1:length(years))
-{
-  for (j in 1:length(mesi))
-  {
-    Na_per_month[j] <- Na_per_month[j] + Means_per_col[(i - 1) * length(mesi) + j]
-  }
-}
-Na_per_month
-
-#### Inizio costruzione dataset####
-
-counts <- NULL
+####Creazione dataset con massimo giornaliero e medione in caso manchino i dati####
+Massimi <- NULL
 sensors <- unique(ozono$idSensore)
 years <- unique((ozono$Year))
 mesi <- 4:10
-missed_month <- 0
-# We have to consider only from 5 to 10 in the month
 giorni_true <- c(30, 31, 30, 31, 31, 30, 31)
 lista_sensori <- list()
+missed_month <- 0
 for (i in 1:length(sensors))
 {
   lista_sensori[[i]] <- ozono[which(ozono$idSensore == sensors[i]), ]
 }
-
 for (i in 1:length(lista_sensori))
 {
   temp <- lista_sensori[[i]]
-  lista_anni <- list()
   for (j in 1:length(years))
   {
-    lista_anni[[j]] <- temp[which(temp$Year == years[j]), ]
-  }
-
-  for (j in 1:length(years))
-  {
-    temp_year <- lista_anni[[j]]
-    lista_mesi <- list()
+    temp_year <- temp[which(temp$Year==years[j]) ,]   #Un sensore, un anno
     for (k in 1:length(mesi))
     {
-      lista_mesi[[k]] <- temp_year[which(temp_year$Month == mesi[k]), ]
-    }
-
-    for (k in 1:length(mesi))
-    {
-      temp_mese <- lista_mesi[[k]]
-      giorni <- unique(lista_mesi[[k]]$Day)
-      lista_giorni <- list()
-
-      if (length(giorni)) {
-        # Il mese non è un problema, quindi devo vedere qua dentro quanti giorni butterei.
-        miss <- setdiff(1:giorni_true[k], giorni)
-        # Giorni interi mancanti
-        
+      temp_mese <- temp_year[which(temp_year$Month==mesi[k]) ,]   #Singolo mese
+      giorni <- unique(temp_mese$Day)
+      new_month <- rep(-1, giorni_true[k])
+      if (length(giorni))
+      {
+        lista_giorni <- list()
         for (d in 1:length(giorni))
         {
-          lista_giorni[[d]] <- temp_mese[which(temp_mese$Day == giorni[d]), ]
+          lista_giorni[[giorni[d]]] <- temp_mese[which(temp_mese$Day == giorni[d]), ]
         }
-        count <- rep(0, giorni_true[k])
         na <- NULL
         missing_hours <- NULL
         total_miss <- NULL
         for (d in 1:length(giorni))
         {
-          na[d] <- sum(is.na(lista_giorni[[d]]$Valore))
-          missing_hours[d] <- 24 - (dim(lista_giorni[[d]])[1])
+          na[d] <- sum(is.na(lista_giorni[[giorni[d]]]$Valore))
+          missing_hours[d] <- 24 - (dim(lista_giorni[[giorni[d]]])[1])
           total_miss[d] <- missing_hours[d] + na[d]
-          if (sum(na.omit(lista_giorni[[d]]$Valore)>180))
+          if (sum(na.omit(lista_giorni[[giorni[d]]]$Valore)>180))
           {
-            count[d] <- 1
             total_miss[d] <- 0
           }
         }
-        counts <- rbind(counts, c(sum(count), sensors[i], years[j], mesi[k], length(miss), sum(total_miss > 3), sum(total_miss > 5), sum(total_miss > 8), sum(total_miss > 10)))
-      } else {
+        miss <- setdiff(1:giorni_true[k], giorni[!(total_miss>5)])
+        
+        if (length(giorni[!(total_miss>5)]))
+        {
+          for (a in 1:length(giorni[!(total_miss>5)]))
+          {
+            new_month[giorni[!(total_miss>5)][a]] <- max(na.omit(lista_giorni[[giorni[!(total_miss>5)][a]]]$Valore))
+            if (!sum(na.omit(lista_giorni[[giorni[!(total_miss>5)][a]]]$Valore)))
+            {
+              print(c(i, j, k))
+            }
+          }
+          
+          Massimi <- rbind(Massimi, cbind(new_month, 1:giorni_true[k], rep(sensors[i], giorni_true[k]), rep(years[j], giorni_true[k]), rep(mesi[k], giorni_true[k])))
+        }
+      } 
+      else 
+      {
         missed_month <- missed_month + 1
       }
     }
   }
 }
 
-counts <- data.frame(counts)
-colnames(counts) <- c("Count", "idSensore", "Year", "Month", "Missing days", "Days with more than 3 hours missed", "Days with more than 5 hours missed", "Days with more than 8 hours missed", "Days with more than 10 hours missed")
+Massimi <- data.frame(Massimi)
+names(Massimi) <- c('max', 'Giorno', 'idSensore', 'Anno', 'Mese')
+rm(ozono)
 
-# Mancano dei giorni, il codice dovrà tenerne conto, facciamo media (?) ma successiva, prima vediamo se funziona
-# Mancano delle righe, verranno ttrattate come Nas, infatti se queste dovessero essere >180 allora assumiamo che una
-# tra quella prima o quella dopo sforino la soglia.
+##Without interpolation  -- Do not run only for checking assumption one time
+# Filling the vector mm_na with whether a month is admissible or not
+mm_na <- NULL
+for (i in seq_along(sensors)) {
+  temp_years <- unique(Massimi$Anno[which(Massimi$idSensore == sensors[i])])
+  for (j in seq_along(temp_years)) {
+    temp_mese <- unique(Massimi$Mese[which(Massimi$idSensore == sensors[i] & Massimi$Anno == temp_years[j])])
+    for (k in seq_along(temp_mese)) {
+      temp <- Massimi[which(Massimi$idSensore == sensors[i] & Massimi$Anno == temp_years[j] & Massimi$Mese == temp_mese[k]),]
+      if (sum(temp$max == -1) < 6) {
+        mm_na <- rbind(mm_na, c(1, sensors[i], temp_years[j], temp_mese[k]))
+      } else {
+        mm_na <- rbind(mm_na, c(0, sensors[i], temp_years[j], temp_mese[k]))
+      }
+    }
+  }
+}
 
-### Commenti su NAs###
+mm_na <- data.frame(mm_na)
+colnames(mm_na) <- c("Admissible", "idSensore", "Year", "Month")
 
-sum(counts$`Missing days` > 0)
-hist(counts$`Missing days`[which(counts$`Missing days` > 0)])
-mean(counts$`Missing days`[which(counts$`Missing days` > 0)])
-max(counts$`Missing days`[which(counts$`Missing days` > 0)])
-tail(sort(counts$`Missing days`[which(counts$`Missing days` > 0)]))
-# Mancano nel 10% dei mesi almeno un giorno. Quando ne manca uno ne mancano in media 2.2. Un'idea è stimare quanti
-# producano effetti in base agli altri quando ne mancano e.g. <5
-# Devo contare in quanti mesi mancano più di 5 giorni
-sum(counts$`Missing days` > 5) #Vanno sommati i giorni dove mancano le ore
+for (i in seq_len(nrow(mm_na))) {
+  if (mm_na[i, "Admissible"] == 0) {
+    Massimi[which(Massimi$idSensore == mm_na[i, "idSensore"] &
+                       Massimi$Anno == mm_na[i, "Year"] &
+                       Massimi$Mese == mm_na[i, "Month"]), "max"] <- NA
+  }
+}
+count_180_df <- NULL
+for (s in sensors) {
+  temp_df_id <- Massimi[which(Massimi$idSensore == s), ]
+  for (y in 2010:2022) {
+    if (y %in% unique(temp_df_id$Anno)) {
+      temp_df <- temp_df_id[which(temp_df_id$Anno == y), ]
+      for (m in 4:10) {
+        if (m %in% unique(temp_df$Mese)) {
+          temp_df_m <- temp_df[which(temp_df$Mese == m), ]
+          count_180_df <- rbind(count_180_df, c(sum(temp_df_m$max >= 180), s, y, m))
+        } else {
+          count_180_df <- rbind(count_180_df, c(NA, s, y, m))
+        }
+      }
+    } else {
+      for (m in 4:10) {
+        count_180_df <- rbind(count_180_df, c(NA, s, y, m))
+      }
+    }
+  }
+}
 
-sum(counts$`Days with more than 3 hours missed`)
-mean(counts$`Days with more than 3 hours missed`)
-median(counts$`Days with more than 3 hours missed`)
-hist(counts$`Days with more than 3 hours missed`)
+count_180_df <- data.frame(count_180_df)
+colnames(count_180_df) <- c("Count_180", "idSensore", "Year", "Month")
+sum(is.na(count_180_df$Count_180))
 
-sum(counts$`Days with more than 5 hours missed`)
-mean(counts$`Days with more than 5 hours missed`)
-median(counts$`Days with more than 5 hours missed`)
-hist(counts$`Days with more than 5 hours missed`)
+####Fill the gaps in Massimi####  -Run again from here
 
-# Quando buttiamo il giorno? --> quando mancano più di x ore
-sum(counts$`Days with more than 8 hours missed` > 5)
+# Filling the vector mm_na with whether a month is admissible or not
+mm_na <- NULL
+for (i in seq_along(sensors)) {
+  temp_years <- unique(Massimi$Anno[which(Massimi$idSensore == sensors[i])])
+  for (j in seq_along(temp_years)) {
+    temp_mese <- unique(Massimi$Mese[which(Massimi$idSensore == sensors[i] & Massimi$Anno == temp_years[j])])
+    for (k in seq_along(temp_mese)) {
+      temp <- Massimi[which(Massimi$idSensore == sensors[i] & Massimi$Anno == temp_years[j] & Massimi$Mese == temp_mese[k]),]
+      if (sum(temp$max == -1) < 6) {
+        mm_na <- rbind(mm_na, c(1, sensors[i], temp_years[j], temp_mese[k]))
+      } else {
+        mm_na <- rbind(mm_na, c(0, sensors[i], temp_years[j], temp_mese[k]))
+      }
+    }
+  }
+}
+
+mm_na <- data.frame(mm_na)
+colnames(mm_na) <- c("Admissible", "idSensore", "Year", "Month")
+
+# filling Massimi replacing -1 values with a linear
+# interpolation of the 2 nearest admissible maximums
+
+findFirstDay <- function(row, df) {
+  while (row <= nrow(df)) {
+    if (df[row, "max"] != -1) {
+      return(row)
+    }
+    row <- row + 1
+  }
+  return(row)
+}
+
+findLastDay<- function(row, df) {
+  while (row >= 1) {
+    if (df[row, "max"] != -1) {
+      return(row)
+    }
+    row <- row - 1
+  }
+  return(row)
+}
+
+maximum_df <- NULL
+for (s in sensors) {
+  temp_df_id <- Massimi[which(Massimi$idSensore == s), ]
+  for (y in unique(temp_df_id$Anno)) {
+    temp_df <- temp_df_id[which(temp_df_id$Anno == y), ]
+      first_adm <- findFirstDay(1, temp_df)
+    last_adm <- findLastDay(nrow(temp_df), temp_df)
+    if (first_adm != 1 & first_adm != (nrow(temp_df) + 1)) {
+      temp_df[1, "max"] <- temp_df[first_adm, "max"]  #Il primo giorno del mese è settato per ogni anno
+    }
+    if (last_adm != nrow(temp_df) & last_adm != 0) {
+      temp_df[nrow(temp_df), "max"] <- temp_df[last_adm, "max"]
+    }
+    if (first_adm == (nrow(temp_df) + 1) | last_adm == 0) {
+      temp_df[1, "max"] <- -1
+      temp_df[nrow(temp_df), "max"] <- -1
+      print("error occurred")   #Check se si può fare qualcosa su quell'anno
+    } else {
+      for (row in seq_len(nrow(temp_df))) {
+        if (temp_df[row, "max"] == -1) {
+          last_adm <- findLastDay(row, temp_df)
+          next_adm <- findFirstDay(row, temp_df)
+          temp_df[row, "max"] <- (temp_df[next_adm, "max"] - temp_df[last_adm, "max"]) /
+            (next_adm - last_adm) * (row - last_adm) + temp_df[last_adm, "max"]
+        }
+      }
+    }
+    maximum_df <- rbind(maximum_df, temp_df)
+  }
+}
+
+maximum_df <- data.frame(maximum_df)
+colnames(maximum_df) <- c("max", "Giorno", "idSensore", "Anno", "Mese")
+#Lui riempie tutti gli Na, vanno rifiltrati poi
+
+# Placing Nas where a month is not admissible
+for (i in seq_len(nrow(mm_na))) {
+  if (mm_na[i, "Admissible"] == 0) {
+    maximum_df[which(maximum_df$idSensore == mm_na[i, "idSensore"] &
+                maximum_df$Anno == mm_na[i, "Year"] &
+                maximum_df$Mese == mm_na[i, "Month"]), "max"] <- NA
+  }
+}
+
+View(maximum_df)
+
+count_180_df <- NULL
+for (s in sensors) {
+  temp_df_id <- maximum_df[which(maximum_df$idSensore == s), ]
+  for (y in 2010:2022) {
+    if (y %in% unique(temp_df_id$Anno)) {
+      temp_df <- temp_df_id[which(temp_df_id$Anno == y), ]
+      for (m in 4:10) {
+        if (m %in% unique(temp_df$Mese)) {
+          temp_df_m <- temp_df[which(temp_df$Mese == m), ]
+          count_180_df <- rbind(count_180_df, c(sum(temp_df_m$max >= 180), s, y, m))
+        } else {
+          count_180_df <- rbind(count_180_df, c(NA, s, y, m))
+        }
+      }
+    } else {
+      for (m in 4:10) {
+        count_180_df <- rbind(count_180_df, c(NA, s, y, m))
+      }
+    }
+  }
+}
+
+count_180_df <- data.frame(count_180_df)
+colnames(count_180_df) <- c("Count_180", "idSensore", "Year", "Month")
+sum(is.na(count_180_df$Count_180))
+
+write.csv(count_180_df, "./Datasets/Dataset_180.csv", row.names = FALSE)
+
+####Plot the Nas of the full final dataset####
+count_180_df <- read.csv("./Datasets/Dataset_180.csv")
+
+sum(is.na(count_180_df$Count_180))
+sum(is.na(count_180_df$Count_180))/nrow(count_180_df)
+
+sen <- 1:length(sensors)
+time <- 1:(length(years)*length(mesi))
+nas <- matrix(rep(0, length(time)*length(sensors)), nrow = length(sensors), ncol = length(time))
+
+nas <- NULL
+for (i in sensors)
+{
+  nas <- rbind(nas, as.numeric(is.na(count_180_df$Count_180[count_180_df$idSensore==i])))
+}
+
+sum(nas[nrow(nas) ,]==1)/dim(nas)[2]
+thre <- rep(0, length(sensors))
+for (i in 1:length(sensors))
+{
+  thre[i] <- sum(nas[i ,]==1)/dim(nas)[2]
+}
+plot(thre)
+abline(h=0.1)
+#Togliere questi è troppo, togliere gli ultimi però sembra necessario. Questa è la mia proposta
+
+Dataset_180 <- count_180_df[-which(count_180_df$idSensore %in% sensors[46:51]) ,]
+
+sensors <- unique(Dataset_180$idSensore)
+mat_plot <- matrix(rep(0, length(time)*length(sensors)), nrow = length(sensors), ncol = length(time))
+for (i in sensors)
+{
+  mat_plot <- rbind(mat_plot, Dataset_180$Count_180[which(Dataset_180$idSensore==i)])
+}
+
+matplot(t(mat_plot), type='l')
+k <- 7
+n <- 13 
+vertical_lines_x <- seq(k, n*k, by=k)
+abline(v = vertical_lines_x, col = "black")
+
+media <- rep(0, length(sensors))
+varianza <- rep(0, length(sensors))
+for (i in sensors)
+{
+  media <- c(media, mean(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore==i)])))
+  varianza <- c(varianza, sd(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore==i)])))
+}
+
+xx <- seq(0, 4, by=0.1)
+plot(media, varianza, xlim = c(0, 4), ylim = c(0, 4))
+lines(xx, xx)
