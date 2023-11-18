@@ -1,9 +1,9 @@
 library(tidyr)
 library(lubridate)
 library(dplyr)
+library(tidyverse)
 
 ozono <- read.csv("./Dati_iniziali/datasetO3.csv")
-stazioni <- read.csv("./Dati_iniziali/stazioni_O3.csv")
 ozono$idOperatore <- NULL
 
 ozono$Data <- mdy_hms(ozono$Data)
@@ -23,9 +23,9 @@ all_timestamps <- expand.grid(
 )
 
 # Merge the complete set of timestamps with your data
-complete_data <- left_join(all_timestamps, ozono, by = c("idSensore", "timestamp"))
+ozono.completo <- left_join(all_timestamps, ozono, by = c("idSensore", "timestamp"))
 
-complete_data <- complete_data %>%
+ozono.completo <- ozono.completo %>%
   mutate(
     Year = year(timestamp),
     Month = month(timestamp),
@@ -33,19 +33,19 @@ complete_data <- complete_data %>%
     Hour = hour(timestamp)
   )
 
-complete_data$Data <- NULL
+ozono.completo$Data <- NULL
 
 ### STEP 2: creare un dataset che misura la media oraria delle ultime
-# 7 ore (+1 che è quella che sto considerando), aggiungendo anche una
-# colonna che indica se in quello slot di ore ci sono <= 3 NA 
+# 7 ore (+1 che è quella che sto considerando)
+# threshold: MovingAvg è NA se nei 8 valori che considero ci sono > 4 NA
 library(zoo)
 
-complete_data <- complete_data %>%
+ozono.completo <- ozono.completo %>%
   arrange(idSensore, timestamp) %>%
   group_by(idSensore) %>%
   mutate(
     MovingAvg = rollapply(Valore, width = 8, FUN = function(x) {
-      if (sum(!is.na(x)) >= 4) {
+      if (sum(!is.na(x)) >= 4) { # non NA >= 4 faccio la media
         mean(x, na.rm = TRUE)
       } else {
         NA
@@ -54,24 +54,25 @@ complete_data <- complete_data %>%
     Admissible = rollapply(!is.na(Valore), width = 8, FUN = function(x) sum(x) >= 4, by = 1, align = "right", fill = NA)
   )
 
-## NOTA: dovrebbe essere corretto, capire solo se ci devo mettere 4 o 5 o 3
-
 ### STEP 3: a questo punto seleziono solo i mesi che mi interessano (4:10)
 # e faccio il count delle moving averages > 120
 
 # (30+31+30+31+31+30+31)*13*24*51 = 3405168 obs in filtered_data
-filtered_data <- complete_data %>%
+ozono.filtered <- ozono.completo %>%
   filter(Month >= 4 & Month <= 10)
 
 # ora stesso lavoro fatto per count_180
 # massimi deve avere (30+31+30+31+31+30+31)*13*51 = 141882 obs
 # massimi è costruito con lo stesso criterio di quello per 180
+# prendo il massimo delle MovingAvg nella giornata se quella giornata
+# ha > 16 MovingAvg non NA oppure, se ha >= 8 NA, se almeno una di 
+# quelle registrate supera 120
 
-massimi <- filtered_data %>%
+massimi <- ozono.filtered %>%
   group_by(idSensore, Year, Month, Day) %>%
   summarize(
     max = ifelse(
-      sum(!is.na(MovingAvg)) >= 16,
+      sum(!is.na(MovingAvg)) > 16,
       max(MovingAvg, na.rm = TRUE),
       ifelse(
         sum(is.na(MovingAvg)) >= 8 & any(MovingAvg[!is.na(MovingAvg)] >= 120),
@@ -165,7 +166,7 @@ for (s in sensors) {
 }
 
 maximum_df <- data.frame(maximum_df)
-colnames(maximum_df) <- c("max", "Day", "idSensore", "Year", "Month")
+# colnames(maximum_df) <- c("max", "Day", "idSensore", "Year", "Month")
 
 # Placing Nas where a month is not admissible
 for (i in seq_len(nrow(mm_na))) {
@@ -176,7 +177,6 @@ for (i in seq_len(nrow(mm_na))) {
   }
 }
 
-View(maximum_df)
 
 count_120_df <- NULL
 for (s in sensors) {
@@ -206,5 +206,5 @@ colnames(count_120_df) <- c("Count_120", "idSensore", "Year", "Month")
 write.csv(count_120_df, "./Datasets/Dataset_120", row.names = FALSE)
 
 # QUANTI NA CI SONO?
-sum(is.na(count_120_df$Count_120))
-372/4641 # 0.08015514
+sum(is.na(count_120_df$Count_120))/dim(count_120_df)[1]
+# 0.08166343
