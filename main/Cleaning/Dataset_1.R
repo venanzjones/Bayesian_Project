@@ -87,16 +87,13 @@ rm(ozono)
 
 # Filling the vector mm_na with whether a month is admissible or not
 mm_na <- NULL
-for (i in seq_along(sensors)) {
-  temp_years <- unique(Massimi$Anno[which(Massimi$idSensore == sensors[i])])
-  for (j in seq_along(temp_years)) {
-    temp_mese <- unique(Massimi$Mese[which(Massimi$idSensore == sensors[i] & Massimi$Anno == temp_years[j])])
-    for (k in seq_along(temp_mese)) {
-      temp <- Massimi[which(Massimi$idSensore == sensors[i] & Massimi$Anno == temp_years[j] & Massimi$Mese == temp_mese[k]),]
-      if (sum(temp$max == -1) < 6) {
-        mm_na <- rbind(mm_na, c(1, sensors[i], temp_years[j], temp_mese[k]))
+for (s in unique(massimi$idSensore)) {
+  for (y in unique(massimi$Anno[which(massimi$idSensore == s)])) {
+    for (m in unique(massimi$Mese[which(massimi$idSensore == s & massimi$Anno == y)])) {
+      if (sum(massimi$max[which(massimi$idSensore == s & massimi$Anno == y & massimi$Mese == m)] == -1) < 6) {
+        mm_na <- rbind(mm_na, c(1, s, y, m))
       } else {
-        mm_na <- rbind(mm_na, c(0, sensors[i], temp_years[j], temp_mese[k]))
+        mm_na <- rbind(mm_na, c(0, s, y, m))
       }
     }
   }
@@ -129,7 +126,7 @@ findLastDay<- function(row, df) {
 }
 
 maximum_df <- NULL
-for (s in sensors) {
+for (s in unique(Massimi$idSensore)) {
   temp_df_id <- Massimi[which(Massimi$idSensore == s), ]
   for (y in unique(temp_df_id$Anno)) {
     temp_df <- temp_df_id[which(temp_df_id$Anno == y), ]
@@ -160,7 +157,6 @@ for (s in sensors) {
 }
 
 maximum_df <- data.frame(maximum_df)
-colnames(maximum_df) <- c("max", "Giorno", "idSensore", "Anno", "Mese")
 
 # Placing NA where a month is not admissible
 for (i in seq_len(nrow(mm_na))) {
@@ -172,7 +168,7 @@ for (i in seq_len(nrow(mm_na))) {
 }
 
 count_180_df <- NULL
-for (s in sensors) {
+for (s in unique(maximum_df$idSensore)) {
   temp_df_id <- maximum_df[which(maximum_df$idSensore == s), ]
   for (y in 2010:2022) {
     if (y %in% unique(temp_df_id$Anno)) {
@@ -200,6 +196,10 @@ write.csv(count_180_df, "./Datasets/Dataset_180.csv", row.names = FALSE)
 
 ####Plot the Nas of the full final dataset####
 count_180_df <- read.csv("./Datasets/Dataset_180.csv")
+
+sensors <- unique(count_120_df$idSensore)
+years <- 2010:2022
+mesi <- 4:10
 
 sum(is.na(count_180_df$Count_180))
 sum(is.na(count_180_df$Count_180))/nrow(count_180_df)
