@@ -34,6 +34,9 @@ ozono.completo <- ozono.completo %>%
   )
 
 ozono.completo$Data <- NULL
+rm(ozono)
+rm(all_timestamps)
+gc()
 
 ### STEP 2: creare un dataset che misura la media oraria delle ultime
 # 7 ore (+1 che è quella che sto considerando)
@@ -205,6 +208,54 @@ colnames(count_120_df) <- c("Count_120", "idSensore", "Year", "Month")
 
 write.csv(count_120_df, "./Datasets/Dataset_120", row.names = FALSE)
 
-# QUANTI NA CI SONO?
-sum(is.na(count_120_df$Count_120))/dim(count_120_df)[1]
-# 0.08166343
+##Na analysis
+sum(is.na(count_120_df$Count_120))
+sum(is.na(count_120_df$Count_120))/nrow(count_120_df)
+
+sen <- 1:length(sensors)
+time <- 1:(length(years)*length(mesi))
+nas <- matrix(rep(0, length(time)*length(sensors)), nrow = length(sensors), ncol = length(time))
+
+nas <- NULL
+for (i in sensors)
+{
+  nas <- rbind(nas, as.numeric(is.na(count_120_df$Count_120[count_120_df$idSensore==i])))
+}
+image(nas)
+
+sum(nas[nrow(nas) ,]==1)/dim(nas)[2]
+thre <- rep(0, length(sensors))
+for (i in 1:length(sensors))
+{
+  thre[i] <- sum(nas[i ,]==1)/dim(nas)[2]
+}
+plot(thre)
+abline(h=0.1)
+#Togliere questi è troppo, togliere gli ultimi però sembra necessario. Questa è la mia proposta
+
+Dataset_120 <- count_120_df[-which(count_120_df$idSensore %in% sensors[46:51]) ,]
+
+sensors <- unique(Dataset_120$idSensore)
+mat_plot <- matrix(rep(0, length(time)*length(sensors)), nrow = length(sensors), ncol = length(time))
+for (i in sensors)
+{
+  mat_plot <- rbind(mat_plot, Dataset_120$Count_120[which(Dataset_120$idSensore==i)])
+}
+
+matplot(t(mat_plot), type='l')
+k <- 7
+n <- 13 
+vertical_lines_x <- seq(k, n*k, by=k)
+abline(v = vertical_lines_x, col = "black")
+
+media <- rep(0, length(sensors))
+varianza <- rep(0, length(sensors))
+for (i in sensors)
+{
+  media <- c(media, mean(na.omit(Dataset_120$Count_120[which(Dataset_120$idSensore==i)])))
+  varianza <- c(varianza, sd(na.omit(Dataset_120$Count_120[which(Dataset_120$idSensore==i)])))
+}
+
+xx <- seq(0, 15, by=0.1)
+plot(media, varianza)
+lines(xx, xx)
