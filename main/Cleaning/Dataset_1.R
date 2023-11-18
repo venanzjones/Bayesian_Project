@@ -83,60 +83,6 @@ Massimi <- data.frame(Massimi)
 names(Massimi) <- c('max', 'Giorno', 'idSensore', 'Anno', 'Mese')
 rm(ozono)
 
-##Without interpolation  -- Do not run only for checking assumption one time
-# Filling the vector mm_na with whether a month is admissible or not
-mm_na <- NULL
-for (i in seq_along(sensors)) {
-  temp_years <- unique(Massimi$Anno[which(Massimi$idSensore == sensors[i])])
-  for (j in seq_along(temp_years)) {
-    temp_mese <- unique(Massimi$Mese[which(Massimi$idSensore == sensors[i] & Massimi$Anno == temp_years[j])])
-    for (k in seq_along(temp_mese)) {
-      temp <- Massimi[which(Massimi$idSensore == sensors[i] & Massimi$Anno == temp_years[j] & Massimi$Mese == temp_mese[k]),]
-      if (sum(temp$max == -1) < 6) {
-        mm_na <- rbind(mm_na, c(1, sensors[i], temp_years[j], temp_mese[k]))
-      } else {
-        mm_na <- rbind(mm_na, c(0, sensors[i], temp_years[j], temp_mese[k]))
-      }
-    }
-  }
-}
-
-mm_na <- data.frame(mm_na)
-colnames(mm_na) <- c("Admissible", "idSensore", "Year", "Month")
-
-for (i in seq_len(nrow(mm_na))) {
-  if (mm_na[i, "Admissible"] == 0) {
-    Massimi[which(Massimi$idSensore == mm_na[i, "idSensore"] &
-                       Massimi$Anno == mm_na[i, "Year"] &
-                       Massimi$Mese == mm_na[i, "Month"]), "max"] <- NA
-  }
-}
-count_180_df <- NULL
-for (s in sensors) {
-  temp_df_id <- Massimi[which(Massimi$idSensore == s), ]
-  for (y in 2010:2022) {
-    if (y %in% unique(temp_df_id$Anno)) {
-      temp_df <- temp_df_id[which(temp_df_id$Anno == y), ]
-      for (m in 4:10) {
-        if (m %in% unique(temp_df$Mese)) {
-          temp_df_m <- temp_df[which(temp_df$Mese == m), ]
-          count_180_df <- rbind(count_180_df, c(sum(temp_df_m$max >= 180), s, y, m))
-        } else {
-          count_180_df <- rbind(count_180_df, c(NA, s, y, m))
-        }
-      }
-    } else {
-      for (m in 4:10) {
-        count_180_df <- rbind(count_180_df, c(NA, s, y, m))
-      }
-    }
-  }
-}
-
-count_180_df <- data.frame(count_180_df)
-colnames(count_180_df) <- c("Count_180", "idSensore", "Year", "Month")
-sum(is.na(count_180_df$Count_180))
-
 ####Fill the gaps in Massimi####  -Run again from here
 
 # Filling the vector mm_na with whether a month is admissible or not
@@ -187,10 +133,10 @@ for (s in sensors) {
   temp_df_id <- Massimi[which(Massimi$idSensore == s), ]
   for (y in unique(temp_df_id$Anno)) {
     temp_df <- temp_df_id[which(temp_df_id$Anno == y), ]
-      first_adm <- findFirstDay(1, temp_df)
+    first_adm <- findFirstDay(1, temp_df)
     last_adm <- findLastDay(nrow(temp_df), temp_df)
     if (first_adm != 1 & first_adm != (nrow(temp_df) + 1)) {
-      temp_df[1, "max"] <- temp_df[first_adm, "max"]  #Il primo giorno del mese è settato per ogni anno
+      temp_df[1, "max"] <- temp_df[first_adm, "max"]
     }
     if (last_adm != nrow(temp_df) & last_adm != 0) {
       temp_df[nrow(temp_df), "max"] <- temp_df[last_adm, "max"]
@@ -198,14 +144,14 @@ for (s in sensors) {
     if (first_adm == (nrow(temp_df) + 1) | last_adm == 0) {
       temp_df[1, "max"] <- -1
       temp_df[nrow(temp_df), "max"] <- -1
-      print("error occurred")   #Check se si può fare qualcosa su quell'anno
+      print(paste("For sensor ", s, " the year ", y, " is not admissible"))
     } else {
       for (row in seq_len(nrow(temp_df))) {
         if (temp_df[row, "max"] == -1) {
-          last_adm <- findLastDay(row, temp_df)
+          prev_adm <- findLastDay(row, temp_df)
           next_adm <- findFirstDay(row, temp_df)
-          temp_df[row, "max"] <- (temp_df[next_adm, "max"] - temp_df[last_adm, "max"]) /
-            (next_adm - last_adm) * (row - last_adm) + temp_df[last_adm, "max"]
+          temp_df[row, "max"] <- (temp_df[next_adm, "max"] - temp_df[prev_adm, "max"]) /
+            (next_adm - prev_adm) * (row - prev_adm) + temp_df[prev_adm, "max"]
         }
       }
     }
@@ -215,9 +161,8 @@ for (s in sensors) {
 
 maximum_df <- data.frame(maximum_df)
 colnames(maximum_df) <- c("max", "Giorno", "idSensore", "Anno", "Mese")
-#Lui riempie tutti gli Na, vanno rifiltrati poi
 
-# Placing Nas where a month is not admissible
+# Placing NA where a month is not admissible
 for (i in seq_len(nrow(mm_na))) {
   if (mm_na[i, "Admissible"] == 0) {
     maximum_df[which(maximum_df$idSensore == mm_na[i, "idSensore"] &
@@ -225,8 +170,6 @@ for (i in seq_len(nrow(mm_na))) {
                 maximum_df$Mese == mm_na[i, "Month"]), "max"] <- NA
   }
 }
-
-View(maximum_df)
 
 count_180_df <- NULL
 for (s in sensors) {
@@ -252,7 +195,6 @@ for (s in sensors) {
 
 count_180_df <- data.frame(count_180_df)
 colnames(count_180_df) <- c("Count_180", "idSensore", "Year", "Month")
-sum(is.na(count_180_df$Count_180))
 
 write.csv(count_180_df, "./Datasets/Dataset_180.csv", row.names = FALSE)
 

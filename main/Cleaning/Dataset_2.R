@@ -23,9 +23,9 @@ all_timestamps <- expand.grid(
 )
 
 # Merge the complete set of timestamps with your data
-ozono.completo <- left_join(all_timestamps, ozono, by = c("idSensore", "timestamp"))
+ozono_completed <- left_join(all_timestamps, ozono, by = c("idSensore", "timestamp"))
 
-ozono.completo <- ozono.completo %>%
+ozono_completed <- ozono_completed %>%
   mutate(
     Year = year(timestamp),
     Month = month(timestamp),
@@ -33,7 +33,7 @@ ozono.completo <- ozono.completo %>%
     Hour = hour(timestamp)
   )
 
-ozono.completo$Data <- NULL
+ozono_completed$Data <- NULL
 rm(ozono)
 rm(all_timestamps)
 gc()
@@ -43,7 +43,7 @@ gc()
 # threshold: MovingAvg è NA se nei 8 valori che considero ci sono > 4 NA
 library(zoo)
 
-ozono.completo <- ozono.completo %>%
+ozono_completed <- ozono_completed %>%
   arrange(idSensore, timestamp) %>%
   group_by(idSensore) %>%
   mutate(
@@ -53,15 +53,14 @@ ozono.completo <- ozono.completo %>%
       } else {
         NA
       }
-    }, by = 1, align = "right", fill = NA),
-    Admissible = rollapply(!is.na(Valore), width = 8, FUN = function(x) sum(x) >= 4, by = 1, align = "right", fill = NA)
+    }, by = 1, align = "right", fill = NA)
   )
 
 ### STEP 3: a questo punto seleziono solo i mesi che mi interessano (4:10)
 # e faccio il count delle moving averages > 120
 
 # (30+31+30+31+31+30+31)*13*24*51 = 3405168 obs in filtered_data
-ozono.filtered <- ozono.completo %>%
+ozono_filtered <- ozono_completed %>%
   filter(Month >= 4 & Month <= 10)
 
 # ora stesso lavoro fatto per count_180
@@ -71,7 +70,7 @@ ozono.filtered <- ozono.completo %>%
 # ha > 16 MovingAvg non NA oppure, se ha >= 8 NA, se almeno una di 
 # quelle registrate supera 120
 
-massimi <- ozono.filtered %>%
+massimi <- ozono_filtered %>%
   group_by(idSensore, Year, Month, Day) %>%
   summarize(
     max = ifelse(
@@ -153,14 +152,14 @@ for (s in sensors) {
     if (first_adm == (nrow(temp_df) + 1) | last_adm == 0) {
       temp_df[1, "max"] <- -1
       temp_df[nrow(temp_df), "max"] <- -1
-      print("error occurred")
+      print(paste("For sensor ", s, " the year ", y, " is not admissible"))
     } else {
       for (row in seq_len(nrow(temp_df))) {
         if (temp_df[row, "max"] == -1) {
-          last_adm <- findLastDay(row, temp_df)
+          prev_adm <- findLastDay(row, temp_df)
           next_adm <- findFirstDay(row, temp_df)
-          temp_df[row, "max"] <- (temp_df[next_adm, "max"] - temp_df[last_adm, "max"]) /
-            (next_adm - last_adm) * (row - last_adm) + temp_df[last_adm, "max"]
+          temp_df[row, "max"] <- (temp_df[next_adm, "max"] - temp_df[prev_adm, "max"]) /
+            (next_adm - prev_adm) * (row - prev_adm) + temp_df[prev_adm, "max"]
         }
       }
     }
@@ -180,7 +179,6 @@ for (i in seq_len(nrow(mm_na))) {
   }
 }
 
-
 count_120_df <- NULL
 for (s in sensors) {
   temp_df_id <- maximum_df[which(maximum_df$idSensore == s), ]
@@ -190,7 +188,7 @@ for (s in sensors) {
       for (m in 4:10) {
         if (m %in% unique(temp_df$Month)) {
           temp_df_m <- temp_df[which(temp_df$Month == m), ]
-          count_120_df <- rbind(count_120_df, c(sum(temp_df_m$max > 120), s, y, m))
+          count_120_df <- rbind(count_120_df, c(sum(temp_df_m$max >= 120), s, y, m))
         } else {
           count_120_df <- rbind(count_120_df, c(NA, s, y, m))
         }
