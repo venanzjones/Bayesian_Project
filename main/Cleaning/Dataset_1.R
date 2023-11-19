@@ -1,9 +1,9 @@
+library(tidyr)
 library(lubridate)
 library(dplyr)
-library(tidyr)
+library(tidyverse)
 
-ozono <- read.csv("Dati_Iniziali/datasetO3.csv", header = TRUE)
-stazioni <- read.csv("Dati_Iniziali/stazioni_O3.csv")
+ozono <- read.csv("./Dati_iniziali/datasetO3.csv")
 ozono$idOperatore <- NULL
 
 ozono$Data <- mdy_hms(ozono$Data)
@@ -12,73 +12,68 @@ ozono$Month <- month(ozono$Data - 1)
 ozono$Day <- day(ozono$Data - 1)
 ozono$Hour <- hour(ozono$Data - 1)
 
-#### Creazione dataset con massimo giornaliero e medione in caso manchino i dati####
-Massimi <- NULL
-sensors <- unique(ozono$idSensore)
-years <- unique((ozono$Year))
-mesi <- 4:10
-giorni_true <- c(30, 31, 30, 31, 31, 30, 31)
-lista_sensori <- list()
-missed_month <- 0
-for (i in 1:length(sensors)) {
-  lista_sensori[[i]] <- ozono[which(ozono$idSensore == sensors[i]), ]
-}
-for (i in 1:length(lista_sensori)) {
-  temp <- lista_sensori[[i]]
-  for (j in 1:length(years)) {
-    temp_year <- temp[which(temp$Year == years[j]), ] # Un sensore, un anno
-    for (k in 1:length(mesi)) {
-      temp_mese <- temp_year[which(temp_year$Month == mesi[k]), ] # Singolo mese
-      giorni <- unique(temp_mese$Day)
-      new_month <- rep(-1, giorni_true[k])
-      if (length(giorni)) {
-        lista_giorni <- list()
-        for (d in 1:length(giorni)) {
-          lista_giorni[[giorni[d]]] <- temp_mese[which(temp_mese$Day == giorni[d]), ]
-        }
-        na <- NULL
-        missing_hours <- NULL
-        total_miss <- NULL
-        for (d in 1:length(giorni)) {
-          na[d] <- sum(is.na(lista_giorni[[giorni[d]]]$Valore))
-          missing_hours[d] <- 24 - (dim(lista_giorni[[giorni[d]]])[1])
-          total_miss[d] <- missing_hours[d] + na[d]
-          if (sum(na.omit(lista_giorni[[giorni[d]]]$Valore) >= 180)) {
-            total_miss[d] <- 0
-          }
-        }
-        miss <- setdiff(1:giorni_true[k], giorni[!(total_miss > 5)])
+### STEP 1: fill the dataset with NAs where there are non registered values
+# 4748*51*24 = 5811552 osservazioni in tutto dal 1-1-2010 al 31-12-2022
+ozono$timestamp <- make_datetime(ozono$Year, ozono$Month, ozono$Day, ozono$Hour)
 
-        if (length(giorni[!(total_miss > 5)])) {
-          for (a in 1:length(giorni[!(total_miss > 5)]))
-          {
-            new_month[giorni[!(total_miss > 5)][a]] <- max(na.omit(lista_giorni[[giorni[!(total_miss > 5)][a]]]$Valore))
-            if (!sum(na.omit(lista_giorni[[giorni[!(total_miss > 5)][a]]]$Valore))) {
-              print(c(i, j, k))
-            }
-          }
+# Generate a complete set of timestamps for all sensors
+all_timestamps <- expand.grid(
+  idSensore = unique(ozono$idSensore),
+  timestamp = seq(min(ozono$timestamp), max(ozono$timestamp), by = "1 hour")
+)
 
-          Massimi <- rbind(Massimi, cbind(new_month, 1:giorni_true[k], rep(sensors[i], giorni_true[k]), rep(years[j], giorni_true[k]), rep(mesi[k], giorni_true[k])))
-        }
-      } else {
-        missed_month <- missed_month + 1
-      }
-    }
-  }
-}
+# Merge the complete set of timestamps with your data
+ozono_completed <- left_join(all_timestamps, ozono, by = c("idSensore", "timestamp"))
 
-Massimi <- data.frame(Massimi)
-names(Massimi) <- c("max", "Giorno", "idSensore", "Anno", "Mese")
+ozono_completed <- ozono_completed %>%
+  mutate(
+    Year = year(timestamp),
+    Month = month(timestamp),
+    Day = day(timestamp),
+    Hour = hour(timestamp)
+  )
+
+ozono_completed$Data <- NULL
 rm(ozono)
+rm(all_timestamps)
+gc()
 
-#### Fill the gaps in Massimi####  -Run again from here
+### STEP 2: a questo punto seleziono solo i mesi che mi interessano (4:10)
+# e faccio il count delle moving averages > 180
+
+# (30+31+30+31+31+30+31)*13*24*51 = 3405168 obs in filtered_data
+ozono_filtered <- ozono_completed %>%
+  filter(Month >= 4 & Month <= 10)
+
+# ora stesso lavoro fatto per count_180
+# massimi deve avere (30+31+30+31+31+30+31)*13*51 = 141882 obs
+# massimi è costruito con lo stesso criterio di quello per 180
+# prendo il massimo delle Valore nella giornata se quella giornata
+# ha > 16 Valore non NA oppure, se ha >= 8 NA, se almeno una di
+# quelle registrate supera 180
+
+massimi <- ozono_filtered %>%
+  group_by(idSensore, Year, Month, Day) %>%
+  summarize(
+    max = ifelse(
+      sum(is.na(Valore)) < 6,
+      max(Valore, na.rm = TRUE),
+      ifelse(
+        any(Valore[!is.na(Valore)] >= 180),
+        max(Valore, na.rm = TRUE),
+        -1
+      )
+    )
+  ) %>%
+  ungroup()
 
 # Filling the vector mm_na with whether a month is admissible or not
+# a month is admissible iff it has >= 6 non NA (ie -1) for max variable
 mm_na <- NULL
-for (s in unique(Massimi$idSensore)) {
-  for (y in unique(Massimi$Anno[which(Massimi$idSensore == s)])) {
-    for (m in unique(Massimi$Mese[which(Massimi$idSensore == s & Massimi$Anno == y)])) {
-      if (sum(Massimi$max[which(Massimi$idSensore == s & Massimi$Anno == y & Massimi$Mese == m)] == -1) < 6) {
+for (s in unique(massimi$idSensore)) {
+  for (y in unique(massimi$Year[which(massimi$idSensore == s)])) {
+    for (m in unique(massimi$Month[which(massimi$idSensore == s & massimi$Year == y)])) {
+      if (sum(massimi$max[which(massimi$idSensore == s & massimi$Year == y & massimi$Month == m)] == -1) < 6) {
         mm_na <- rbind(mm_na, c(1, s, y, m))
       } else {
         mm_na <- rbind(mm_na, c(0, s, y, m))
@@ -87,11 +82,13 @@ for (s in unique(Massimi$idSensore)) {
   }
 }
 
+# mm_na deve avere 51*7*13 = 4641 obs
 mm_na <- data.frame(mm_na)
 colnames(mm_na) <- c("Admissible", "idSensore", "Year", "Month")
 
-# filling Massimi replacing -1 values with a linear
+# filling massimi replacing -1 values with a linear
 # interpolation of the 2 nearest admissible maximums
+# usiamo lo stesso criterio di riempimento usato per count_180
 
 findFirstDay <- function(row, df) {
   while (row <= nrow(df)) {
@@ -114,10 +111,10 @@ findLastDay <- function(row, df) {
 }
 
 maximum_df <- NULL
-for (s in unique(Massimi$idSensore)) {
-  temp_df_id <- Massimi[which(Massimi$idSensore == s), ]
-  for (y in unique(temp_df_id$Anno)) {
-    temp_df <- temp_df_id[which(temp_df_id$Anno == y), ]
+for (s in unique(massimi$idSensore)) {
+  temp_df_id <- massimi[which(massimi$idSensore == s), ]
+  for (y in unique(temp_df_id$Year)) {
+    temp_df <- temp_df_id[which(temp_df_id$Year == y), ]
     first_adm <- findFirstDay(1, temp_df)
     last_adm <- findLastDay(nrow(temp_df), temp_df)
     if (first_adm != 1 & first_adm != (nrow(temp_df) + 1)) {
@@ -146,12 +143,12 @@ for (s in unique(Massimi$idSensore)) {
 
 maximum_df <- data.frame(maximum_df)
 
-# Placing NA where a month is not admissible
+# Placing Nas where a month is not admissible
 for (i in seq_len(nrow(mm_na))) {
   if (mm_na[i, "Admissible"] == 0) {
     maximum_df[which(maximum_df$idSensore == mm_na[i, "idSensore"] &
-      maximum_df$Anno == mm_na[i, "Year"] &
-      maximum_df$Mese == mm_na[i, "Month"]), "max"] <- NA
+      maximum_df$Year == mm_na[i, "Year"] &
+      maximum_df$Month == mm_na[i, "Month"]), "max"] <- NA
   }
 }
 
@@ -159,11 +156,11 @@ count_180_df <- NULL
 for (s in unique(maximum_df$idSensore)) {
   temp_df_id <- maximum_df[which(maximum_df$idSensore == s), ]
   for (y in 2010:2022) {
-    if (y %in% unique(temp_df_id$Anno)) {
-      temp_df <- temp_df_id[which(temp_df_id$Anno == y), ]
+    if (y %in% unique(temp_df_id$Year)) {
+      temp_df <- temp_df_id[which(temp_df_id$Year == y), ]
       for (m in 4:10) {
-        if (m %in% unique(temp_df$Mese)) {
-          temp_df_m <- temp_df[which(temp_df$Mese == m), ]
+        if (m %in% unique(temp_df$Month)) {
+          temp_df_m <- temp_df[which(temp_df$Month == m), ]
           count_180_df <- rbind(count_180_df, c(sum(temp_df_m$max >= 180), s, y, m))
         } else {
           count_180_df <- rbind(count_180_df, c(NA, s, y, m))
@@ -192,18 +189,20 @@ mesi <- 4:10
 sum(is.na(count_180_df$Count_180))
 sum(is.na(count_180_df$Count_180)) / nrow(count_180_df)
 
-sen <- seq_along(sensors)
-time <- seq_len(length(years) * length(mesi))
+sen <- 1:length(sensors)
+time <- 1:(length(years) * length(mesi))
 nas <- matrix(rep(0, length(time) * length(sensors)), nrow = length(sensors), ncol = length(time))
 
 nas <- NULL
-for (i in sensors) {
+for (i in sensors)
+{
   nas <- rbind(nas, as.numeric(is.na(count_180_df$Count_180[count_180_df$idSensore == i])))
 }
 
 sum(nas[nrow(nas), ] == 1) / dim(nas)[2]
 thre <- rep(0, length(sensors))
-for (i in sen) {
+for (i in 1:length(sensors))
+{
   thre[i] <- sum(nas[i, ] == 1) / dim(nas)[2]
 }
 plot(thre)
@@ -214,7 +213,8 @@ Dataset_180 <- count_180_df[-which(count_180_df$idSensore %in% sensors[46:51]), 
 
 sensors <- unique(Dataset_180$idSensore)
 mat_plot <- matrix(rep(0, length(time) * length(sensors)), nrow = length(sensors), ncol = length(time))
-for (i in sensors) {
+for (i in sensors)
+{
   mat_plot <- rbind(mat_plot, Dataset_180$Count_180[which(Dataset_180$idSensore == i)])
 }
 
@@ -226,7 +226,8 @@ abline(v = vertical_lines_x, col = "black")
 
 media <- rep(0, length(sensors))
 varianza <- rep(0, length(sensors))
-for (i in sensors) {
+for (i in sensors)
+{
   media <- c(media, mean(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore == i)])))
   varianza <- c(varianza, sd(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore == i)])))
 }
