@@ -49,7 +49,7 @@ ozono_filtered <- ozono_completed %>%
 # massimi deve avere (30+31+30+31+31+30+31)*13*51 = 141882 obs
 # massimi è costruito con lo stesso criterio di quello per 180
 # prendo il massimo delle Valore nella giornata se quella giornata
-# ha > 16 Valore non NA oppure, se ha >= 8 NA, se almeno una di 
+# ha > 16 Valore non NA oppure, se ha >= 8 NA, se almeno una di
 # quelle registrate supera 180
 
 massimi <- ozono_filtered %>%
@@ -59,7 +59,7 @@ massimi <- ozono_filtered %>%
       sum(is.na(Valore)) < 8,
       max(Valore, na.rm = TRUE),
       ifelse(
-        sum(is.na(Valore)) >= 8 & any(Valore[!is.na(Valore)] >= 180),
+        any(Valore[!is.na(Valore)] >= 180),
         max(Valore, na.rm = TRUE),
         -1
       )
@@ -100,7 +100,7 @@ findFirstDay <- function(row, df) {
   return(row)
 }
 
-findLastDay<- function(row, df) {
+findLastDay <- function(row, df) {
   while (row >= 1) {
     if (df[row, "max"] != -1) {
       return(row)
@@ -147,13 +147,13 @@ maximum_df <- data.frame(maximum_df)
 for (i in seq_len(nrow(mm_na))) {
   if (mm_na[i, "Admissible"] == 0) {
     maximum_df[which(maximum_df$idSensore == mm_na[i, "idSensore"] &
-                       maximum_df$Year == mm_na[i, "Year"] &
-                       maximum_df$Month == mm_na[i, "Month"]), "max"] <- NA
+      maximum_df$Year == mm_na[i, "Year"] &
+      maximum_df$Month == mm_na[i, "Month"]), "max"] <- NA
   }
 }
 
 count_180_df <- NULL
-for (s in sensors) {
+for (s in unique(maximum_df$idSensore)) {
   temp_df_id <- maximum_df[which(maximum_df$idSensore == s), ]
   for (y in 2010:2022) {
     if (y %in% unique(temp_df_id$Year)) {
@@ -178,3 +178,60 @@ count_180_df <- data.frame(count_180_df)
 colnames(count_180_df) <- c("Count_180", "idSensore", "Year", "Month")
 
 write.csv(count_180_df, "./Datasets/Dataset_180.csv", row.names = FALSE)
+
+#### Plot the Nas of the full final dataset####
+count_180_df <- read.csv("./Datasets/Dataset_180.csv")
+
+sensors <- unique(count_120_df$idSensore)
+years <- 2010:2022
+mesi <- 4:10
+
+sum(is.na(count_180_df$Count_180))
+sum(is.na(count_180_df$Count_180)) / nrow(count_180_df)
+
+sen <- 1:length(sensors)
+time <- 1:(length(years) * length(mesi))
+nas <- matrix(rep(0, length(time) * length(sensors)), nrow = length(sensors), ncol = length(time))
+
+nas <- NULL
+for (i in sensors)
+{
+  nas <- rbind(nas, as.numeric(is.na(count_180_df$Count_180[count_180_df$idSensore == i])))
+}
+
+sum(nas[nrow(nas), ] == 1) / dim(nas)[2]
+thre <- rep(0, length(sensors))
+for (i in 1:length(sensors))
+{
+  thre[i] <- sum(nas[i, ] == 1) / dim(nas)[2]
+}
+plot(thre)
+abline(h = 0.1)
+# Togliere questi è troppo, togliere gli ultimi però sembra necessario. Questa è la mia proposta
+
+Dataset_180 <- count_180_df[-which(count_180_df$idSensore %in% sensors[46:51]), ]
+
+sensors <- unique(Dataset_180$idSensore)
+mat_plot <- matrix(rep(0, length(time) * length(sensors)), nrow = length(sensors), ncol = length(time))
+for (i in sensors)
+{
+  mat_plot <- rbind(mat_plot, Dataset_180$Count_180[which(Dataset_180$idSensore == i)])
+}
+
+matplot(t(mat_plot), type = "l")
+k <- 7
+n <- 13
+vertical_lines_x <- seq(k, n * k, by = k)
+abline(v = vertical_lines_x, col = "black")
+
+media <- rep(0, length(sensors))
+varianza <- rep(0, length(sensors))
+for (i in sensors)
+{
+  media <- c(media, mean(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore == i)])))
+  varianza <- c(varianza, sd(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore == i)])))
+}
+
+xx <- seq(0, 4, by = 0.1)
+plot(media, varianza, xlim = c(0, 4), ylim = c(0, 4))
+lines(xx, xx)

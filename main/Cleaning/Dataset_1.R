@@ -12,7 +12,7 @@ ozono$Month <- month(ozono$Data - 1)
 ozono$Day <- day(ozono$Data - 1)
 ozono$Hour <- hour(ozono$Data - 1)
 
-####Creazione dataset con massimo giornaliero e medione in caso manchino i dati####
+#### Creazione dataset con massimo giornaliero e medione in caso manchino i dati####
 Massimi <- NULL
 sensors <- unique(ozono$idSensore)
 years <- unique((ozono$Year))
@@ -20,59 +20,47 @@ mesi <- 4:10
 giorni_true <- c(30, 31, 30, 31, 31, 30, 31)
 lista_sensori <- list()
 missed_month <- 0
-for (i in 1:length(sensors))
-{
+for (i in 1:length(sensors)) {
   lista_sensori[[i]] <- ozono[which(ozono$idSensore == sensors[i]), ]
 }
-for (i in 1:length(lista_sensori))
-{
+for (i in 1:length(lista_sensori)) {
   temp <- lista_sensori[[i]]
-  for (j in 1:length(years))
-  {
-    temp_year <- temp[which(temp$Year==years[j]) ,]   #Un sensore, un anno
-    for (k in 1:length(mesi))
-    {
-      temp_mese <- temp_year[which(temp_year$Month==mesi[k]) ,]   #Singolo mese
+  for (j in 1:length(years)) {
+    temp_year <- temp[which(temp$Year == years[j]), ] # Un sensore, un anno
+    for (k in 1:length(mesi)) {
+      temp_mese <- temp_year[which(temp_year$Month == mesi[k]), ] # Singolo mese
       giorni <- unique(temp_mese$Day)
       new_month <- rep(-1, giorni_true[k])
-      if (length(giorni))
-      {
+      if (length(giorni)) {
         lista_giorni <- list()
-        for (d in 1:length(giorni))
-        {
+        for (d in 1:length(giorni)) {
           lista_giorni[[giorni[d]]] <- temp_mese[which(temp_mese$Day == giorni[d]), ]
         }
         na <- NULL
         missing_hours <- NULL
         total_miss <- NULL
-        for (d in 1:length(giorni))
-        {
+        for (d in 1:length(giorni)) {
           na[d] <- sum(is.na(lista_giorni[[giorni[d]]]$Valore))
           missing_hours[d] <- 24 - (dim(lista_giorni[[giorni[d]]])[1])
           total_miss[d] <- missing_hours[d] + na[d]
-          if (sum(na.omit(lista_giorni[[giorni[d]]]$Valore)>180))
-          {
+          if (sum(na.omit(lista_giorni[[giorni[d]]]$Valore) >= 180)) {
             total_miss[d] <- 0
           }
         }
-        miss <- setdiff(1:giorni_true[k], giorni[!(total_miss>5)])
-        
-        if (length(giorni[!(total_miss>5)]))
-        {
-          for (a in 1:length(giorni[!(total_miss>5)]))
+        miss <- setdiff(1:giorni_true[k], giorni[!(total_miss > 5)])
+
+        if (length(giorni[!(total_miss > 5)])) {
+          for (a in 1:length(giorni[!(total_miss > 5)]))
           {
-            new_month[giorni[!(total_miss>5)][a]] <- max(na.omit(lista_giorni[[giorni[!(total_miss>5)][a]]]$Valore))
-            if (!sum(na.omit(lista_giorni[[giorni[!(total_miss>5)][a]]]$Valore)))
-            {
+            new_month[giorni[!(total_miss > 5)][a]] <- max(na.omit(lista_giorni[[giorni[!(total_miss > 5)][a]]]$Valore))
+            if (!sum(na.omit(lista_giorni[[giorni[!(total_miss > 5)][a]]]$Valore))) {
               print(c(i, j, k))
             }
           }
-          
+
           Massimi <- rbind(Massimi, cbind(new_month, 1:giorni_true[k], rep(sensors[i], giorni_true[k]), rep(years[j], giorni_true[k]), rep(mesi[k], giorni_true[k])))
         }
-      } 
-      else 
-      {
+      } else {
         missed_month <- missed_month + 1
       }
     }
@@ -80,17 +68,17 @@ for (i in 1:length(lista_sensori))
 }
 
 Massimi <- data.frame(Massimi)
-names(Massimi) <- c('max', 'Giorno', 'idSensore', 'Anno', 'Mese')
+names(Massimi) <- c("max", "Giorno", "idSensore", "Anno", "Mese")
 rm(ozono)
 
-####Fill the gaps in Massimi####  -Run again from here
+#### Fill the gaps in Massimi####  -Run again from here
 
 # Filling the vector mm_na with whether a month is admissible or not
 mm_na <- NULL
-for (s in unique(massimi$idSensore)) {
-  for (y in unique(massimi$Anno[which(massimi$idSensore == s)])) {
-    for (m in unique(massimi$Mese[which(massimi$idSensore == s & massimi$Anno == y)])) {
-      if (sum(massimi$max[which(massimi$idSensore == s & massimi$Anno == y & massimi$Mese == m)] == -1) < 6) {
+for (s in unique(Massimi$idSensore)) {
+  for (y in unique(Massimi$Anno[which(Massimi$idSensore == s)])) {
+    for (m in unique(Massimi$Mese[which(Massimi$idSensore == s & Massimi$Anno == y)])) {
+      if (sum(Massimi$max[which(Massimi$idSensore == s & Massimi$Anno == y & Massimi$Mese == m)] == -1) < 6) {
         mm_na <- rbind(mm_na, c(1, s, y, m))
       } else {
         mm_na <- rbind(mm_na, c(0, s, y, m))
@@ -115,7 +103,7 @@ findFirstDay <- function(row, df) {
   return(row)
 }
 
-findLastDay<- function(row, df) {
+findLastDay <- function(row, df) {
   while (row >= 1) {
     if (df[row, "max"] != -1) {
       return(row)
@@ -162,8 +150,8 @@ maximum_df <- data.frame(maximum_df)
 for (i in seq_len(nrow(mm_na))) {
   if (mm_na[i, "Admissible"] == 0) {
     maximum_df[which(maximum_df$idSensore == mm_na[i, "idSensore"] &
-                maximum_df$Anno == mm_na[i, "Year"] &
-                maximum_df$Mese == mm_na[i, "Month"]), "max"] <- NA
+      maximum_df$Anno == mm_na[i, "Year"] &
+      maximum_df$Mese == mm_na[i, "Month"]), "max"] <- NA
   }
 }
 
@@ -194,7 +182,7 @@ colnames(count_180_df) <- c("Count_180", "idSensore", "Year", "Month")
 
 write.csv(count_180_df, "./Datasets/Dataset_180.csv", row.names = FALSE)
 
-####Plot the Nas of the full final dataset####
+#### Plot the Nas of the full final dataset####
 count_180_df <- read.csv("./Datasets/Dataset_180.csv")
 
 sensors <- unique(count_120_df$idSensore)
@@ -202,51 +190,47 @@ years <- 2010:2022
 mesi <- 4:10
 
 sum(is.na(count_180_df$Count_180))
-sum(is.na(count_180_df$Count_180))/nrow(count_180_df)
+sum(is.na(count_180_df$Count_180)) / nrow(count_180_df)
 
-sen <- 1:length(sensors)
-time <- 1:(length(years)*length(mesi))
-nas <- matrix(rep(0, length(time)*length(sensors)), nrow = length(sensors), ncol = length(time))
+sen <- seq_along(sensors)
+time <- seq_len(length(years) * length(mesi))
+nas <- matrix(rep(0, length(time) * length(sensors)), nrow = length(sensors), ncol = length(time))
 
 nas <- NULL
-for (i in sensors)
-{
-  nas <- rbind(nas, as.numeric(is.na(count_180_df$Count_180[count_180_df$idSensore==i])))
+for (i in sensors) {
+  nas <- rbind(nas, as.numeric(is.na(count_180_df$Count_180[count_180_df$idSensore == i])))
 }
 
-sum(nas[nrow(nas) ,]==1)/dim(nas)[2]
+sum(nas[nrow(nas), ] == 1) / dim(nas)[2]
 thre <- rep(0, length(sensors))
-for (i in 1:length(sensors))
-{
-  thre[i] <- sum(nas[i ,]==1)/dim(nas)[2]
+for (i in sen) {
+  thre[i] <- sum(nas[i, ] == 1) / dim(nas)[2]
 }
 plot(thre)
-abline(h=0.1)
-#Togliere questi è troppo, togliere gli ultimi però sembra necessario. Questa è la mia proposta
+abline(h = 0.1)
+# Togliere questi è troppo, togliere gli ultimi però sembra necessario. Questa è la mia proposta
 
-Dataset_180 <- count_180_df[-which(count_180_df$idSensore %in% sensors[46:51]) ,]
+Dataset_180 <- count_180_df[-which(count_180_df$idSensore %in% sensors[46:51]), ]
 
 sensors <- unique(Dataset_180$idSensore)
-mat_plot <- matrix(rep(0, length(time)*length(sensors)), nrow = length(sensors), ncol = length(time))
-for (i in sensors)
-{
-  mat_plot <- rbind(mat_plot, Dataset_180$Count_180[which(Dataset_180$idSensore==i)])
+mat_plot <- matrix(rep(0, length(time) * length(sensors)), nrow = length(sensors), ncol = length(time))
+for (i in sensors) {
+  mat_plot <- rbind(mat_plot, Dataset_180$Count_180[which(Dataset_180$idSensore == i)])
 }
 
-matplot(t(mat_plot), type='l')
+matplot(t(mat_plot), type = "l")
 k <- 7
-n <- 13 
-vertical_lines_x <- seq(k, n*k, by=k)
+n <- 13
+vertical_lines_x <- seq(k, n * k, by = k)
 abline(v = vertical_lines_x, col = "black")
 
 media <- rep(0, length(sensors))
 varianza <- rep(0, length(sensors))
-for (i in sensors)
-{
-  media <- c(media, mean(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore==i)])))
-  varianza <- c(varianza, sd(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore==i)])))
+for (i in sensors) {
+  media <- c(media, mean(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore == i)])))
+  varianza <- c(varianza, sd(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore == i)])))
 }
 
-xx <- seq(0, 4, by=0.1)
+xx <- seq(0, 4, by = 0.1)
 plot(media, varianza, xlim = c(0, 4), ylim = c(0, 4))
 lines(xx, xx)
