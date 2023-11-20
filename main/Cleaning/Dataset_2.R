@@ -48,7 +48,7 @@ ozono_completed <- ozono_completed %>%
   group_by(idSensore) %>%
   mutate(
     MovingAvg = rollapply(Valore, width = 8, FUN = function(x) {
-      if (sum(!is.na(x)) >= 4) { # non NA >= 4 faccio la media
+      if (sum(!is.na(x)) >= 6) {
         mean(x, na.rm = TRUE)
       } else {
         NA
@@ -74,7 +74,7 @@ massimi <- ozono_filtered %>%
   group_by(idSensore, Year, Month, Day) %>%
   summarize(
     max = ifelse(
-      sum(is.na(MovingAvg)) < 8,
+      sum(is.na(MovingAvg)) < 6,
       max(MovingAvg, na.rm = TRUE),
       ifelse(
         any(MovingAvg[!is.na(MovingAvg)] >= 120),
@@ -209,7 +209,6 @@ sum(is.na(count_120_df$Count_120)) / nrow(count_120_df)
 
 sen <- seq_along(sensors)
 time <- seq_len(length(years) * length(mesi))
-nas <- matrix(rep(0, length(time) * length(sensors)), nrow = length(sensors), ncol = length(time))
 
 nas <- NULL
 for (i in sensors) {
@@ -229,7 +228,7 @@ abline(h = 0.1)
 Dataset_120 <- count_120_df[-which(count_120_df$idSensore %in% sensors[46:51]), ]
 
 sensors <- unique(Dataset_120$idSensore)
-mat_plot <- matrix(rep(0, length(time) * length(sensors)), nrow = length(sensors), ncol = length(time))
+mat_plot <- NULL
 for (i in sensors) {
   mat_plot <- rbind(mat_plot, Dataset_120$Count_120[which(Dataset_120$idSensore == i)])
 }

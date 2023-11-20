@@ -182,7 +182,7 @@ write.csv(count_180_df, "./Datasets/Dataset_180.csv", row.names = FALSE)
 #### Plot the Nas of the full final dataset####
 count_180_df <- read.csv("./Datasets/Dataset_180.csv")
 
-sensors <- unique(count_120_df$idSensore)
+sensors <- unique(count_180_df$idSensore)
 years <- 2010:2022
 mesi <- 4:10
 
@@ -191,18 +191,15 @@ sum(is.na(count_180_df$Count_180)) / nrow(count_180_df)
 
 sen <- 1:length(sensors)
 time <- 1:(length(years) * length(mesi))
-nas <- matrix(rep(0, length(time) * length(sensors)), nrow = length(sensors), ncol = length(time))
 
 nas <- NULL
-for (i in sensors)
-{
+for (i in sensors) {
   nas <- rbind(nas, as.numeric(is.na(count_180_df$Count_180[count_180_df$idSensore == i])))
 }
 
 sum(nas[nrow(nas), ] == 1) / dim(nas)[2]
 thre <- rep(0, length(sensors))
-for (i in 1:length(sensors))
-{
+for (i in 1:length(sensors)) {
   thre[i] <- sum(nas[i, ] == 1) / dim(nas)[2]
 }
 plot(thre)
@@ -212,9 +209,8 @@ abline(h = 0.1)
 Dataset_180 <- count_180_df[-which(count_180_df$idSensore %in% sensors[46:51]), ]
 
 sensors <- unique(Dataset_180$idSensore)
-mat_plot <- matrix(rep(0, length(time) * length(sensors)), nrow = length(sensors), ncol = length(time))
-for (i in sensors)
-{
+mat_plot <- NULL
+for (i in sensors) {
   mat_plot <- rbind(mat_plot, Dataset_180$Count_180[which(Dataset_180$idSensore == i)])
 }
 
@@ -224,10 +220,9 @@ n <- 13
 vertical_lines_x <- seq(k, n * k, by = k)
 abline(v = vertical_lines_x, col = "black")
 
-media <- rep(0, length(sensors))
-varianza <- rep(0, length(sensors))
-for (i in sensors)
-{
+media <- NULL
+varianza <- NULL
+for (i in sensors) {
   media <- c(media, mean(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore == i)])))
   varianza <- c(varianza, sd(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore == i)])))
 }
