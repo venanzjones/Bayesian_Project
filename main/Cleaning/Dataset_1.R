@@ -230,3 +230,11 @@ for (i in sensors) {
 xx <- seq(0, 4, by = 0.1)
 plot(media, varianza, xlim = c(0, 4), ylim = c(0, 4))
 lines(xx, xx)
+
+zero <- NULL
+for (i in sensors) {
+  zero <- rbind(zero, as.numeric((count_180_df$Count_180[count_180_df$idSensore == i]))==0)
+}
+image(zero)
+sum(na.omit(Dataset_180$Count_180) == 0)
+sum(na.omit(Dataset_180$Count_180) == 0) / nrow(Dataset_180)

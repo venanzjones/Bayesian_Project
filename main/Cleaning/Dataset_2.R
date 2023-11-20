@@ -247,5 +247,13 @@ for (i in sensors) {
 }
 
 xx <- seq(0, 15, by = 0.1)
-plot(media, varianza)
+plot(media, varianza, xlim = c(0, 15), ylim = c(0, 15))
 lines(xx, xx)
+
+zero <- NULL
+for (i in sensors) {
+  zero <- rbind(zero, as.numeric((count_120_df$Count_120[count_120_df$idSensore == i]))==0)
+}
+image(zero)
+sum(na.omit(Dataset_120$Count_120) == 0)
+sum(na.omit(Dataset_120$Count_120) == 0) / nrow(Dataset_120)
