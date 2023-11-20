@@ -38,8 +38,26 @@ rm(ozono)
 rm(all_timestamps)
 gc()
 
-### STEP 2: a questo punto seleziono solo i mesi che mi interessano (4:10)
-# e faccio il count delle moving averages > 180
+### STEP 2: creare un dataset che misura la media oraria delle ultime
+# 7 ore (+1 che è quella che sto considerando)
+# threshold: MovingAvg è NA se nei 8 valori che considero ci sono > 4 NA
+library(zoo)
+
+ozono_completed <- ozono_completed %>%
+  arrange(idSensore, timestamp) %>%
+  group_by(idSensore) %>%
+  mutate(
+    MovingAvg = rollapply(Valore, width = 8, FUN = function(x) {
+      if (sum(!is.na(x)) >= 6) {
+        mean(x, na.rm = TRUE)
+      } else {
+        NA
+      }
+    }, by = 1, align = "right", fill = NA)
+  )
+
+### STEP 3: a questo punto seleziono solo i mesi che mi interessano (4:10)
+# e faccio il count delle moving averages > 120
 
 # (30+31+30+31+31+30+31)*13*24*51 = 3405168 obs in filtered_data
 ozono_filtered <- ozono_completed %>%
@@ -48,19 +66,19 @@ ozono_filtered <- ozono_completed %>%
 # ora stesso lavoro fatto per count_180
 # massimi deve avere (30+31+30+31+31+30+31)*13*51 = 141882 obs
 # massimi è costruito con lo stesso criterio di quello per 180
-# prendo il massimo delle Valore nella giornata se quella giornata
-# ha > 16 Valore non NA oppure, se ha >= 8 NA, se almeno una di
-# quelle registrate supera 180
+# prendo il massimo delle MovingAvg nella giornata se quella giornata
+# ha > 16 MovingAvg non NA oppure, se ha >= 8 NA, se almeno una di
+# quelle registrate supera 120
 
 massimi <- ozono_filtered %>%
   group_by(idSensore, Year, Month, Day) %>%
   summarize(
     max = ifelse(
-      sum(is.na(Valore)) < 6,
-      max(Valore, na.rm = TRUE),
+      sum(is.na(MovingAvg)) < 6,
+      max(MovingAvg, na.rm = TRUE),
       ifelse(
-        any(Valore[!is.na(Valore)] >= 180),
-        max(Valore, na.rm = TRUE),
+        any(MovingAvg[!is.na(MovingAvg)] >= 120),
+        max(MovingAvg, na.rm = TRUE),
         -1
       )
     )
@@ -152,7 +170,7 @@ for (i in seq_len(nrow(mm_na))) {
   }
 }
 
-count_180_df <- NULL
+count_120_df <- NULL
 for (s in unique(maximum_df$idSensore)) {
   temp_df_id <- maximum_df[which(maximum_df$idSensore == s), ]
   for (y in 2010:2022) {
@@ -161,57 +179,58 @@ for (s in unique(maximum_df$idSensore)) {
       for (m in 4:10) {
         if (m %in% unique(temp_df$Month)) {
           temp_df_m <- temp_df[which(temp_df$Month == m), ]
-          count_180_df <- rbind(count_180_df, c(sum(temp_df_m$max >= 180), s, y, m))
+          count_120_df <- rbind(count_120_df, c(sum(temp_df_m$max >= 120), s, y, m))
         } else {
-          count_180_df <- rbind(count_180_df, c(NA, s, y, m))
+          count_120_df <- rbind(count_120_df, c(NA, s, y, m))
         }
       }
     } else {
       for (m in 4:10) {
-        count_180_df <- rbind(count_180_df, c(NA, s, y, m))
+        count_120_df <- rbind(count_120_df, c(NA, s, y, m))
       }
     }
   }
 }
 
-count_180_df <- data.frame(count_180_df)
-colnames(count_180_df) <- c("Count_180", "idSensore", "Year", "Month")
+count_120_df <- data.frame(count_120_df)
+colnames(count_120_df) <- c("Count_120", "idSensore", "Year", "Month")
 
-write.csv(count_180_df, "./Datasets/Dataset_180.csv", row.names = FALSE)
+write.csv(count_120_df, "./Datasets/Dataset_120.csv", row.names = FALSE)
 
-#### Plot the Nas of the full final dataset####
-count_180_df <- read.csv("./Datasets/Dataset_180.csv")
+## Na analysis
+count_120_df <- read.csv("./Datasets/Dataset_120.csv")
 
-sensors <- unique(count_180_df$idSensore)
+sensors <- unique(count_120_df$idSensore)
 years <- 2010:2022
 mesi <- 4:10
 
-sum(is.na(count_180_df$Count_180))
-sum(is.na(count_180_df$Count_180)) / nrow(count_180_df)
+sum(is.na(count_120_df$Count_120))
+sum(is.na(count_120_df$Count_120)) / nrow(count_120_df)
 
-sen <- 1:length(sensors)
-time <- 1:(length(years) * length(mesi))
+sen <- seq_along(sensors)
+time <- seq_len(length(years) * length(mesi))
 
 nas <- NULL
 for (i in sensors) {
-  nas <- rbind(nas, as.numeric(is.na(count_180_df$Count_180[count_180_df$idSensore == i])))
+  nas <- rbind(nas, as.numeric(is.na(count_120_df$Count_120[count_120_df$idSensore == i])))
 }
+image(nas)
 
 sum(nas[nrow(nas), ] == 1) / dim(nas)[2]
 thre <- rep(0, length(sensors))
-for (i in 1:length(sensors)) {
+for (i in sen) {
   thre[i] <- sum(nas[i, ] == 1) / dim(nas)[2]
 }
 plot(thre)
 abline(h = 0.1)
 # Togliere questi è troppo, togliere gli ultimi però sembra necessario. Questa è la mia proposta
 
-Dataset_180 <- count_180_df[-which(count_180_df$idSensore %in% sensors[46:51]), ]
+Dataset_120 <- count_120_df[-which(count_120_df$idSensore %in% sensors[46:51]), ]
 
-sensors <- unique(Dataset_180$idSensore)
+sensors <- unique(Dataset_120$idSensore)
 mat_plot <- NULL
 for (i in sensors) {
-  mat_plot <- rbind(mat_plot, Dataset_180$Count_180[which(Dataset_180$idSensore == i)])
+  mat_plot <- rbind(mat_plot, Dataset_120$Count_120[which(Dataset_120$idSensore == i)])
 }
 
 matplot(t(mat_plot), type = "l")
@@ -220,21 +239,21 @@ n <- 13
 vertical_lines_x <- seq(k, n * k, by = k)
 abline(v = vertical_lines_x, col = "black")
 
-media <- NULL
-varianza <- NULL
+media <- rep(0, length(sensors))
+varianza <- rep(0, length(sensors))
 for (i in sensors) {
-  media <- c(media, mean(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore == i)])))
-  varianza <- c(varianza, sd(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore == i)])))
+  media <- c(media, mean(na.omit(Dataset_120$Count_120[which(Dataset_120$idSensore == i)])))
+  varianza <- c(varianza, sd(na.omit(Dataset_120$Count_120[which(Dataset_120$idSensore == i)])))
 }
 
-xx <- seq(0, 4, by = 0.1)
-plot(media, varianza, xlim = c(0, 4), ylim = c(0, 4))
+xx <- seq(0, 15, by = 0.1)
+plot(media, varianza, xlim = c(0, 15), ylim = c(0, 15))
 lines(xx, xx)
 
 zero <- NULL
 for (i in sensors) {
-  zero <- rbind(zero, as.numeric((count_180_df$Count_180[count_180_df$idSensore == i]))==0)
+  zero <- rbind(zero, as.numeric((count_120_df$Count_120[count_120_df$idSensore == i]))==0)
 }
 image(zero)
-sum(na.omit(Dataset_180$Count_180) == 0)
-sum(na.omit(Dataset_180$Count_180) == 0) / nrow(Dataset_180)
+sum(na.omit(Dataset_120$Count_120) == 0)
+sum(na.omit(Dataset_120$Count_120) == 0) / nrow(Dataset_120)
