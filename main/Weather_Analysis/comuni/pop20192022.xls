@@ -1,0 +1,1075 @@
+<?xml version="1.0"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+  <Author>I.Stat</Author>
+  <Created>2023-11-20T12:09:11Z</Created>
+  <Company>ISTAT</Company>
+  <Version>16.00</Version>
+ </DocumentProperties>
+ <OfficeDocumentSettings xmlns="urn:schemas-microsoft-com:office:office">
+  <AllowPNG/>
+ </OfficeDocumentSettings>
+ <ExcelWorkbook xmlns="urn:schemas-microsoft-com:office:excel">
+  <WindowHeight>6380</WindowHeight>
+  <WindowWidth>9380</WindowWidth>
+  <WindowTopX>32767</WindowTopX>
+  <WindowTopY>32767</WindowTopY>
+  <ProtectStructure>False</ProtectStructure>
+  <ProtectWindows>False</ProtectWindows>
+ </ExcelWorkbook>
+ <Styles>
+  <Style ss:ID="Default" ss:Name="Normal">
+   <Alignment ss:Vertical="Bottom"/>
+   <Borders/>
+   <Font ss:FontName="Arial"/>
+   <Interior/>
+   <NumberFormat/>
+   <Protection/>
+  </Style>
+  <Style ss:ID="m398006520">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+   </Borders>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Color="#FFFFFF"
+    ss:Bold="1"/>
+   <Interior ss:Color="#2973BD" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="m398006540">
+   <Alignment ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+   </Borders>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Color="#FFFFFF"/>
+   <Interior ss:Color="#2973BD" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="m398006560">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+   </Borders>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Color="#FFFFFF"
+    ss:Bold="1"/>
+   <Interior ss:Color="#2973BD" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="m398006580">
+   <Alignment ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+   </Borders>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Color="#FFFFFF"/>
+   <Interior ss:Color="#2973BD" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="m398006600">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Center" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+   </Borders>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Color="#FFFFFF"
+    ss:Bold="1"/>
+   <Interior ss:Color="#00A1E3" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s62">
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="8"/>
+  </Style>
+  <Style ss:ID="s63">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+   </Borders>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="9" ss:Color="#000080"
+    ss:Bold="1" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s88">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+   </Borders>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Color="#FFFFFF"/>
+   <Interior ss:Color="#00A1E3" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s89">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+   </Borders>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Color="#FFFFFF"
+    ss:Underline="Single"/>
+   <Interior ss:Color="#00A1E3" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s90">
+   <Alignment ss:Vertical="Bottom" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+   </Borders>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Bold="1"/>
+   <Interior ss:Color="#C4D8ED" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s91">
+   <Alignment ss:Horizontal="Center" ss:Vertical="Bottom"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+   </Borders>
+   <Font ss:FontName="Courier New" x:Family="Modern" ss:Size="9" ss:Color="#FF0000"
+    ss:Bold="1"/>
+   <Interior ss:Color="#FFFFFF" ss:Pattern="Gray50" ss:PatternColor="#C0C0C0"/>
+  </Style>
+  <Style ss:ID="s92">
+   <Alignment ss:Vertical="Top" ss:WrapText="1"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+   </Borders>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8"/>
+   <Interior ss:Color="#C4D8ED" ss:Pattern="Solid"/>
+  </Style>
+  <Style ss:ID="s93">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="8"/>
+   <NumberFormat/>
+  </Style>
+  <Style ss:ID="s94">
+   <Alignment ss:Horizontal="Right" ss:Vertical="Bottom"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Left" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+    <Border ss:Position="Top" ss:LineStyle="Continuous" ss:Weight="1"
+     ss:Color="#C0C0C0"/>
+   </Borders>
+   <Font ss:FontName="Arial" x:Family="Swiss" ss:Size="8"/>
+   <Interior ss:Color="#F0F8FF" ss:Pattern="Solid"/>
+   <NumberFormat/>
+  </Style>
+  <Style ss:ID="s95">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Underline="Single"/>
+  </Style>
+  <Style ss:ID="s96">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8"/>
+  </Style>
+  <Style ss:ID="s97">
+   <Alignment ss:Horizontal="Left" ss:Vertical="Bottom"/>
+   <Font ss:FontName="Verdana" x:Family="Swiss" ss:Size="8" ss:Bold="1"/>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="I.Stat export">
+  <Table ss:ExpandedColumnCount="6" ss:ExpandedRowCount="84" x:FullColumns="1"
+   x:FullRows="1" ss:DefaultRowHeight="12.5">
+   <Column ss:AutoFitWidth="0" ss:Width="144"/>
+   <Column ss:AutoFitWidth="0" ss:Width="13"/>
+   <Row ss:Hidden="1">
+    <Cell ss:StyleID="s62" ss:Formula="=DotStatQuery(RC[1])"><Data ss:Type="Error">#NAME?</Data></Cell>
+    <Cell ss:StyleID="s62"><Data ss:Type="String">&lt;?xml version=&quot;1.0&quot;?&gt;&lt;WebTableParameter xmlns:xsd=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns=&quot;&quot;&gt;&lt;DataTable Code=&quot;DCIS_POPORESBIL1&quot; HasMetadata=&quot;true&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Resident population  - balance&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Popolazione residente  - bilancio&lt;/Name&gt;&lt;Dimension Code=&quot;ITTER107&quot; CommonCode=&quot;ITTER107&quot; Display=&quot;labels&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Territory&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Territorio&lt;/Name&gt;&lt;Member Code=&quot;012026&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Busto Arsizio&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Busto Arsizio&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;012068&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Ferno&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Ferno&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;012070&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Gallarate&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Gallarate&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;012090&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Lonate Pozzolo&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Lonate Pozzolo&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;012119&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Saronno&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Saronno&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;012123&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Somma Lombardo&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Somma Lombardo&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;012133&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Varese&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Varese&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;013041&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Cantù&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Cantù&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;013075&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Como&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Como&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;013095&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Erba&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Erba&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;013165&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Olgiate Comasco&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Olgiate Comasco&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;014009&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Bormio&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Bormio&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;014018&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Chiavenna&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Chiavenna&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;014045&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Morbegno&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Morbegno&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;014061&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Sondrio&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Sondrio&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;015007&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Arconate&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Arconate&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;015009&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Arese&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Arese&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;015059&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Cassano d'Adda&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Cassano d'Adda&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;015086&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Cormano&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Cormano&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;015093&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Corsico&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Corsico&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;015096&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Cuggiono&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Cuggiono&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;015114&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Inzago&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Inzago&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;015115&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Lacchiarella&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Lacchiarella&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;015118&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Legnano&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Legnano&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;015146&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Milano&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Milano&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;015151&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Motta Visconti&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Motta Visconti&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;015175&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Pioltello&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Pioltello&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;015221&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Trezzo sull'Adda&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Trezzo sull'Adda&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;016024&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Bergamo&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Bergamo&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;016059&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Casirate d'Adda&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Casirate d'Adda&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;016153&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Osio Sotto&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Osio Sotto&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;017029&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Brescia&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Brescia&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;017065&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Darfo Boario Terme&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Darfo Boario Terme&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;017073&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Gambara&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Gambara&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;017092&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Lonato del Garda&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Lonato del Garda&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;017127&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Ospitaletto&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Ospitaletto&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;017174&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Sarezzo&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Sarezzo&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;018191&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Cornale e Bastida&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Cornale e Bastida&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;018062&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Ferrera Erbognone&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Ferrera Erbognone&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;018090&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Mezzana Bigli&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Mezzana Bigli&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;018102&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Mortara&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Mortara&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;018110&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Pavia&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Pavia&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;018182&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Voghera&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Voghera&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;019021&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Casalmaggiore&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Casalmaggiore&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;019032&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Corte de' Cortesi con Cignone&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Corte de' Cortesi con Cignone&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;019035&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Crema&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Crema&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;019036&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Cremona&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Cremona&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;019100&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Spinadesco&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Spinadesco&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;020072&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Borgo Mantovano&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Borgo Mantovano&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;020029&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Magnacavallo&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Magnacavallo&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;020030&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Mantova&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Mantova&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;020033&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Marmirolo&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Marmirolo&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;020044&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Ponti sul Mincio&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Ponti sul Mincio&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;020045&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Porto Mantovano&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Porto Mantovano&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;020060&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Schivenoglia&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Schivenoglia&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;020066&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Viadana&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Viadana&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;097023&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Colico&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Colico&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;097042&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Lecco&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Lecco&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;097048&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Merate&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Merate&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;097050&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Moggio&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Moggio&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;097056&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Nibionno&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Nibionno&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;097067&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Perledo&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Perledo&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;097083&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Valmadrera&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Valmadrera&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;097084&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Varenna&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Varenna&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;098001&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Abbadia Cerreto&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Abbadia Cerreto&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;098002&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Bertonico&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Bertonico&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;098031&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Lodi&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Lodi&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;098040&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Montanaso Lombardo&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Montanaso Lombardo&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;108001&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Agrate Brianza&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Agrate Brianza&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;108015&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Carate Brianza&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Carate Brianza&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;108027&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Limbiate&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Limbiate&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;108030&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Meda&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Meda&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;108033&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Monza&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Monza&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;108050&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Vimercate&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Vimercate&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;029014&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Ceneselli&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Ceneselli&lt;/Name&gt;&lt;/Member&gt;&lt;/Dimension&gt;&lt;Dimension Code=&quot;TIPO_DATO15&quot; CommonCode=&quot;TIPO_DATO15&quot; Display=&quot;labels&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Demographic data type&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Tipo di indicatore demografico&lt;/Name&gt;&lt;Member Code=&quot;DEC_CP&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;population on 31st December&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;popolazione al 31 dicembre&lt;/Name&gt;&lt;/Member&gt;&lt;/Dimension&gt;&lt;Dimension Code=&quot;SEXISTAT1&quot; CommonCode=&quot;SEXISTAT1&quot; Display=&quot;labels&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Gender&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Sesso&lt;/Name&gt;&lt;Member Code=&quot;9&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;total&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;totale&lt;/Name&gt;&lt;/Member&gt;&lt;/Dimension&gt;&lt;Dimension Code=&quot;TIME&quot; CommonCode=&quot;TIME&quot; Display=&quot;labels&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;Select time&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Seleziona periodo&lt;/Name&gt;&lt;Member Code=&quot;2019&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;2019&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;2019&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;2020&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;2020&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;2020&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;2021&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;2021&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;2021&lt;/Name&gt;&lt;/Member&gt;&lt;Member Code=&quot;2022&quot; HasMetadata=&quot;true&quot; HasOnlyUnitMetadata=&quot;false&quot;&gt;&lt;Name LocaleIsoCode=&quot;en&quot;&gt;2022&lt;/Name&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;2022&lt;/Name&gt;&lt;/Member&gt;&lt;/Dimension&gt;&lt;WBOSInformations&gt;&lt;TimeDimension WebTreeWasUsed=&quot;false&quot;&gt;&lt;NumberOfPeriods Annual=&quot;0&quot; Semesters=&quot;0&quot; Quarters=&quot;0&quot; Months=&quot;13&quot; Weeks=&quot;0&quot; Days=&quot;0&quot; /&gt;&lt;/TimeDimension&gt;&lt;/WBOSInformations&gt;&lt;Tabulation Axis=&quot;horizontal&quot;&gt;&lt;Dimension Code=&quot;TIME&quot; CommonCode=&quot;TIME&quot; /&gt;&lt;/Tabulation&gt;&lt;Tabulation Axis=&quot;vertical&quot;&gt;&lt;Dimension Code=&quot;ITTER107&quot; CommonCode=&quot;ITTER107&quot; /&gt;&lt;/Tabulation&gt;&lt;Tabulation Axis=&quot;page&quot;&gt;&lt;Dimension Code=&quot;TIPO_DATO15&quot; CommonCode=&quot;TIPO_DATO15&quot; /&gt;&lt;Dimension Code=&quot;SEXISTAT1&quot; CommonCode=&quot;SEXISTAT1&quot; /&gt;&lt;/Tabulation&gt;&lt;Formatting&gt;&lt;Labels LocaleIsoCode=&quot;it&quot; /&gt;&lt;Power&gt;0&lt;/Power&gt;&lt;Decimals&gt;-1&lt;/Decimals&gt;&lt;SkipEmptyLines&gt;false&lt;/SkipEmptyLines&gt;&lt;SkipEmptyCols&gt;true&lt;/SkipEmptyCols&gt;&lt;SkipLineHierarchy&gt;true&lt;/SkipLineHierarchy&gt;&lt;SkipColHierarchy&gt;true&lt;/SkipColHierarchy&gt;&lt;Page&gt;1&lt;/Page&gt;&lt;/Formatting&gt;&lt;/DataTable&gt;&lt;Format&gt;&lt;ShowEmptyAxes&gt;true&lt;/ShowEmptyAxes&gt;&lt;Page&gt;1&lt;/Page&gt;&lt;EnableSort&gt;true&lt;/EnableSort&gt;&lt;IncludeFlagColumn&gt;false&lt;/IncludeFlagColumn&gt;&lt;IncludeTimeSeriesId&gt;false&lt;/IncludeTimeSeriesId&gt;&lt;DoBarChart&gt;false&lt;/DoBarChart&gt;&lt;FreezePanes&gt;true&lt;/FreezePanes&gt;&lt;MaxBarChartLen&gt;65&lt;/MaxBarChartLen&gt;&lt;/Format&gt;&lt;Query&gt;&lt;Name LocaleIsoCode=&quot;it&quot;&gt;Tutti i comuni&lt;/Name&gt;&lt;AbsoluteUri&gt;http://dati.istat.it//View.aspx?QueryId=18981&amp;amp;QueryType=Public&amp;amp;Lang=it&lt;/AbsoluteUri&gt;&lt;/Query&gt;&lt;/WebTableParameter&gt;</Data></Cell>
+   </Row>
+   <Row ss:Height="23">
+    <Cell ss:StyleID="s63" ss:HRef="http://dati.istat.it/OECDStat_Metadata/ShowMetadata.ashx?Dataset=DCIS_POPORESBIL1&amp;ShowOnWeb=true&amp;Lang=it"
+     x:HRefScreenTip="Click once to display linked information. Click and hold to select this cell."><Data
+      ss:Type="String">Dataset:Popolazione residente  - bilancio</Data></Cell>
+   </Row>
+   <Row CodeDim="TIPO_DATO15">
+    <Cell ss:MergeAcross="1" ss:StyleID="m398006520"><Data ss:Type="String">Tipo di indicatore demografico</Data></Cell>
+    <Cell ss:MergeAcross="3" ss:StyleID="m398006540"><Data ss:Type="String">popolazione al 31 dicembre</Data></Cell>
+   </Row>
+   <Row CodeDim="SEXISTAT1">
+    <Cell ss:MergeAcross="1" ss:StyleID="m398006560"><Data ss:Type="String">Sesso</Data></Cell>
+    <Cell ss:MergeAcross="3" ss:StyleID="m398006580"><Data ss:Type="String">totale</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:MergeAcross="1" ss:StyleID="m398006600"><Data ss:Type="String">Seleziona periodo</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="String">2019</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="String">2020</Data></Cell>
+    <Cell ss:StyleID="s88"><Data ss:Type="String">2021</Data></Cell>
+    <Cell ss:StyleID="s89" ss:HRef="http://dati.istat.it/OECDStat_Metadata/ShowMetadata.ashx?Dataset=DCIS_POPORESBIL1&amp;Coords=[TIME].[2022]&amp;ShowOnWeb=true&amp;Lang=it"
+     x:HRefScreenTip="Click once to display linked information. Click and hold to select this cell."><Data
+      ss:Type="String">2022</Data></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s90"><Data ss:Type="String">Territorio</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Busto Arsizio</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">83679</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">83045</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">82754</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">82951</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Ferno</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">6736</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">6765</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">6685</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">6685</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Gallarate</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">54207</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">52787</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">52452</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">52811</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Lonate Pozzolo</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">11506</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">11483</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">11366</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">11364</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Saronno</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">38785</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">38755</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">38582</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">38442</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Somma Lombardo</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">17561</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">17785</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">17749</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">17767</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Varese</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">80724</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">79350</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">78740</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">78409</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Cantù</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">39790</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">39469</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">39382</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">39715</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Como</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">85543</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">84250</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">83361</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">83184</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Erba</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">15974</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">16208</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">16091</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">16148</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Olgiate Comasco</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">11667</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">11735</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">11780</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">11862</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Bormio</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">4160</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">4074</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">3990</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">3960</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Chiavenna</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">7293</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">7144</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">7235</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">7236</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Morbegno</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">12458</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">12237</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">12227</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">12230</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Sondrio</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">21477</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">21202</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">21192</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">21066</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Arconate</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">6649</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">6686</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">6758</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">6756</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Arese</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">19295</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">19463</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">19551</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">19514</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Cassano d'Adda</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">18762</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">19151</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">19194</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">19263</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Cormano</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">20348</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">20317</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">20327</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">20356</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Corsico</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">33669</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">34601</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">34438</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">34373</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Cuggiono</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">8188</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">8194</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">8138</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">8106</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Inzago</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">11258</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">11255</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">11245</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">11230</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Lacchiarella</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">8983</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">9060</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">9060</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">9055</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Legnano</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">59308</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">59855</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">59955</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">59941</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Milano</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1406242</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1374582</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1349930</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1354196</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Motta Visconti</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">8010</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">8053</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">8120</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">8126</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Pioltello</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">36437</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">36147</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">36202</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">36061</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Trezzo sull'Adda</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">12010</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">11981</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">11930</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">11951</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Bergamo</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">120783</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">119993</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">119476</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">119534</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Casirate d'Adda</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">4011</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">4057</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">4069</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">4055</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Osio Sotto</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">12560</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">12531</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">12487</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">12592</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Brescia</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">196340</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">197304</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">195906</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">196446</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Darfo Boario Terme</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">15688</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">15544</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">15546</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">15598</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Gambara</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">4656</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">4560</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">4549</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">4524</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Lonato del Garda</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">16622</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">16821</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">16827</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">16911</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Ospitaletto</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">14257</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">14620</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">14663</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">14694</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Sarezzo</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">13247</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">13199</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">13132</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">13129</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Cornale e Bastida</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">847</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">831</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">820</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">798</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Ferrera Erbognone</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1091</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1079</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1065</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1049</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Mezzana Bigli</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">1048</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">1026</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">1051</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">1046</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Mortara</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">15266</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">15395</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">15300</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">15360</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Pavia</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">71882</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">71122</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">70380</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">70636</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Voghera</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">39006</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">38435</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">38316</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">38637</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Casalmaggiore</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">15406</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">15022</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">14974</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">14974</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Corte de' Cortesi con Cignone</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1075</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1032</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1061</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1055</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Crema</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">34504</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">34210</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">33970</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">33786</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Cremona</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">72399</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">71223</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">70841</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">70637</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Spinadesco</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">1474</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">1495</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">1476</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">1449</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Borgo Mantovano</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">5481</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">5416</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">5319</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">5291</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Magnacavallo</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">1468</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">1446</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">1428</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">1394</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Mantova</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">48835</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">48755</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">48441</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">48653</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Marmirolo</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">7688</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">7673</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">7625</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">7645</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Ponti sul Mincio</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">2316</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">2336</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">2275</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">2295</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Porto Mantovano</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">16437</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">16481</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">16498</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">16614</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Schivenoglia</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1127</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1096</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1090</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1096</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Viadana</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">19713</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">19822</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">19781</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">19723</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Colico</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">7927</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">7970</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">7994</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">8074</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Lecco</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">48058</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">47454</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">46831</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">46871</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Merate</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">14492</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">14702</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">14661</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">14796</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Moggio</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">475</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">467</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">473</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">487</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Nibionno</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">3634</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">3660</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">3600</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">3571</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Perledo</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">895</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">878</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">864</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">848</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Valmadrera</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">11393</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">11210</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">11161</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">11131</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Varenna</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">743</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">741</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">725</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">693</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Abbadia Cerreto</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">275</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">282</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">275</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">279</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Bertonico</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">1073</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">1069</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">1071</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">1069</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Lodi</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">44928</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">44815</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">44716</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">44709</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Montanaso Lombardo</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">2252</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">2241</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">2234</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">2239</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Agrate Brianza</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">15244</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">15482</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">15505</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">15547</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Carate Brianza</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">17664</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">17824</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">17788</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">17817</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Limbiate</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">34319</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">34707</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">34809</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">34790</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Meda</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">23034</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">23324</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">23350</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">23388</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Monza</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">124840</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">122522</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">121984</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">121799</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Vimercate</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">25959</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">25941</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">25783</Data></Cell>
+    <Cell ss:StyleID="s94"><Data ss:Type="Number">25876</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row ss:Height="13">
+    <Cell ss:StyleID="s92"><Data ss:Type="String">Ceneselli</Data></Cell>
+    <Cell ss:StyleID="s91"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1595</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1583</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1552</Data></Cell>
+    <Cell ss:StyleID="s93"><Data ss:Type="Number">1539</Data><Comment
+      ss:Author="I.Stat"><ss:Data xmlns="http://www.w3.org/TR/REC-html40"><Font
+        html:Face="Tahoma" x:CharSet="1" html:Size="9" html:Color="#000000">p: dato provvisorio</Font></ss:Data></Comment></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s95" ss:HRef="http://dativ7a.istat.it/"
+     x:HRefScreenTip="Click once to display linked information. Click and hold to select this cell."><Data
+      ss:Type="String">Dati estratti il 20 nov 2023, 11h09 UTC (GMT) da I.Stat</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s96"><Data ss:Type="String">Legend:</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="s97"><Data ss:Type="String">p:</Data></Cell>
+    <Cell ss:StyleID="s96"><Data ss:Type="String">dato provvisorio</Data></Cell>
+   </Row>
+  </Table>
+  <WorksheetOptions xmlns="urn:schemas-microsoft-com:office:excel">
+   <Print>
+    <ValidPrinterInfo/>
+    <VerticalResolution>0</VerticalResolution>
+   </Print>
+   <Selected/>
+   <DoNotDisplayGridlines/>
+   <TopRowVisible>71</TopRowVisible>
+   <ProtectObjects>False</ProtectObjects>
+   <ProtectScenarios>False</ProtectScenarios>
+  </WorksheetOptions>
+ </Worksheet>
+</Workbook>

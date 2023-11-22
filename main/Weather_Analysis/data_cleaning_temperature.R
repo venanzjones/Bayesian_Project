@@ -1,8 +1,8 @@
 library(dplyr)
 library(lubridate)
 library(tidyr)
-ozono <- read.csv("../Dati_iniziali/datasetO3.csv")
-stazioni <- read.csv("../Dati_iniziali/stazioni_O3.csv")
+ozono <- read.csv("./Dati_iniziali/datasetO3.csv")
+stazioni <- read.csv("./Dati_iniziali/stazioni_O3.csv")
 stazioni.usate <- stazioni[which(stazioni$IdSensore %in% unique(ozono$idSensore)), ]
 rm(ozono)
 
@@ -33,15 +33,16 @@ map_beaufort <- function(x) {
   }
 }
 
+
 for (i in 1:51) {
-  staz <- read.csv(paste0("../Weather_Analysis/weather/staz", i, ".csv"), skip = 2, header = T)
+  staz <- read.csv(paste0("./Weather_Analysis/weather/staz", i, ".csv"), skip = 2, header = T)
 
   staz$time <- ymd(staz$time)
   staz$Year <- year(staz$time)
   staz$Month <- month(staz$time)
   staz$Day <- day(staz$time)
   staz$beaufort = sapply(staz$wind_speed_10m_max..km.h, map_beaufort)
-  staz <- staz[which(staz$Month %in% 5:10), ]
+  staz <- staz[which(staz$Month %in% 4:10), ]
   # threshold <- quantile(staz$wind_speed_10m_max..km.h., 0.75)
   # threshold = 18
 
@@ -78,5 +79,4 @@ for (i in 1:51) {
 }
 
 
-
-write.csv(combined_df, "../Weather_Analysis/weather_data.csv", row.names = FALSE)
+write.csv(combined_df, "./Weather_Analysis/weather_data.csv", row.names = FALSE)
