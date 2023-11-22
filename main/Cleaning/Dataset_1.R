@@ -220,15 +220,15 @@ n <- 13
 vertical_lines_x <- seq(k, n * k, by = k)
 abline(v = vertical_lines_x, col = "black")
 
-media <- NULL
-varianza <- NULL
+mean <- NULL
+variance <- NULL
 for (i in sensors) {
-  media <- c(media, mean(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore == i)])))
-  varianza <- c(varianza, sd(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore == i)])))
+  mean <- c(mean, mean(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore == i)])))
+  variance <- c(variance, sd(na.omit(Dataset_180$Count_180[which(Dataset_180$idSensore == i)])))
 }
 
 xx <- seq(0, 4, by = 0.1)
-plot(media, varianza, xlim = c(0, 4), ylim = c(0, 4))
+plot(mean, variance, xlim = c(0, 4), ylim = c(0, 4))
 lines(xx, xx)
 
 zero <- NULL
