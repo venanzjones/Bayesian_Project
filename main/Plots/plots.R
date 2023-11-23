@@ -1,5 +1,6 @@
 library(leaflet)
 library(dplyr)
+library(tidyr)
 library(lubridate)
 # library(geojsonio)
 # library(viridis)
@@ -13,7 +14,7 @@ library(rnaturalearth)
 ozono <- read.csv("./Dati_iniziali/datasetO3.csv")
 stazioni <- read.csv("./Dati_iniziali/stazioni_O3.csv")
 stazioni.usate <- stazioni[which(stazioni$IdSensore %in% unique(ozono$idSensore)), ]
-rm(ozono)
+# rm(ozono)
 
 
 
@@ -101,16 +102,21 @@ data <- ozono_filtered %>%
 wrapped <- data[c(1,3,4,5,6,7)] %>% 
   pivot_wider(names_from = idSensore, values_from = Valore, values_fill = 0)
 
-days <- 1:720
+
+days <- 1:96
+
 x11()
-matplot(wrapped[days,5:55], type = 'l', xaxt = "n", xlab = "June 2019", ylab = "Ozone concentration")
+matplot(wrapped[,5:55], type = 'l', xaxt = "n", 
+        ylab = "Ozone concentration")
 abline(h = c(120,180),  lty = 5)
 for (i in 5:55) {
-  bigpoints <- which(wrapped[days,i]>120)
-  points( bigpoints, t(wrapped[bigpoints,i]) ,  pch = 15, col = i-5)
+  bigpoints <- which(wrapped[,i]>120)
+  points( bigpoints, t(wrapped[bigpoints,i]) ,  pch = 16, col =  'darkorange' , cex = .35 )
 }
 for (i in 5:55) {
-  bigpoints <- which(wrapped[days,i]>180)
-  points( bigpoints, t(wrapped[bigpoints,i]) ,  pch = 15, col = i-5)
+  bigpoints <- which(wrapped[,i]>180)
+  points( bigpoints, t(wrapped[bigpoints,i]) ,  pch = 16, col =  'darkorange3', cex = .6)
 }
+legend("topleft", legend=c("Values > 120", "Values > 180"), 
+       cex = .6, col = c("darkorange","darkorange3" ), pch = c(16, 16))
 

@@ -107,11 +107,16 @@ mis_month
 image(Na_mese, y = 1:104)
 sum(Na_mese > 0)
 # Non sono un problema, balziamo il mese e andiamo avanti -> 128
+col_palette <- colorRampPalette(c("#fffdd0", '#028EB9'))
 
 x11()
 par(mfrow = c(1, 2))
-image(Na_giorni)
-image(Na_ore)
+image(Na_giorni, axes=FALSE, col=col_palette(10000))
+axis(1, at = seq(0,1, length=51), labels = sensors, cex.axis = 0.8, las = 2)
+axis(2, at = seq(0,1, length=13), labels = (years), cex.axis = 0.8, las = 0)
+image(Na_ore, axes = FALSE, col=col_palette(10000))
+axis(1, at = seq(0,1, length=51), labels = sensors, cex.axis = 0.8, las = 2)
+axis(2, at = seq(0,1, length=13), labels = (years), cex.axis = 0.8, las = 0)
 
 C <- NULL
 for (i in 1:length(sensors))
