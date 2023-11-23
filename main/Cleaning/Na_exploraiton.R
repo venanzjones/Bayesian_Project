@@ -107,6 +107,7 @@ mis_month
 image(Na_mese, y = 1:104)
 sum(Na_mese > 0)
 # Non sono un problema, balziamo il mese e andiamo avanti -> 128
+col_palette <- colorRampPalette(c("#fffdd0", '#028EB9'))
 
 col_palette <- colorRampPalette(c("#fffdd0", '#028EB9'))
 

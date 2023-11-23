@@ -1,42 +1,6 @@
-library(dplyr)
-library(tidyr)
-weather <- read.csv("../Weather_Analysis/weather_data.csv")
-colnames(weather)[c(3,4,5,6,7,8)] = c("temp","prec_sum","prec_hours","max_wind","max_radiation","day_above_quantile")
-
-sapply(weather, function(y) sum(length(which(is.na(y)))))
-
-#temperature
-wrapped_temp <- weather[,c(1,2,3,9)] %>%   
-  pivot_wider(names_from = Station, values_from = temp, values_fill = 0)
-
-matplot(wrapped_temp[,-c(1,2)], pch = 16, type = 'l')
-
-# prec sum 
-wrapped_prec_sum <- weather[,c(1,2,4,9)] %>%   
-  pivot_wider(names_from = Station, values_from = prec_sum, values_fill = 0)
-
-matplot(wrapped_prec_sum[,-c(1,2)], pch = 16, type = 'l')
-
-# prec hours
-wrapped_prec_hours <- weather[,-c(3,4,6)] %>%   
-  pivot_wider(names_from = Station, values_from = prec_hours, values_fill = 0)
-
-matplot(wrapped_prec_hours[,-c(1,2)], pch = 16, type = 'l')
-
-# wind
-wrapped_wind <- weather[,-c(3,4,5)] %>%   
-  pivot_wider(names_from = Station, values_from = max_wind, values_fill = 0)
-
-matplot(wrapped_wind[,-c(1,2)], pch = 16, type = 'l')
-
-col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
-corrplot::corrplot(cor(weather[,c(3,4,5,6,7,8)]), method = "color", col = col(200),
-                   addCoef.col = "black", order = "hclust" ,
-                   tl.col="black", tl.srt=45, insig = "blank", sig.level = .01)
-
 # Here I create the dataset "by hand" (most tedious and boring part, thank Vena later)
 
-stazioni = read.csv("../Dati_iniziali/stazioni_O3.csv", )
+stazioni = read.csv("./Dati_iniziali/stazioni_O3.csv", )
 
 Types = data.frame(type = rep("urban",51))
 
@@ -116,4 +80,48 @@ type[51] = "rural"
 Types$type = type
 
 
+density = stazioni.usate[,c("IdSensore","Comune")]
+density[,c(3:15)] = 0
+names(density) = c("IdSensore","Comune","2010","2011","2012","2013",
+                   "2014","2015","2016","2017","2018","2019","2020","2021","2022")
 
+comuni = unique(density$Comune) 
+for( comune in comuni ){
+  cm <- read.csv(paste0("./Weather_Analysis/comuni/", comune, ".csv"), header = T)[,c(11:20)]
+  density[which(density$Comune == comune),3:12] = tail.matrix(cm, 1)
+}
+
+ultimi = readxl::read_xlsx("./Weather_Analysis/comuni/prova.xlsx")
+
+for( comune in comuni ){
+  if (comune != "Magenta" & comune !="Calusco d'Adda" & comune != "Cornale"){
+  density[which(density$Comune == comune),13] = ultimi[which(ultimi$Comune == comune),2]
+  density[which(density$Comune == comune),14] = ultimi[which(ultimi$Comune == comune),3]
+  density[which(density$Comune == comune),15] = ultimi[which(ultimi$Comune == comune),4]
+}
+}
+
+density[which(density$Comune ==  "Calusco d'Adda"),13] = 8260
+density[which(density$Comune ==  "Calusco d'Adda"),14] = 8210
+density[which(density$Comune ==  "Calusco d'Adda"),15] = 8231
+
+density[which(density$Comune ==  "Magenta"),13] = 24082	
+density[which(density$Comune ==  "Magenta"),14] = 24107
+density[which(density$Comune ==  "Magenta"),15] = 24130
+
+density[which(density$Comune ==  "Cornale"),13] = 831	
+density[which(density$Comune ==  "Cornale"),14] = 820	
+density[which(density$Comune ==  "Cornale"),15] = 798
+
+estensioni = readxl::read_xlsx("./Weather_Analysis/comuni/Estensione_comuni.xlsx")
+colnames(estensioni) = c("Comune","Est")
+
+for (comune in comuni) {
+  idx = which(density$Comune == comune)
+  est = as.numeric(estensioni[which(estensioni$Comune == comune), 2]$Est)
+  density[idx, 3:15] = density[idx, 3:15] / est
+}
+
+
+density$Type = Types$type
+write.csv(density, "./Weather_Analysis/density.csv", row.names = FALSE)
