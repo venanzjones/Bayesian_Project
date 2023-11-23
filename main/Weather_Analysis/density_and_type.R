@@ -125,23 +125,3 @@ for (comune in comuni) {
 
 density$Type = Types$type
 write.csv(density, "./Weather_Analysis/density.csv", row.names = FALSE)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

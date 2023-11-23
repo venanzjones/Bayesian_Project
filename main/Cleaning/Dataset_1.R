@@ -207,18 +207,23 @@ abline(h = 0.1)
 # Togliere questi è troppo, togliere gli ultimi però sembra necessario. Questa è la mia proposta
 
 Dataset_180 <- count_180_df[-which(count_180_df$idSensore %in% sensors[46:51]), ]
-
 sensors <- unique(Dataset_180$idSensore)
-mat_plot <- NULL
-for (i in sensors) {
-  mat_plot <- rbind(mat_plot, Dataset_180$Count_180[which(Dataset_180$idSensore == i)])
-}
 
-matplot(t(mat_plot), type = "l")
-k <- 7
-n <- 13
-vertical_lines_x <- seq(k, n * k, by = k)
-abline(v = vertical_lines_x, col = "black")
+# Plot of the responses over 2010-2022
+
+y120$Count_180 = NULL
+
+wrapped180 = y180 %>%
+  pivot_wider(names_from = IdSensore, values_from = Count_180, values_fill = 0)
+
+matplot(wrapped180[-c(1,2)], type = 'l', ylab = "Day count", ylim = c(0,30),
+        xaxt = "n",main = "Days with max > 180")
+
+ticks <- seq(4.5,88.5,by = 7)
+labels <- c("2010","2011","2012","2013","2014","2015","2016","2017",
+            "2018","2019","2020","2021","2022")
+axis(1, at = c(ticks), labels = labels)
+abline(v = seq(8,86,7), lty = 4)
 
 media <- NULL
 varianza <- NULL
