@@ -83,7 +83,6 @@ for (i in 1:51) {
 
 combined_df <- data.frame()
 
-# change to 51 later
 for (i in 1:51) {
   monthly_means_list[[i]]$Station <- i
   combined_df <- bind_rows(combined_df, monthly_means_list[[i]])
@@ -131,5 +130,15 @@ combined_df <- left_join(combined_df, stazioni_ausiliario, by = c("Station" = "I
 combined_df <- combined_df %>%
   filter(!Station %in% Id_chiusi)
 
+### Aggiungo Type
 
-write.csv(combined_df, "weather_complete.csv", row.names = FALSE)
+type <- density[,c(1,16)]
+
+type <- type %>%
+  filter(!IdSensore %in% Id_chiusi)
+
+combined_df <- left_join(combined_df, type, by = c("Station" = "IdSensore"))
+
+
+
+write.csv(combined_df, "./Dati_iniziali/X.csv", row.names = FALSE)
