@@ -195,6 +195,7 @@ for (s in unique(maximum_df$idSensore)) {
 count_120_df <- data.frame(count_120_df)
 colnames(count_120_df) <- c("Count_120", "idSensore", "Year", "Month")
 
+
 write.csv(count_120_df, "./Datasets/Dataset_120.csv", row.names = FALSE)
 
 ## Na analysis
@@ -260,3 +261,10 @@ for (i in sensors) {
 image(zero)
 sum(na.omit(Dataset_120$Count_120) == 0)
 sum(na.omit(Dataset_120$Count_120) == 0) / nrow(Dataset_120)
+
+
+### Elimino le stazioni chiuse
+combined_df <- combined_df %>%
+  filter(!Station %in% Id_chiusi)
+
+write.csv(count_120_df, "./Datasets/Dataset_120.csv", row.names = FALSE)

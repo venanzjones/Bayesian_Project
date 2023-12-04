@@ -1,10 +1,10 @@
 library(dplyr)
 library(tidyr)
 
-weather <- read.csv("./Weather_Analysis/weather_data.csv")
+weather <- read.csv("./Dataset_construction/weather_data.csv")
 colnames(weather)[c(3,4,5,6,7,8,9)] = c("temp","prec_sum","prec_hours","max_wind","max_radiation","day_above_quantile","IdSensore")
 
-density = read.csv("./Weather_Analysis/density.csv")
+density = read.csv("./Dataset_construction/density.csv")
 names(density) = c("IdSensore","Comune","2010","2011","2012","2013",
                    "2014","2015","2016","2017","2018","2019","2020","2021","2022")
 

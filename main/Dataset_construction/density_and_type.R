@@ -87,11 +87,11 @@ names(density) = c("IdSensore","Comune","2010","2011","2012","2013",
 
 comuni = unique(density$Comune) 
 for( comune in comuni ){
-  cm <- read.csv(paste0("./Weather_Analysis/comuni/", comune, ".csv"), header = T)[,c(11:20)]
+  cm <- read.csv(paste0("./Dataset_construction/comuni/", comune, ".csv"), header = T)[,c(11:20)]
   density[which(density$Comune == comune),3:12] = tail.matrix(cm, 1)
 }
 
-ultimi = readxl::read_xlsx("./Weather_Analysis/comuni/prova.xlsx")
+ultimi = readxl::read_xlsx("./Dataset_construction/comuni/prova.xlsx")
 
 for( comune in comuni ){
   if (comune != "Magenta" & comune !="Calusco d'Adda" & comune != "Cornale"){
@@ -113,7 +113,7 @@ density[which(density$Comune ==  "Cornale"),13] = 831
 density[which(density$Comune ==  "Cornale"),14] = 820	
 density[which(density$Comune ==  "Cornale"),15] = 798
 
-estensioni = readxl::read_xlsx("./Weather_Analysis/comuni/Estensione_comuni.xlsx")
+estensioni = readxl::read_xlsx("./Dataset_construction/comuni/Estensione_comuni.xlsx")
 colnames(estensioni) = c("Comune","Est")
 
 for (comune in comuni) {
@@ -124,4 +124,4 @@ for (comune in comuni) {
 
 
 density$Type = Types$type
-write.csv(density, "./Weather_Analysis/density.csv", row.names = FALSE)
+write.csv(density, "./Dataset_construction/density.csv", row.names = FALSE)
