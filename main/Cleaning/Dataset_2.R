@@ -264,7 +264,7 @@ sum(na.omit(Dataset_120$Count_120) == 0) / nrow(Dataset_120)
 
 
 ### Elimino le stazioni chiuse
-combined_df <- combined_df %>%
-  filter(!Station %in% Id_chiusi)
+count_120_df <- count_120_df %>%
+  filter(!idSensore %in% Id_chiusi)
 
 write.csv(count_120_df, "./Datasets/Dataset_120.csv", row.names = FALSE)
