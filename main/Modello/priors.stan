@@ -2,7 +2,7 @@
 
 data {
   int<lower=1> N; // Number of observations
-  int<lower=1> P; // Covariate number (should be around 10)
+  int<lower=1> P; // Covariate number
   int<lower=1> nyears;
   int<lower=1> nstations;
 
@@ -38,13 +38,11 @@ transformed parameters {
 
 model {
 
-  beta ~ normal(0, 10);
-  xi ~ normal(0, 10);
-  eta ~ normal(0, 10);
+  beta ~ normal(0, 2);
+  xi ~ normal(0, 2);
+  eta ~ normal(0, 2);
+  y[1:N] ~ poisson(lambda[1:N]);
 
-  for (n in 1:N) {
-    y[n] ~ poisson(lambda[n]);
-  }
 
 }
 

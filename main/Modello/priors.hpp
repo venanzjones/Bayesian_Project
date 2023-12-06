@@ -4,7 +4,7 @@ namespace priors_model_namespace {
 using stan::model::model_base_crtp;
 using namespace stan::math;
 stan::math::profile_map profiles__;
-static constexpr std::array<const char*, 35> locations_array__ =
+static constexpr std::array<const char*, 33> locations_array__ =
   {" (found before start of program)",
   " (in 'priors.stan', line 19, column 2 to column 17)",
   " (in 'priors.stan', line 20, column 2 to column 24)",
@@ -15,12 +15,10 @@ static constexpr std::array<const char*, 35> locations_array__ =
   " (in 'priors.stan', line 33, column 4 to column 40)",
   " (in 'priors.stan', line 34, column 4 to column 23)",
   " (in 'priors.stan', line 36, column 4 to column 38)",
-  " (in 'priors.stan', line 41, column 2 to column 23)",
-  " (in 'priors.stan', line 42, column 2 to column 21)",
-  " (in 'priors.stan', line 43, column 2 to column 22)",
-  " (in 'priors.stan', line 46, column 4 to column 30)",
-  " (in 'priors.stan', line 45, column 17 to line 47, column 3)",
-  " (in 'priors.stan', line 45, column 2 to line 47, column 3)",
+  " (in 'priors.stan', line 41, column 2 to column 22)",
+  " (in 'priors.stan', line 42, column 2 to column 20)",
+  " (in 'priors.stan', line 43, column 2 to column 21)",
+  " (in 'priors.stan', line 44, column 2 to column 32)",
   " (in 'priors.stan', line 4, column 2 to column 17)",
   " (in 'priors.stan', line 5, column 2 to column 17)",
   " (in 'priors.stan', line 6, column 2 to column 22)",
@@ -74,74 +72,74 @@ class priors_model final : public model_base_crtp<priors_model> {
     try {
       int pos__ = std::numeric_limits<int>::min();
       pos__ = 1;
-      current_statement__ = 16;
+      current_statement__ = 14;
       context__.validate_dims("data initialization", "N", "int",
         std::vector<size_t>{});
       N = std::numeric_limits<int>::min();
-      current_statement__ = 16;
+      current_statement__ = 14;
       N = context__.vals_i("N")[(1 - 1)];
-      current_statement__ = 16;
+      current_statement__ = 14;
       stan::math::check_greater_or_equal(function__, "N", N, 1);
-      current_statement__ = 17;
+      current_statement__ = 15;
       context__.validate_dims("data initialization", "P", "int",
         std::vector<size_t>{});
       P = std::numeric_limits<int>::min();
-      current_statement__ = 17;
+      current_statement__ = 15;
       P = context__.vals_i("P")[(1 - 1)];
-      current_statement__ = 17;
+      current_statement__ = 15;
       stan::math::check_greater_or_equal(function__, "P", P, 1);
-      current_statement__ = 18;
+      current_statement__ = 16;
       context__.validate_dims("data initialization", "nyears", "int",
         std::vector<size_t>{});
       nyears = std::numeric_limits<int>::min();
-      current_statement__ = 18;
+      current_statement__ = 16;
       nyears = context__.vals_i("nyears")[(1 - 1)];
-      current_statement__ = 18;
+      current_statement__ = 16;
       stan::math::check_greater_or_equal(function__, "nyears", nyears, 1);
-      current_statement__ = 19;
+      current_statement__ = 17;
       context__.validate_dims("data initialization", "nstations", "int",
         std::vector<size_t>{});
       nstations = std::numeric_limits<int>::min();
-      current_statement__ = 19;
+      current_statement__ = 17;
       nstations = context__.vals_i("nstations")[(1 - 1)];
-      current_statement__ = 19;
+      current_statement__ = 17;
       stan::math::check_greater_or_equal(function__, "nstations", nstations,
         1);
-      current_statement__ = 20;
+      current_statement__ = 18;
       stan::math::validate_non_negative_index("station", "N", N);
-      current_statement__ = 21;
+      current_statement__ = 19;
       context__.validate_dims("data initialization", "station", "int",
         std::vector<size_t>{static_cast<size_t>(N)});
       station = std::vector<int>(N, std::numeric_limits<int>::min());
-      current_statement__ = 21;
+      current_statement__ = 19;
       station = context__.vals_i("station");
-      current_statement__ = 21;
+      current_statement__ = 19;
       stan::math::check_greater_or_equal(function__, "station", station, 1);
-      current_statement__ = 22;
+      current_statement__ = 20;
       stan::math::validate_non_negative_index("year", "N", N);
-      current_statement__ = 23;
+      current_statement__ = 21;
       context__.validate_dims("data initialization", "year", "int",
         std::vector<size_t>{static_cast<size_t>(N)});
       year = std::vector<int>(N, std::numeric_limits<int>::min());
-      current_statement__ = 23;
+      current_statement__ = 21;
       year = context__.vals_i("year");
-      current_statement__ = 23;
+      current_statement__ = 21;
       stan::math::check_greater_or_equal(function__, "year", year, 1);
-      current_statement__ = 24;
+      current_statement__ = 22;
       stan::math::validate_non_negative_index("y", "N", N);
-      current_statement__ = 25;
+      current_statement__ = 23;
       context__.validate_dims("data initialization", "y", "int",
         std::vector<size_t>{static_cast<size_t>(N)});
       y = std::vector<int>(N, std::numeric_limits<int>::min());
-      current_statement__ = 25;
+      current_statement__ = 23;
       y = context__.vals_i("y");
-      current_statement__ = 25;
+      current_statement__ = 23;
       stan::math::check_greater_or_equal(function__, "y", y, 0);
-      current_statement__ = 26;
+      current_statement__ = 24;
       stan::math::validate_non_negative_index("X", "N", N);
-      current_statement__ = 27;
+      current_statement__ = 25;
       stan::math::validate_non_negative_index("X", "P", P);
-      current_statement__ = 28;
+      current_statement__ = 26;
       context__.validate_dims("data initialization", "X", "double",
         std::vector<size_t>{static_cast<size_t>(N), static_cast<size_t>(P)});
       X_data__ = Eigen::Matrix<double,-1,-1>::Constant(N, P,
@@ -149,7 +147,7 @@ class priors_model final : public model_base_crtp<priors_model> {
       new (&X) Eigen::Map<Eigen::Matrix<double,-1,-1>>(X_data__.data(), N, P);
       {
         std::vector<local_scalar_t__> X_flat__;
-        current_statement__ = 28;
+        current_statement__ = 26;
         X_flat__ = context__.vals_r("X");
         pos__ = 1;
         for (int sym1__ = 1; sym1__ <= P; ++sym1__) {
@@ -161,17 +159,17 @@ class priors_model final : public model_base_crtp<priors_model> {
           }
         }
       }
-      current_statement__ = 29;
+      current_statement__ = 27;
       stan::math::validate_non_negative_index("beta", "P", P);
-      current_statement__ = 30;
+      current_statement__ = 28;
       stan::math::validate_non_negative_index("eta", "nstations", nstations);
-      current_statement__ = 31;
+      current_statement__ = 29;
       stan::math::validate_non_negative_index("xi", "nyears", nyears);
-      current_statement__ = 32;
+      current_statement__ = 30;
       stan::math::validate_non_negative_index("lambda", "N", N);
-      current_statement__ = 33;
+      current_statement__ = 31;
       stan::math::validate_non_negative_index("intercept", "N", N);
-      current_statement__ = 34;
+      current_statement__ = 32;
       stan::math::validate_non_negative_index("fix_eff", "N", N);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -244,20 +242,17 @@ class priors_model final : public model_base_crtp<priors_model> {
         "assigning variable lambda");
       {
         current_statement__ = 10;
-        lp_accum__.add(stan::math::normal_lpdf<propto__>(beta, 0, 10));
+        lp_accum__.add(stan::math::normal_lpdf<propto__>(beta, 0, 2));
         current_statement__ = 11;
-        lp_accum__.add(stan::math::normal_lpdf<propto__>(xi, 0, 10));
+        lp_accum__.add(stan::math::normal_lpdf<propto__>(xi, 0, 2));
         current_statement__ = 12;
-        lp_accum__.add(stan::math::normal_lpdf<propto__>(eta, 0, 10));
-        current_statement__ = 15;
-        for (int n = 1; n <= N; ++n) {
-          current_statement__ = 13;
-          lp_accum__.add(stan::math::poisson_lpmf<propto__>(
-                           stan::model::rvalue(y, "y",
-                             stan::model::index_uni(n)),
-                           stan::model::rvalue(lambda, "lambda",
-                             stan::model::index_uni(n))));
-        }
+        lp_accum__.add(stan::math::normal_lpdf<propto__>(eta, 0, 2));
+        current_statement__ = 13;
+        lp_accum__.add(stan::math::poisson_lpmf<propto__>(
+                         stan::model::rvalue(y, "y",
+                           stan::model::index_min_max(1, N)),
+                         stan::model::rvalue(lambda, "lambda",
+                           stan::model::index_min_max(1, N))));
       }
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
@@ -324,20 +319,17 @@ class priors_model final : public model_base_crtp<priors_model> {
         "assigning variable lambda");
       {
         current_statement__ = 10;
-        lp_accum__.add(stan::math::normal_lpdf<propto__>(beta, 0, 10));
+        lp_accum__.add(stan::math::normal_lpdf<propto__>(beta, 0, 2));
         current_statement__ = 11;
-        lp_accum__.add(stan::math::normal_lpdf<propto__>(xi, 0, 10));
+        lp_accum__.add(stan::math::normal_lpdf<propto__>(xi, 0, 2));
         current_statement__ = 12;
-        lp_accum__.add(stan::math::normal_lpdf<propto__>(eta, 0, 10));
-        current_statement__ = 15;
-        for (int n = 1; n <= N; ++n) {
-          current_statement__ = 13;
-          lp_accum__.add(stan::math::poisson_lpmf<propto__>(
-                           stan::model::rvalue(y, "y",
-                             stan::model::index_uni(n)),
-                           stan::model::rvalue(lambda, "lambda",
-                             stan::model::index_uni(n))));
-        }
+        lp_accum__.add(stan::math::normal_lpdf<propto__>(eta, 0, 2));
+        current_statement__ = 13;
+        lp_accum__.add(stan::math::poisson_lpmf<propto__>(
+                         stan::model::rvalue(y, "y",
+                           stan::model::index_min_max(1, N)),
+                         stan::model::rvalue(lambda, "lambda",
+                           stan::model::index_min_max(1, N))));
       }
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
