@@ -177,10 +177,7 @@ for (s in unique(maximum_df$idSensore)) {
 count_180_df <- data.frame(count_180_df)
 colnames(count_180_df) <- c("Count_180", "idSensore", "Year", "Month")
 
-write.csv(count_180_df, "./Datasets/Dataset_180.csv", row.names = FALSE)
-
 #### Plot the Nas of the full final dataset####
-count_180_df <- read.csv("./Datasets/Dataset_180.csv")
 
 sensors <- unique(count_180_df$idSensore)
 years <- 2010:2022
@@ -208,6 +205,8 @@ abline(h = 0.1)
 
 Dataset_180 <- count_180_df[-which(count_180_df$idSensore %in% sensors[46:51]), ]
 sensors <- unique(Dataset_180$idSensore)
+
+write.csv(Dataset_180, "./Datasets/Dataset_180.csv", row.names = FALSE)
 
 # Plot of the responses over 2010-2022
 
@@ -243,3 +242,7 @@ for (i in sensors) {
 image(zero)
 sum(na.omit(Dataset_180$Count_180) == 0)
 sum(na.omit(Dataset_180$Count_180) == 0) / nrow(Dataset_180)
+
+write.csv(count_180_df, "./Datasets/Dataset_180.csv", row.names = FALSE)
+
+
