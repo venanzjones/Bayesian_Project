@@ -17,7 +17,7 @@ data {
 
 parameters {
   vector[P] beta; // Coefficients for predictors
-  //vector[nstations] eta; // Random effects for comuni
+  vector[nstations] eta; // Random effects for comuni
   vector[nyears] xi; // Random effects for years
 
   //real<lower=0> sigma0; // Standard deviation for beta
@@ -30,7 +30,7 @@ transformed parameters {
     vector[N] intercept;
     vector[N] fix_eff;
 
-    intercept = xi[year]; // + eta[station];
+    intercept = xi[year] + eta[station];
     fix_eff = X * beta;
 
     lambda = exp(intercept + fix_eff);
@@ -40,7 +40,7 @@ model {
 
   beta ~ normal(0, 2);
   xi ~ normal(0, 2);
-  //eta ~ normal(0, 2);
+  eta ~ normal(0, 2);
   y[1:N] ~ poisson(lambda[1:N]);
 
 

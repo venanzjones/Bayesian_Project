@@ -32,3 +32,16 @@ for (i in 1:(length(mesi)-1))
   svgm <- variogram(Count_120 ~ 1, first)
   plot(svgm$dist, svgm$gamma, col='skyblue', main = 'Sample Variogram',pch=19)
 }
+
+
+####Prova sugli eta####
+data <- read.csv("Datasets/eta_120.csv")
+stazioni <- read.csv("Dati_iniziali/stazioni_O3.csv")
+to_get <- which(stazioni$IdSensore %in% gsub("X", "", names(data)))
+stazioni <- stazioni[to_get ,]
+
+dati <- data.frame(val=colMeans(data), id = stazioni$IdSensore, lat = stazioni$lat, lon=stazioni$lng)
+
+coordinates(dati) <- c('lat','lon')
+svgm <- variogram(val ~ 1, dati)
+plot(svgm, main = 'Sample Variogram',pch=19)
