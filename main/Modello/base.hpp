@@ -4,43 +4,30 @@ namespace base_model_namespace {
 using stan::model::model_base_crtp;
 using namespace stan::math;
 stan::math::profile_map profiles__;
-static constexpr std::array<const char*, 38> locations_array__ =
+static constexpr std::array<const char*, 25> locations_array__ =
   {" (found before start of program)",
   " (in 'base.stan', line 19, column 2 to column 17)",
-  " (in 'base.stan', line 20, column 2 to column 24)",
-  " (in 'base.stan', line 21, column 2 to column 20)",
   " (in 'base.stan', line 29, column 4 to column 21)",
-  " (in 'base.stan', line 30, column 4 to column 24)",
   " (in 'base.stan', line 31, column 4 to column 22)",
   " (in 'base.stan', line 49, column 1 to column 19)",
-  " (in 'base.stan', line 33, column 4 to column 40)",
   " (in 'base.stan', line 34, column 4 to column 23)",
-  " (in 'base.stan', line 36, column 4 to column 38)",
+  " (in 'base.stan', line 36, column 4 to column 26)",
   " (in 'base.stan', line 51, column 3 to column 54)",
   " (in 'base.stan', line 50, column 14 to line 52, column 1)",
   " (in 'base.stan', line 50, column 1 to line 52, column 1)",
   " (in 'base.stan', line 41, column 2 to column 22)",
-  " (in 'base.stan', line 42, column 2 to column 20)",
-  " (in 'base.stan', line 43, column 2 to column 21)",
   " (in 'base.stan', line 44, column 2 to column 32)",
   " (in 'base.stan', line 4, column 2 to column 17)",
   " (in 'base.stan', line 5, column 2 to column 17)",
   " (in 'base.stan', line 6, column 2 to column 22)",
   " (in 'base.stan', line 7, column 2 to column 25)",
-  " (in 'base.stan', line 10, column 8 to column 9)",
-  " (in 'base.stan', line 10, column 2 to column 32)",
-  " (in 'base.stan', line 11, column 8 to column 9)",
-  " (in 'base.stan', line 11, column 2 to column 29)",
   " (in 'base.stan', line 14, column 8 to column 9)",
   " (in 'base.stan', line 14, column 2 to column 26)",
   " (in 'base.stan', line 15, column 9 to column 10)",
   " (in 'base.stan', line 15, column 12 to column 13)",
   " (in 'base.stan', line 15, column 2 to column 17)",
   " (in 'base.stan', line 19, column 9 to column 10)",
-  " (in 'base.stan', line 20, column 9 to column 18)",
-  " (in 'base.stan', line 21, column 9 to column 15)",
   " (in 'base.stan', line 29, column 11 to column 12)",
-  " (in 'base.stan', line 30, column 11 to column 12)",
   " (in 'base.stan', line 31, column 11 to column 12)",
   " (in 'base.stan', line 49, column 8 to column 9)"};
 class base_model final : public model_base_crtp<base_model> {
@@ -49,8 +36,6 @@ class base_model final : public model_base_crtp<base_model> {
   int P;
   int nyears;
   int nstations;
-  std::vector<int> station;
-  std::vector<int> year;
   std::vector<int> y;
   Eigen::Matrix<double,-1,-1> X_data__;
   Eigen::Map<Eigen::Matrix<double,-1,-1>> X{nullptr, 0, 0};
@@ -77,74 +62,54 @@ class base_model final : public model_base_crtp<base_model> {
     try {
       int pos__ = std::numeric_limits<int>::min();
       pos__ = 1;
-      current_statement__ = 18;
+      current_statement__ = 12;
       context__.validate_dims("data initialization", "N", "int",
         std::vector<size_t>{});
       N = std::numeric_limits<int>::min();
-      current_statement__ = 18;
+      current_statement__ = 12;
       N = context__.vals_i("N")[(1 - 1)];
-      current_statement__ = 18;
+      current_statement__ = 12;
       stan::math::check_greater_or_equal(function__, "N", N, 1);
-      current_statement__ = 19;
+      current_statement__ = 13;
       context__.validate_dims("data initialization", "P", "int",
         std::vector<size_t>{});
       P = std::numeric_limits<int>::min();
-      current_statement__ = 19;
+      current_statement__ = 13;
       P = context__.vals_i("P")[(1 - 1)];
-      current_statement__ = 19;
+      current_statement__ = 13;
       stan::math::check_greater_or_equal(function__, "P", P, 1);
-      current_statement__ = 20;
+      current_statement__ = 14;
       context__.validate_dims("data initialization", "nyears", "int",
         std::vector<size_t>{});
       nyears = std::numeric_limits<int>::min();
-      current_statement__ = 20;
+      current_statement__ = 14;
       nyears = context__.vals_i("nyears")[(1 - 1)];
-      current_statement__ = 20;
+      current_statement__ = 14;
       stan::math::check_greater_or_equal(function__, "nyears", nyears, 1);
-      current_statement__ = 21;
+      current_statement__ = 15;
       context__.validate_dims("data initialization", "nstations", "int",
         std::vector<size_t>{});
       nstations = std::numeric_limits<int>::min();
-      current_statement__ = 21;
+      current_statement__ = 15;
       nstations = context__.vals_i("nstations")[(1 - 1)];
-      current_statement__ = 21;
+      current_statement__ = 15;
       stan::math::check_greater_or_equal(function__, "nstations", nstations,
         1);
-      current_statement__ = 22;
-      stan::math::validate_non_negative_index("station", "N", N);
-      current_statement__ = 23;
-      context__.validate_dims("data initialization", "station", "int",
-        std::vector<size_t>{static_cast<size_t>(N)});
-      station = std::vector<int>(N, std::numeric_limits<int>::min());
-      current_statement__ = 23;
-      station = context__.vals_i("station");
-      current_statement__ = 23;
-      stan::math::check_greater_or_equal(function__, "station", station, 1);
-      current_statement__ = 24;
-      stan::math::validate_non_negative_index("year", "N", N);
-      current_statement__ = 25;
-      context__.validate_dims("data initialization", "year", "int",
-        std::vector<size_t>{static_cast<size_t>(N)});
-      year = std::vector<int>(N, std::numeric_limits<int>::min());
-      current_statement__ = 25;
-      year = context__.vals_i("year");
-      current_statement__ = 25;
-      stan::math::check_greater_or_equal(function__, "year", year, 1);
-      current_statement__ = 26;
+      current_statement__ = 16;
       stan::math::validate_non_negative_index("y", "N", N);
-      current_statement__ = 27;
+      current_statement__ = 17;
       context__.validate_dims("data initialization", "y", "int",
         std::vector<size_t>{static_cast<size_t>(N)});
       y = std::vector<int>(N, std::numeric_limits<int>::min());
-      current_statement__ = 27;
+      current_statement__ = 17;
       y = context__.vals_i("y");
-      current_statement__ = 27;
+      current_statement__ = 17;
       stan::math::check_greater_or_equal(function__, "y", y, 0);
-      current_statement__ = 28;
+      current_statement__ = 18;
       stan::math::validate_non_negative_index("X", "N", N);
-      current_statement__ = 29;
+      current_statement__ = 19;
       stan::math::validate_non_negative_index("X", "P", P);
-      current_statement__ = 30;
+      current_statement__ = 20;
       context__.validate_dims("data initialization", "X", "double",
         std::vector<size_t>{static_cast<size_t>(N), static_cast<size_t>(P)});
       X_data__ = Eigen::Matrix<double,-1,-1>::Constant(N, P,
@@ -152,7 +117,7 @@ class base_model final : public model_base_crtp<base_model> {
       new (&X) Eigen::Map<Eigen::Matrix<double,-1,-1>>(X_data__.data(), N, P);
       {
         std::vector<local_scalar_t__> X_flat__;
-        current_statement__ = 30;
+        current_statement__ = 20;
         X_flat__ = context__.vals_r("X");
         pos__ = 1;
         for (int sym1__ = 1; sym1__ <= P; ++sym1__) {
@@ -164,24 +129,18 @@ class base_model final : public model_base_crtp<base_model> {
           }
         }
       }
-      current_statement__ = 31;
+      current_statement__ = 21;
       stan::math::validate_non_negative_index("beta", "P", P);
-      current_statement__ = 32;
-      stan::math::validate_non_negative_index("eta", "nstations", nstations);
-      current_statement__ = 33;
-      stan::math::validate_non_negative_index("xi", "nyears", nyears);
-      current_statement__ = 34;
+      current_statement__ = 22;
       stan::math::validate_non_negative_index("lambda", "N", N);
-      current_statement__ = 35;
-      stan::math::validate_non_negative_index("intercept", "N", N);
-      current_statement__ = 36;
+      current_statement__ = 23;
       stan::math::validate_non_negative_index("fix_eff", "N", N);
-      current_statement__ = 37;
+      current_statement__ = 24;
       stan::math::validate_non_negative_index("log_lik", "N", N);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
-    num_params_r__ = P + nstations + nyears;
+    num_params_r__ = P;
   }
   inline std::string model_name() const final {
     return "base_model";
@@ -218,43 +177,20 @@ class base_model final : public model_base_crtp<base_model> {
         Eigen::Matrix<local_scalar_t__,-1,1>::Constant(P, DUMMY_VAR__);
       current_statement__ = 1;
       beta = in__.template read<Eigen::Matrix<local_scalar_t__,-1,1>>(P);
-      Eigen::Matrix<local_scalar_t__,-1,1> eta =
-        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(nstations,
-          DUMMY_VAR__);
-      current_statement__ = 2;
-      eta = in__.template read<
-              Eigen::Matrix<local_scalar_t__,-1,1>>(nstations);
-      Eigen::Matrix<local_scalar_t__,-1,1> xi =
-        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(nyears, DUMMY_VAR__);
-      current_statement__ = 3;
-      xi = in__.template read<Eigen::Matrix<local_scalar_t__,-1,1>>(nyears);
       Eigen::Matrix<local_scalar_t__,-1,1> lambda =
-        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(N, DUMMY_VAR__);
-      Eigen::Matrix<local_scalar_t__,-1,1> intercept =
         Eigen::Matrix<local_scalar_t__,-1,1>::Constant(N, DUMMY_VAR__);
       Eigen::Matrix<local_scalar_t__,-1,1> fix_eff =
         Eigen::Matrix<local_scalar_t__,-1,1>::Constant(N, DUMMY_VAR__);
-      current_statement__ = 8;
-      stan::model::assign(intercept,
-        stan::math::add(
-          stan::model::rvalue(xi, "xi", stan::model::index_multi(year)),
-          stan::model::rvalue(eta, "eta", stan::model::index_multi(station))),
-        "assigning variable intercept");
-      current_statement__ = 9;
+      current_statement__ = 5;
       stan::model::assign(fix_eff, stan::math::multiply(X, beta),
         "assigning variable fix_eff");
-      current_statement__ = 10;
-      stan::model::assign(lambda,
-        stan::math::exp(stan::math::add(intercept, fix_eff)),
+      current_statement__ = 6;
+      stan::model::assign(lambda, stan::math::exp(fix_eff),
         "assigning variable lambda");
       {
-        current_statement__ = 14;
+        current_statement__ = 10;
         lp_accum__.add(stan::math::normal_lpdf<propto__>(beta, 0, 2));
-        current_statement__ = 15;
-        lp_accum__.add(stan::math::normal_lpdf<propto__>(xi, 0, 2));
-        current_statement__ = 16;
-        lp_accum__.add(stan::math::normal_lpdf<propto__>(eta, 0, 2));
-        current_statement__ = 17;
+        current_statement__ = 11;
         lp_accum__.add(stan::math::poisson_lpmf<propto__>(
                          stan::model::rvalue(y, "y",
                            stan::model::index_min_max(1, N)),
@@ -295,43 +231,20 @@ class base_model final : public model_base_crtp<base_model> {
         Eigen::Matrix<local_scalar_t__,-1,1>::Constant(P, DUMMY_VAR__);
       current_statement__ = 1;
       beta = in__.template read<Eigen::Matrix<local_scalar_t__,-1,1>>(P);
-      Eigen::Matrix<local_scalar_t__,-1,1> eta =
-        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(nstations,
-          DUMMY_VAR__);
-      current_statement__ = 2;
-      eta = in__.template read<
-              Eigen::Matrix<local_scalar_t__,-1,1>>(nstations);
-      Eigen::Matrix<local_scalar_t__,-1,1> xi =
-        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(nyears, DUMMY_VAR__);
-      current_statement__ = 3;
-      xi = in__.template read<Eigen::Matrix<local_scalar_t__,-1,1>>(nyears);
       Eigen::Matrix<local_scalar_t__,-1,1> lambda =
-        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(N, DUMMY_VAR__);
-      Eigen::Matrix<local_scalar_t__,-1,1> intercept =
         Eigen::Matrix<local_scalar_t__,-1,1>::Constant(N, DUMMY_VAR__);
       Eigen::Matrix<local_scalar_t__,-1,1> fix_eff =
         Eigen::Matrix<local_scalar_t__,-1,1>::Constant(N, DUMMY_VAR__);
-      current_statement__ = 8;
-      stan::model::assign(intercept,
-        stan::math::add(
-          stan::model::rvalue(xi, "xi", stan::model::index_multi(year)),
-          stan::model::rvalue(eta, "eta", stan::model::index_multi(station))),
-        "assigning variable intercept");
-      current_statement__ = 9;
+      current_statement__ = 5;
       stan::model::assign(fix_eff, stan::math::multiply(X, beta),
         "assigning variable fix_eff");
-      current_statement__ = 10;
-      stan::model::assign(lambda,
-        stan::math::exp(stan::math::add(intercept, fix_eff)),
+      current_statement__ = 6;
+      stan::model::assign(lambda, stan::math::exp(fix_eff),
         "assigning variable lambda");
       {
-        current_statement__ = 14;
+        current_statement__ = 10;
         lp_accum__.add(stan::math::normal_lpdf<propto__>(beta, 0, 2));
-        current_statement__ = 15;
-        lp_accum__.add(stan::math::normal_lpdf<propto__>(xi, 0, 2));
-        current_statement__ = 16;
-        lp_accum__.add(stan::math::normal_lpdf<propto__>(eta, 0, 2));
-        current_statement__ = 17;
+        current_statement__ = 11;
         lp_accum__.add(stan::math::poisson_lpmf<propto__>(
                          stan::model::rvalue(y, "y",
                            stan::model::index_min_max(1, N)),
@@ -384,50 +297,26 @@ class base_model final : public model_base_crtp<base_model> {
           std::numeric_limits<double>::quiet_NaN());
       current_statement__ = 1;
       beta = in__.template read<Eigen::Matrix<local_scalar_t__,-1,1>>(P);
-      Eigen::Matrix<double,-1,1> eta =
-        Eigen::Matrix<double,-1,1>::Constant(nstations,
-          std::numeric_limits<double>::quiet_NaN());
-      current_statement__ = 2;
-      eta = in__.template read<
-              Eigen::Matrix<local_scalar_t__,-1,1>>(nstations);
-      Eigen::Matrix<double,-1,1> xi =
-        Eigen::Matrix<double,-1,1>::Constant(nyears,
-          std::numeric_limits<double>::quiet_NaN());
-      current_statement__ = 3;
-      xi = in__.template read<Eigen::Matrix<local_scalar_t__,-1,1>>(nyears);
       Eigen::Matrix<double,-1,1> lambda =
-        Eigen::Matrix<double,-1,1>::Constant(N,
-          std::numeric_limits<double>::quiet_NaN());
-      Eigen::Matrix<double,-1,1> intercept =
         Eigen::Matrix<double,-1,1>::Constant(N,
           std::numeric_limits<double>::quiet_NaN());
       Eigen::Matrix<double,-1,1> fix_eff =
         Eigen::Matrix<double,-1,1>::Constant(N,
           std::numeric_limits<double>::quiet_NaN());
       out__.write(beta);
-      out__.write(eta);
-      out__.write(xi);
       if (stan::math::logical_negation(
             (stan::math::primitive_value(emit_transformed_parameters__) ||
             stan::math::primitive_value(emit_generated_quantities__)))) {
         return ;
       }
-      current_statement__ = 8;
-      stan::model::assign(intercept,
-        stan::math::add(
-          stan::model::rvalue(xi, "xi", stan::model::index_multi(year)),
-          stan::model::rvalue(eta, "eta", stan::model::index_multi(station))),
-        "assigning variable intercept");
-      current_statement__ = 9;
+      current_statement__ = 5;
       stan::model::assign(fix_eff, stan::math::multiply(X, beta),
         "assigning variable fix_eff");
-      current_statement__ = 10;
-      stan::model::assign(lambda,
-        stan::math::exp(stan::math::add(intercept, fix_eff)),
+      current_statement__ = 6;
+      stan::model::assign(lambda, stan::math::exp(fix_eff),
         "assigning variable lambda");
       if (emit_transformed_parameters__) {
         out__.write(lambda);
-        out__.write(intercept);
         out__.write(fix_eff);
       }
       if (stan::math::logical_negation(emit_generated_quantities__)) {
@@ -436,9 +325,9 @@ class base_model final : public model_base_crtp<base_model> {
       Eigen::Matrix<double,-1,1> log_lik =
         Eigen::Matrix<double,-1,1>::Constant(N,
           std::numeric_limits<double>::quiet_NaN());
-      current_statement__ = 13;
+      current_statement__ = 9;
       for (int i = 1; i <= N; ++i) {
-        current_statement__ = 11;
+        current_statement__ = 7;
         stan::model::assign(log_lik,
           stan::math::poisson_lpmf<false>(
             stan::model::rvalue(y, "y", stan::model::index_uni(i)),
@@ -473,21 +362,6 @@ class base_model final : public model_base_crtp<base_model> {
         in__.read<Eigen::Matrix<local_scalar_t__,-1,1>>(P),
         "assigning variable beta");
       out__.write(beta);
-      Eigen::Matrix<local_scalar_t__,-1,1> eta =
-        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(nstations,
-          DUMMY_VAR__);
-      current_statement__ = 2;
-      stan::model::assign(eta,
-        in__.read<Eigen::Matrix<local_scalar_t__,-1,1>>(nstations),
-        "assigning variable eta");
-      out__.write(eta);
-      Eigen::Matrix<local_scalar_t__,-1,1> xi =
-        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(nyears, DUMMY_VAR__);
-      current_statement__ = 3;
-      stan::model::assign(xi,
-        in__.read<Eigen::Matrix<local_scalar_t__,-1,1>>(nyears),
-        "assigning variable xi");
-      out__.write(xi);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
@@ -508,12 +382,6 @@ class base_model final : public model_base_crtp<base_model> {
       current_statement__ = 1;
       context__.validate_dims("parameter initialization", "beta", "double",
         std::vector<size_t>{static_cast<size_t>(P)});
-      current_statement__ = 2;
-      context__.validate_dims("parameter initialization", "eta", "double",
-        std::vector<size_t>{static_cast<size_t>(nstations)});
-      current_statement__ = 3;
-      context__.validate_dims("parameter initialization", "xi", "double",
-        std::vector<size_t>{static_cast<size_t>(nyears)});
       int pos__ = std::numeric_limits<int>::min();
       pos__ = 1;
       Eigen::Matrix<local_scalar_t__,-1,1> beta =
@@ -530,35 +398,6 @@ class base_model final : public model_base_crtp<base_model> {
         }
       }
       out__.write(beta);
-      Eigen::Matrix<local_scalar_t__,-1,1> eta =
-        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(nstations,
-          DUMMY_VAR__);
-      {
-        std::vector<local_scalar_t__> eta_flat__;
-        current_statement__ = 2;
-        eta_flat__ = context__.vals_r("eta");
-        pos__ = 1;
-        for (int sym1__ = 1; sym1__ <= nstations; ++sym1__) {
-          stan::model::assign(eta, eta_flat__[(pos__ - 1)],
-            "assigning variable eta", stan::model::index_uni(sym1__));
-          pos__ = (pos__ + 1);
-        }
-      }
-      out__.write(eta);
-      Eigen::Matrix<local_scalar_t__,-1,1> xi =
-        Eigen::Matrix<local_scalar_t__,-1,1>::Constant(nyears, DUMMY_VAR__);
-      {
-        std::vector<local_scalar_t__> xi_flat__;
-        current_statement__ = 3;
-        xi_flat__ = context__.vals_r("xi");
-        pos__ = 1;
-        for (int sym1__ = 1; sym1__ <= nyears; ++sym1__) {
-          stan::model::assign(xi, xi_flat__[(pos__ - 1)],
-            "assigning variable xi", stan::model::index_uni(sym1__));
-          pos__ = (pos__ + 1);
-        }
-      }
-      out__.write(xi);
     } catch (const std::exception& e) {
       stan::lang::rethrow_located(e, locations_array__[current_statement__]);
     }
@@ -567,9 +406,9 @@ class base_model final : public model_base_crtp<base_model> {
   get_param_names(std::vector<std::string>& names__, const bool
                   emit_transformed_parameters__ = true, const bool
                   emit_generated_quantities__ = true) const {
-    names__ = std::vector<std::string>{"beta", "eta", "xi"};
+    names__ = std::vector<std::string>{"beta"};
     if (emit_transformed_parameters__) {
-      std::vector<std::string> temp{"lambda", "intercept", "fix_eff"};
+      std::vector<std::string> temp{"lambda", "fix_eff"};
       names__.reserve(names__.size() + temp.size());
       names__.insert(names__.end(), temp.begin(), temp.end());
     }
@@ -584,13 +423,10 @@ class base_model final : public model_base_crtp<base_model> {
            emit_transformed_parameters__ = true, const bool
            emit_generated_quantities__ = true) const {
     dimss__ = std::vector<std::vector<size_t>>{std::vector<size_t>{static_cast<
-                                                                    size_t>(P)},
-                std::vector<size_t>{static_cast<size_t>(nstations)},
-                std::vector<size_t>{static_cast<size_t>(nyears)}};
+                                                                    size_t>(P)}};
     if (emit_transformed_parameters__) {
       std::vector<std::vector<size_t>>
         temp{std::vector<size_t>{static_cast<size_t>(N)},
-             std::vector<size_t>{static_cast<size_t>(N)},
              std::vector<size_t>{static_cast<size_t>(N)}};
       dimss__.reserve(dimss__.size() + temp.size());
       dimss__.insert(dimss__.end(), temp.begin(), temp.end());
@@ -610,21 +446,9 @@ class base_model final : public model_base_crtp<base_model> {
       param_names__.emplace_back(std::string() + "beta" + '.' +
         std::to_string(sym1__));
     }
-    for (int sym1__ = 1; sym1__ <= nstations; ++sym1__) {
-      param_names__.emplace_back(std::string() + "eta" + '.' +
-        std::to_string(sym1__));
-    }
-    for (int sym1__ = 1; sym1__ <= nyears; ++sym1__) {
-      param_names__.emplace_back(std::string() + "xi" + '.' +
-        std::to_string(sym1__));
-    }
     if (emit_transformed_parameters__) {
       for (int sym1__ = 1; sym1__ <= N; ++sym1__) {
         param_names__.emplace_back(std::string() + "lambda" + '.' +
-          std::to_string(sym1__));
-      }
-      for (int sym1__ = 1; sym1__ <= N; ++sym1__) {
-        param_names__.emplace_back(std::string() + "intercept" + '.' +
           std::to_string(sym1__));
       }
       for (int sym1__ = 1; sym1__ <= N; ++sym1__) {
@@ -647,21 +471,9 @@ class base_model final : public model_base_crtp<base_model> {
       param_names__.emplace_back(std::string() + "beta" + '.' +
         std::to_string(sym1__));
     }
-    for (int sym1__ = 1; sym1__ <= nstations; ++sym1__) {
-      param_names__.emplace_back(std::string() + "eta" + '.' +
-        std::to_string(sym1__));
-    }
-    for (int sym1__ = 1; sym1__ <= nyears; ++sym1__) {
-      param_names__.emplace_back(std::string() + "xi" + '.' +
-        std::to_string(sym1__));
-    }
     if (emit_transformed_parameters__) {
       for (int sym1__ = 1; sym1__ <= N; ++sym1__) {
         param_names__.emplace_back(std::string() + "lambda" + '.' +
-          std::to_string(sym1__));
-      }
-      for (int sym1__ = 1; sym1__ <= N; ++sym1__) {
-        param_names__.emplace_back(std::string() + "intercept" + '.' +
           std::to_string(sym1__));
       }
       for (int sym1__ = 1; sym1__ <= N; ++sym1__) {
@@ -677,10 +489,10 @@ class base_model final : public model_base_crtp<base_model> {
     }
   }
   inline std::string get_constrained_sizedtypes() const {
-    return std::string("[{\"name\":\"beta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(P) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(nstations) + "},\"block\":\"parameters\"},{\"name\":\"xi\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(nyears) + "},\"block\":\"parameters\"},{\"name\":\"lambda\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(N) + "},\"block\":\"transformed_parameters\"},{\"name\":\"intercept\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(N) + "},\"block\":\"transformed_parameters\"},{\"name\":\"fix_eff\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(N) + "},\"block\":\"transformed_parameters\"},{\"name\":\"log_lik\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(N) + "},\"block\":\"generated_quantities\"}]");
+    return std::string("[{\"name\":\"beta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(P) + "},\"block\":\"parameters\"},{\"name\":\"lambda\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(N) + "},\"block\":\"transformed_parameters\"},{\"name\":\"fix_eff\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(N) + "},\"block\":\"transformed_parameters\"},{\"name\":\"log_lik\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(N) + "},\"block\":\"generated_quantities\"}]");
   }
   inline std::string get_unconstrained_sizedtypes() const {
-    return std::string("[{\"name\":\"beta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(P) + "},\"block\":\"parameters\"},{\"name\":\"eta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(nstations) + "},\"block\":\"parameters\"},{\"name\":\"xi\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(nyears) + "},\"block\":\"parameters\"},{\"name\":\"lambda\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(N) + "},\"block\":\"transformed_parameters\"},{\"name\":\"intercept\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(N) + "},\"block\":\"transformed_parameters\"},{\"name\":\"fix_eff\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(N) + "},\"block\":\"transformed_parameters\"},{\"name\":\"log_lik\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(N) + "},\"block\":\"generated_quantities\"}]");
+    return std::string("[{\"name\":\"beta\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(P) + "},\"block\":\"parameters\"},{\"name\":\"lambda\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(N) + "},\"block\":\"transformed_parameters\"},{\"name\":\"fix_eff\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(N) + "},\"block\":\"transformed_parameters\"},{\"name\":\"log_lik\",\"type\":{\"name\":\"vector\",\"length\":" + std::to_string(N) + "},\"block\":\"generated_quantities\"}]");
   }
   // Begin method overload boilerplate
   template <typename RNG> inline void
@@ -689,9 +501,8 @@ class base_model final : public model_base_crtp<base_model> {
               emit_transformed_parameters = true, const bool
               emit_generated_quantities = true, std::ostream*
               pstream = nullptr) const {
-    const size_t num_params__ = ((P + nstations) + nyears);
-    const size_t num_transformed = emit_transformed_parameters * (((N + N) +
-      N));
+    const size_t num_params__ = P;
+    const size_t num_transformed = emit_transformed_parameters * ((N + N));
     const size_t num_gen_quantities = emit_generated_quantities * (N);
     const size_t num_to_write = num_params__ + num_transformed +
       num_gen_quantities;
@@ -707,9 +518,8 @@ class base_model final : public model_base_crtp<base_model> {
               emit_transformed_parameters = true, bool
               emit_generated_quantities = true, std::ostream*
               pstream = nullptr) const {
-    const size_t num_params__ = ((P + nstations) + nyears);
-    const size_t num_transformed = emit_transformed_parameters * (((N + N) +
-      N));
+    const size_t num_params__ = P;
+    const size_t num_transformed = emit_transformed_parameters * ((N + N));
     const size_t num_gen_quantities = emit_generated_quantities * (N);
     const size_t num_to_write = num_params__ + num_transformed +
       num_gen_quantities;
