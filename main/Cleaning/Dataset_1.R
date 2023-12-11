@@ -209,6 +209,8 @@ abline(h = 0.1)
 Dataset_180 <- count_180_df[-which(count_180_df$idSensore %in% sensors[46:51]), ]
 sensors <- unique(Dataset_180$idSensore)
 
+write.csv(Dataset_180, "./Datasets/Dataset_180.csv", row.names = FALSE)
+
 # Plot of the responses over 2010-2022
 
 y120$Count_180 = NULL
