@@ -7,6 +7,8 @@ combined_df <- read.csv("./Datasets/covariates.csv")
 count_180 <- read.csv("./Datasets/Dataset_180.csv")
 count_120 <- read.csv("./Datasets/Dataset_120.csv")
 
+combined_df$Quota <- as.numeric(combined_df$Quota)
+combined_df$Quota[which(combined_df$Station == 10171)] <- 10
 count_180 <- count_180[-which(count_180$idSensore %in% unique(count_180$idSensore)[46:51]), ]
 
 colnames(count_180) <- c("Count_180", "Station", "Year", "Month")
