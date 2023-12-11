@@ -10,4 +10,7 @@ Theory/
 .DS_Store
 main/.DS_Store
 main/Dati_iniziali/
-main/Stan/
+main/Modello/.ipynb_checkpoints/
+main/Modello/base.exe
+main/Modello/base.hpp
+main/Modello/base.stan
