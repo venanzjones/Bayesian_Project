@@ -11,3 +11,10 @@ Theory/
 main/.DS_Store
 main/Dati_iniziali/
 main/Modello/.ipynb_checkpoints
+main/Modello/var_sel.exe
+main/Modello/var_sel.hpp
+main/Modello/var_sel.stan
+main/Modello/base.stan
+main/Modello/base.hpp
+main/Modello/base.exe
+
