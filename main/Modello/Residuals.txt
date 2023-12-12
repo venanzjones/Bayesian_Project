@@ -1,0 +1,1 @@
+From the residual analysis, the zero inflation is necessary in the 180 dataset in order to decrease the error, a preliminary step will be to see if the zeros happen only in some months, and in that case remove the month and don't add the zero inflition
