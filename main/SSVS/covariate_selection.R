@@ -42,7 +42,7 @@ inits = function() {
        .RNG.seed = 321, .RNG.name = 'base::Wichmann-Hill') 
 }
 
-model=jags.model("SSVS_poi.bug",
+model=jags.model("./SSVS/SSVS_poi.bug",
                  data = data_JAGS_1,
                  n.adapt = 1000,
                  inits = inits,
@@ -58,7 +58,7 @@ output <- coda.samples(model = model,
                        thin = thin) # ci mette un po' a runnare questo
 
 save(output, file='ssvs_1.dat') 
-load('ssvs_1.dat')
+load('./SSVS/ssvs_1.dat')
 str(output)
 summary(output)
 output <- as.matrix(output)

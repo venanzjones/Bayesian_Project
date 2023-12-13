@@ -1,0 +1,42 @@
+#############################################################  
+########### VARIABLE SELECTION: modello completo ############
+#############################################################
+
+model { 
+
+  # Likelihood
+  for (i in 1:N) {
+    Y[i] ~ dpois(exp(beta0 + inprod(X[i,], beta) + eta[station[i]] + xi[year[i]]));
+  }
+
+  # Tracing the visited model
+  for (j in 1:p) {
+    TempIndicator[j] <- g[j] * pow(2, j);
+  }
+  mdl <- 1 + sum(TempIndicator[]);  # Model index in binary coding 
+
+  c1 <- 1 / pow(tau_ss, 2);  # Reciprocal of the spike variance (precision)
+  c2 <- c1 / pow(c_ss, 2);  # Reciprocal of the slab variance 
+
+  # Remember that the Gaussian distribution
+  # is parameterized in terms of precision parameter
+  beta0 ~ dnorm(0, 0.01);
+
+  for (j in 1:p) {
+    bprior[j] <- 0;
+    tprior[j] <- equals(g[j], 0) * c1 + equals(g[j], 1) * c2; 
+    # This is c1 if the first condition is met, 
+    # c2 if the second is met
+    beta[j] ~ dnorm(bprior[j], tprior[j]); 
+    g[j] ~ dbern(0.5);  # g[j] ~ dbern(theta[j]) 
+                        # theta[j] ~ dunif(0, 1)
+  }
+
+  # Additional random effects
+  for (k in 1:nstations) {
+    eta[k] ~ dnorm(0, 2);
+  }
+  for (j in 1:nyears) {
+    xi[j] ~ dnorm(0, 2);
+  }
+}
