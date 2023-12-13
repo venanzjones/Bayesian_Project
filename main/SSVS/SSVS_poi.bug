@@ -1,0 +1,37 @@
+#############################################################  
+# STOCHASTIC SEARCH VARIABLE SELECTION: probit REGRESSION ###
+#############################################################
+
+model { 
+
+# vector[N] lambda;
+# likelihood
+  for (i in 1:N) {
+    # lambda[i] = exp(beta0 + dot_product(X[i], beta));
+    Y[i] ~ dpois(exp(beta0 + inprod(X[i,], beta)));
+  }
+
+# tracing the visited model
+for (j in 1:p){
+	TempIndicator[j] <- g[j] * pow(2, j) 
+}
+mdl<- 1 + sum(TempIndicator[]) # model index in binary coding 
+
+
+c1 <- 1 / (pow(tau_ss, 2)) #reciprocal of the spike variance (precision)
+c2 <- c1 / (pow(c_ss, 2)) # reciprocal of the slab variance 
+##remember that the Gaussian distribution
+## is parametrized in terms of precision parameter
+
+beta0 ~ dnorm(0, 0.01)
+
+for(j in 1:p){
+	bprior[j] <- 0
+	tprior[j] <- equals(g[j],0) * c1 + equals(g[j],1) * c2 
+	    # this is c1 if the first condition is met, 
+	    #  c2 if the second is met
+	beta[j] ~ dnorm(bprior[j],tprior[j]) 
+	g[j] ~ dbern(0.5) # g[j] ~ dbern(theta[j]) 
+                          # theta[j] ~ dunif(0,1)
+}
+}
