@@ -9,9 +9,9 @@ library(ggsci)
 require(gplots)
 require(ggpubr) 
 
-Y <- read.csv("./Datasets/Dataset_180.csv", header = T)
+Y <- read.csv("./Datasets/Dataset_120.csv", header = T)
 X_hat <- read.csv("./Datasets/covariates.csv", header = T)
-index_NA <- which(is.na(Y[,'Count_180']))
+index_NA <- which(is.na(Y[,'Count_120']))
 Y <- Y[-index_NA,]
 X_hat <- X_hat[-index_NA,]
 
@@ -38,7 +38,7 @@ X <- read.csv("./Datasets/variables_to_select.csv", header = T)
 X <- X[-index_NA,]
 
 X <- as.matrix(X)
-Y <- as.vector(Y[,'Count_180'])
+Y <- as.vector(Y[,'Count_120'])
 
 
 N <- dim(X)[1]
@@ -76,8 +76,8 @@ output <- coda.samples(model = model,
                        n.iter = nit,
                        thin = thin) # ci mette un po' a runnare questo
 
-save(output, file='./SSVS/ssvs_180_2.dat') 
-load('./SSVS/ssvs_180_2.dat')
+save(output, file='./SSVS/ssvs_120_2.dat') 
+load('./SSVS/ssvs_120_2.dat')
 str(output)
 summary(output)
 output <- as.matrix(output)
@@ -105,8 +105,8 @@ p2
 mp_SSV1 <- as.vector(which(post_mean_g > 0.5))
 post_mean_g[mp_SSV1]
 colnames(X)
-# "mean_temperature", "mean_windspeed_10m_max", "mean_radiation_sum"
-# "Quota", "type_rural"     
+# "mean_temperature", "mean_precipitation_hours", "mean_windspeed_10m_max"
+# "mean_radiation_sum", "count_highwind"     
 
 ## criterion 2: HPD
 plot(output[,"mdl"], pch = 20)
@@ -123,8 +123,8 @@ cbind(unique_model[order(freq,decreasing = T),], sort(freq,decreasing = T))
 
 # the HPD model is
 colnames(X)[as.logical(unique_model[which.max(freq),])]
-# "mean_temperature", "mean_windspeed_10m_max", "mean_radiation_sum"    
-# "Quota", "type_rural" 
+# "mean_temperature", "mean_precipitation_hours", "mean_windspeed_10m_max"   
+# "mean_radiation_sum", "count_highwind"
 
 # covariates selected
 HDP_SSV1 <- c(1:p)[as.logical(unique_model[which.max(freq),])]
@@ -151,4 +151,4 @@ for(l in 1:p){
 
 mean_beta_post <- apply(beta, 2, "mean")
 mean_beta_post
-# in questo caso non viene inclusa type_rural
+# in questo caso viene inclusa anche mean_precipitation_sum

@@ -1,6 +1,7 @@
 library(rjags)
 library(coda)
 
+# for plots
 library(ggplot2)
 library(tidyr)
 library(dplyr)
@@ -9,66 +10,46 @@ library(ggsci)
 require(gplots)
 require(ggpubr) 
 
-Y <- read.csv("./Datasets/Dataset_180.csv", header = T)
-X_hat <- read.csv("./Datasets/covariates.csv", header = T)
-index_NA <- which(is.na(Y[,'Count_180']))
-Y <- Y[-index_NA,]
-X_hat <- X_hat[-index_NA,]
-
-# Estraiamo Year, Month e Station dalle covariate originarie
-Year <- X_hat$Year
-Year <- Year - 2009
-Month <- X_hat$Month
-Station <- X_hat$Station
-unique_values <- unique(X_hat$Station)
-mapping_dict <- setNames(seq_along(unique_values), unique_values)
-transformed_stations <- mapping_dict[match(Station, names(mapping_dict))]
-
-colnames(X_hat)
-X_hat <- X_hat[,-c(1,2,10)]
-type_rural <- ifelse(X_hat$Type == 'rural',1,0)
-type_urban <- ifelse(X_hat$Type == 'urban',1,0)
-X_hat$type_rural <- type_rural
-X_hat$type_urban <- type_urban
-X_hat <- X_hat[,-10]
-colnames(X_hat)
-
-# Già standardizzata
+Y <- read.csv("./Datasets/Dataset_120.csv", header = T)
 X <- read.csv("./Datasets/variables_to_select.csv", header = T)
+# continuous covariates have been standardized
+# Type is turned into dummies
+# Year, Station, Month are dropped in X
+
+# drop NAs in X and Y 
+index_NA <- which(is.na(Y[,'Count_120']))
+Y <- Y[-index_NA,]
 X <- X[-index_NA,]
 
 X <- as.matrix(X)
-Y <- as.vector(Y[,'Count_180'])
-
+Y <- as.vector(Y[,'Count_120'])
 
 N <- dim(X)[1]
 p <- dim(X)[2]
 
-
+# We consider the SSVS prior, the spike and slab where the spike is a 
+# continuous distribution (Guassian) with variance very small
 c_ss <- 100
 intersect <- 0.05
 tau_ss <- intersect / sqrt(2 * log(c_ss) * c_ss^2/(c_ss^2 - 1))
 
-# Data to pass to JAGS:
+# Data to pass to JAGS (see the code in SSVS_probit.bug):
 data_JAGS_1 <- list(N = N, p = p, Y = Y, X = as.matrix(X), 
-                    tau_ss = tau_ss, c_ss = c_ss, 
-                    station = transformed_stations, year = Year,
-                    nstations = 45, nyears = 13)
+                    tau_ss = tau_ss, c_ss = c_ss)
 
 inits = function() {
   list(beta0 = 0.0, beta = rep(0,p), g = rep(0,p),
        .RNG.seed = 321, .RNG.name = 'base::Wichmann-Hill') 
 }
 
-model=jags.model("./SSVS/SSVS_completo.bug",
+model=jags.model("./SSVS/SSVS_poi.bug",
                  data = data_JAGS_1,
                  n.adapt = 1000,
                  inits = inits,
                  n.chains = 1)
 # burn-in = 1000
 update(model,n.iter=1000)
-
-param <- c("beta0", "beta", "g", "mdl", "eta", "xi") # posterior parameters
+param <- c("beta0", "beta", "g", "mdl") # posterior parameters
 nit <- 10000 # number of iterations
 thin <- 10 #thinning
 output <- coda.samples(model = model,
@@ -76,8 +57,8 @@ output <- coda.samples(model = model,
                        n.iter = nit,
                        thin = thin) # ci mette un po' a runnare questo
 
-save(output, file='./SSVS/ssvs_180_2.dat') 
-load('./SSVS/ssvs_180_2.dat')
+save(output, file='./SSVS/ssvs_120_1.dat') 
+load('./SSVS/ssvs_120_1.dat')
 str(output)
 summary(output)
 output <- as.matrix(output)
@@ -85,9 +66,9 @@ output <- as.matrix(output)
 ### VARIABLE SELECTION 
 ## criterion 1: MPM
 head(output)
-colnames(output)
+
 # we save the posterior chain of the inclusion variable in post_g
-post_g <-as.matrix(output[,58:68]) 
+post_g <-as.matrix(output[,13:23]) 
 post_mean_g <- apply(post_g, 2, "mean")
 
 p2 <- data.frame(value = post_mean_g, var = colnames(X)) %>%
@@ -105,8 +86,8 @@ p2
 mp_SSV1 <- as.vector(which(post_mean_g > 0.5))
 post_mean_g[mp_SSV1]
 colnames(X)
-# "mean_temperature", "mean_windspeed_10m_max", "mean_radiation_sum"
-# "Quota", "type_rural"     
+# "mean_temperature", "mean_precipitation_sum", "mean_precipitation_hours",
+# "mean_windspeed_10m_max", "mean_radiation_sum", "count_highwind", "Quota"   
 
 ## criterion 2: HPD
 plot(output[,"mdl"], pch = 20)
@@ -123,8 +104,6 @@ cbind(unique_model[order(freq,decreasing = T),], sort(freq,decreasing = T))
 
 # the HPD model is
 colnames(X)[as.logical(unique_model[which.max(freq),])]
-# "mean_temperature", "mean_windspeed_10m_max", "mean_radiation_sum"    
-# "Quota", "type_rural" 
 
 # covariates selected
 HDP_SSV1 <- c(1:p)[as.logical(unique_model[which.max(freq),])]
@@ -151,4 +130,5 @@ for(l in 1:p){
 
 mean_beta_post <- apply(beta, 2, "mean")
 mean_beta_post
-# in questo caso non viene inclusa type_rural
+
+# l'ultimo criterio salva una covariata in più ("Densità")

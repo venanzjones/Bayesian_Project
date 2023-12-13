@@ -57,8 +57,8 @@ output <- coda.samples(model = model,
                        n.iter = nit,
                        thin = thin) # ci mette un po' a runnare questo
 
-save(output, file='ssvs_1.dat') 
-load('./SSVS/ssvs_1.dat')
+save(output, file='./SSVS/ssvs_180_1.dat') 
+load('./SSVS/ssvs_180_1.dat')
 str(output)
 summary(output)
 output <- as.matrix(output)
@@ -67,7 +67,7 @@ output <- as.matrix(output)
 ## criterion 1: MPM
 head(output)
 
-## we save the posterior chain of the inclusion variable in post_g
+# we save the posterior chain of the inclusion variable in post_g
 post_g <-as.matrix(output[,13:23]) 
 post_mean_g <- apply(post_g, 2, "mean")
 
