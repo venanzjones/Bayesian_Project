@@ -11,9 +11,7 @@ Theory/
 main/.DS_Store
 main/Dati_iniziali/
 main/Modello/.ipynb_checkpoints/
-main/Modello/base.exe
-main/Modello/base.hpp
-main/Modello/base.stan
+main/Modello/stan/
 main/Datasets/Residuals_180.csv
 main/Datasets/Residuals_120.csv
 main/Modello/base.hpp
