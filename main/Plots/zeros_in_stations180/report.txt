@@ -1,0 +1,5 @@
+Istogrammi per visualizzare la frequenza dei valori registrati stazione per stazione nel dataset: "Dataset_180".
+
+Lo studio è stato svolto per indagare se alcune stazioni fossero particolarmente responsabili per la zero inflation del modello.
+
+Questo non è vero, ogni stazione riporta in larga parte valori = 0, mai meno di 40 mai più di 80 => non ha senso escludere alcuna stazione nel tentativo di evitare il passaggio ad uno ZIP model.
