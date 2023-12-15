@@ -45,3 +45,27 @@ dati <- data.frame(val=colMeans(data), id = stazioni$IdSensore, lat = stazioni$l
 coordinates(dati) <- c('lat','lon')
 svgm <- variogram(val ~ 1, dati)
 plot(svgm, main = 'Sample Variogram',pch=19)
+
+####Prova su residui####
+vari <- sapply(res, var)
+plot(vari)
+
+vari <- res/vari
+means <- colMeans(vari)
+
+row <- is.na(data$Count_120)
+vals <- data[!row ,]
+new <- NULL
+for (i in 1:length(means))
+{
+  new <- rbind(new, cbind(means[i], vals$idSensore[i], vals$Year[i], vals$Month[i], 
+                     stazioni$lat[which(stazioni$IdSensore==vals$idSensore[i])],
+                     stazioni$lng[which(stazioni$IdSensore==vals$idSensore[i])]))
+}
+
+dati <- data.frame(new)
+names(dati) <- c("val", "idSensore", "Year", "Month", "lat", "lon")
+
+coordinates(dati) <- c('lat','lon')
+svgm <- variogram(val ~ 1, dati)
+plot(svgm, main = 'Sample Variogram',pch=19)

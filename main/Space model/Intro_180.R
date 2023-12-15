@@ -77,3 +77,4 @@ dati <- data.frame(val=colMeans(data), id = stazioni$IdSensore, lat = stazioni$l
 coordinates(dati) <- c('lat','lon')
 svgm <- variogram(val ~ 1, dati)
 plot(svgm, main = 'Sample Variogram',pch=19)
+sapply(which.max,data)
