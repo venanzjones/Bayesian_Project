@@ -1,3 +1,5 @@
+library(gstat)
+
 ####Introductive analysis for the space-dependance study on the model####
 data <- read.csv("Datasets/eta_180.csv")
 ind <- read.csv("Datasets/Dataset_180.csv")
@@ -11,24 +13,46 @@ coordinates(dati) <- c('lat','lon')
 svgm <- variogram(val ~ 1, dati)
 plot(svgm, main = 'Sample Variogram',pch=19)
 
+v.fit <- fit.variogram(svgm, vgm(1, "Exp", range = 0.5, 1))  #For more see cheat sheet and enter in the console vgm()
+plot(svgm, v.fit, pch = 19)
+
+v.fit
+
 temp <- data.frame(value = dati$val/dati$variance, dati)
 coordinates(temp) <- c('lat','lon')
 svgm <- variogram(value ~ 1, temp)
 plot(svgm, main = 'Sample Variogram',pch=19)
 
 stazioni <- stazioni %>% arrange(IdSensore)
-write.csv(stazioni, file = "Dati_iniziali/stazioni.csv")
+#write.csv(stazioni, file = "Dati_iniziali/stazioni.csv")
+stazioni <- read.csv("Dati_iniziali/stazioni.csv")
+
+plot(dati$variance)
+View(cbind(dati$variance, dati$id))
+
+var2 <- which(dati$variance>1.5)
+var1 <- which(dati$variance<1.5 & dati$variance>0.7)
 
 # Carica la libreria geosphere
 library(geosphere)
 
+distGeo(c(stazioni$lat[1],stazioni$lng[1]), c(stazioni$lat[2],stazioni$lng[2]))/1000
+
+dist_mat <- matrix(0, ncol = dim(stazioni)[1], nrow = dim(stazioni)[1])
+for (i in 1:dim(stazioni)[1])
+{
+  for (j in i:dim(stazioni)[1])
+  {
+    dist_mat[i,j] <- dist_mat[j,i] <- distGeo(c(stazioni$lat[i],stazioni$lng[i]), c(stazioni$lat[j],stazioni$lng[j]))/1000
+  }
+}
+
+0.229*max(dist_mat)
+
+write.csv(dist_mat, file="Datasets/distances.csv")
 
 
-# Coordinate del primo punto (latitudine, longitudine)
-point1 <- c(45.4641, 9.1900)  # Ad esempio, Milano, Italia
 
-# Coordinate del secondo punto (latitudine, longitudine)
-point2 <- c(40.7128, -74.0060)  # Ad esempio, New York, USA
 
 # Calcola la distanza tra i due punti in chilometri
 distance_km <- distGeo(point1, point2) / 1000
