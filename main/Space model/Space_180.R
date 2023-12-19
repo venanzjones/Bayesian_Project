@@ -51,8 +51,8 @@ for (i in 1:dim(stazioni)[1])
 
 write.csv(dist_mat, file="Datasets/distances.csv")
 
-
-
-
-# Calcola la distanza tra i due punti in chilometri
-distance_km <- distGeo(point1, point2) / 1000
+#######
+staz <- ind$idSensore[which(ind$Count_180!=0)]
+write.csv(staz, file = "./staz.csv")
+year <- ind$Year[which(ind$Count_180!=0)]
+write.csv(year, file = "./year.csv", row.names = FALSE)
