@@ -1,0 +1,11 @@
+MODELLO 180
+- Aggiungere il codice che fa la prediction dentro lo stan (uno per ogni modello), il file si trova in uno degli stan modificati da Coppe. Assieme a questo aggiungere anche tutti quegli indici che abbiamo usato per calcolare la goodness of fit come MAE o cose analoghe.
+- Zero inflition, il parametro theta è troppo generico così, bisogna come minimo differenziare tra mesi e avere quindi un vettore di theta.
+- La varianza nel modello spaziale va rimodellata dividendo mixed effect della stazione e random effect a media zero data dalla struttura di covarianza dipendente dalla distanza. In particolare quest'ultimo w_i deve avere una sigma variabile che ci indicherà l'importanza di questa componente nel modello.
+
+MODELLO 120
+Al netto del fatto che tutti i miglioramenti da fare nel modello sopra vanno poi estesi al 120, il problema specifico di questo modello è la creazione di valori troppo alti nei lambda, tre le strade da seguire nell'ordine per cercare di ovviare a questo fatto:
+- Dummy nelle covariate che mi dice se sono in un osservazione estiva o no (l'idea è che questa controbilanci l'effetto estremo delle temperature levando appunto gli estremi).
+- Se osservazioni estreme sono presenti in un certo anno aggiungere una covariata annuale beta_k che va a combinare l'effetto della covariata più estrema in quell'anno (esempio quasi sicuramente temperatura).
+- Andare a fissare il massimo possibile che esce dalla poisson a 30 o 31 in modo bruto, ad esempio con min(lambda, 30) o altre idee più eleganti che magari arriveranno.
+Buon natale a tutti!

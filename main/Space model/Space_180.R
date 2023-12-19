@@ -53,6 +53,6 @@ write.csv(dist_mat, file="Datasets/distances.csv")
 
 #######
 staz <- ind$idSensore[which(ind$Count_180!=0)]
-write.csv(staz, file = "./staz.csv")
+write.csv(staz, file = "./Datasets/stazzip.csv")
 year <- ind$Year[which(ind$Count_180!=0)]
-write.csv(year, file = "./year.csv", row.names = FALSE)
+write.csv(year, file = "./Datasets/yearzip.csv", row.names = FALSE)
