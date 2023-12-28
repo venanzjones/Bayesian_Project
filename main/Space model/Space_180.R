@@ -1,4 +1,5 @@
 library(gstat)
+library(sp)
 
 ####Introductive analysis for the space-dependance study on the model####
 data <- read.csv("Datasets/eta_180.csv")
@@ -7,13 +8,13 @@ stazioni <- read.csv("Dati_iniziali/stazioni_O3.csv")
 to_get <- which(stazioni$IdSensore %in% gsub("X", "", names(data)))
 stazioni <- stazioni[to_get ,]
 
-dati <- data.frame(val=colMeans(data), variance = sapply(data, var), id = stazioni$IdSensore, lat = stazioni$lat, lon=stazioni$lng)
+dati <- data.frame(val=sapply(data, median), variance = sapply(data, var), id = stazioni$IdSensore, lat = stazioni$lat, lon=stazioni$lng)
 
 coordinates(dati) <- c('lat','lon')
 svgm <- variogram(val ~ 1, dati)
 plot(svgm, main = 'Sample Variogram',pch=19)
 
-v.fit <- fit.variogram(svgm, vgm(1, "Exp", range = 0.5, 1))  #For more see cheat sheet and enter in the console vgm()
+v.fit <- fit.variogram(svgm, vgm(nugget = 0, model = 'Gau', range = 0.5, psill = 1))  #For more see cheat sheet and enter in the console vgm()
 plot(svgm, v.fit, pch = 19)
 
 v.fit
