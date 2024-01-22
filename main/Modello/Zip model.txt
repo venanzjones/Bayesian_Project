@@ -4,3 +4,4 @@ In order to model the ZIP in stan the following has been used as a reference:
 
 https://mc-stan.org/docs/2_20/stan-users-guide/zero-inflated-section.html
 
+La zero inflition funziona, e anche bene, tuttavia bisogna riuscire a implementare valori diversi per le bernoulli nei diversi mesi, theta deve diventare un vettore di theta_k dove k sta per il mese. Idealmente valori più alti per mesi più invernali.

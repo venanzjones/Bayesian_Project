@@ -1,0 +1,7 @@
+Nei due file stan_120 e stan_180 ci sono tutti i vari modelli implementati in ordine "temporale" di aggiunta di complessità al modello, e bisognerebbe che qualcuno controllasse che effettivamente aumentando la complessità i modelli migliorino.
+
+Principali metriche da considerare:
+-waic e loo
+-una sorta di mean absolute deviation (sulla mediana per esempio)
+-percentuale  di osservazioni che becchiamo col credible interval
+-un plot leggermente più ampio di quello che viene fuori col codice al momento.

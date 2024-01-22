@@ -1,0 +1,5 @@
+Bisogna iniziare a pensare all'interpretazione dei risultati.
+
+Inizialmente pensiamo a dei plot: mi piacerebbe avere plot diversi per confrontare i beta, uno alla volta, tutti insieme, l'idea è farli tutti e poi decidere quale ci aggrada di più, in ogni caso iniziamo dai beta e vediamo che succede.
+
+Beta generici da un modello, poi decideremo il nostro modello definitivo e ci butteremo i beta finali, questo è solo per iniziare a scrivere il codice e capire come impostare la cosa.
