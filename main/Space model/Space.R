@@ -1,5 +1,6 @@
 library(gstat)
 library(sp)
+library(fdagstat)
 
 ####Introductive analysis for the space-dependance study on the model - 180####
 data <- read.csv("Datasets/eta_180.csv")
@@ -35,23 +36,45 @@ for (i in 1:dim(stazioni)[1])
 
 write.csv(dist_mat, file="Datasets/distances.csv")
 
-#######
-res <- t(read.csv("Datasets/res_180.csv"))
-res <- data.frame(res=res, staz= NA, lat=NA, lon=NA)
+#### Residui ####
+res <- (read.csv("Datasets/res_180.csv"))
+res <- data.frame(staz= NA, lat=NA, lon=NA, res=colMeans(res))
 ind <- ind[-which(is.na(ind$Count_180)) ,]
 for (i in 1:dim(res)[1])
 {
-  res[i,2] <- ind$idSensore[i]
-  res[i,3] <- stazioni$lat[which(stazioni$IdSensore==res[i,2])]
-  res[i,4] <- stazioni$lng[which(stazioni$IdSensore==res[i,2])]
+  res[i,1] <- ind$idSensore[i]
+  res[i,2] <- stazioni$lat[which(stazioni$IdSensore==res[i,1])]
+  res[i,3] <- stazioni$lng[which(stazioni$IdSensore==res[i,1])]
 }
 
-coordinates(res) <- c("lat", "lon")
-svgm <- variogram(res ~ 1, res)
-plot(svgm, main = 'Sample Variogram',pch=19)
-res <- res[-which(abs(res$res)>5) ,]
-svgm <- variogram(res ~ 1, res)
-plot(svgm, main = 'Sample Variogram',pch=19)
+staz <- unique(res$staz)
+which(res$staz==staz[i+3])
+residui_func <- matrix(0, nrow=91, ncol=length(staz))
+ye <- unique(ind$Year)
+mo <- unique(ind$Month)
+for (i in 1:length(staz))
+{
+  for (j in 1:length(ye))
+  {
+    for (k in 1:length(mo))
+    {
+      temp <- res$res[which(ind$idSensore==staz[i]&ind$Year==ye[j]&ind$Month == mo[k])]
+      if(length(temp))
+      {
+        residui_func[(j-1)*7+k,i] <- temp
+      }
+    }
+  }
+}
+
+matplot(residui_func, type='l')
+data <- data.frame((residui_func))
+coord <- data.frame(unique(res$lat), unique(res$lon))
+
+g <- fstat(NULL, vName = "FWPR", Coordinates = coord, Functions = data, scalar = FALSE)
+g <- estimateDrift("~.", g, Intercept = TRUE)
+g <- fvariogram("~.", g, Nlags = 50, LagMax = 5, ArgStep = 1, useResidual = TRUE, comments=FALSE)
+plotVariogram(g)
 
 ####Eta model - 120####
 data <- read.csv("Datasets/eta_120.csv")
