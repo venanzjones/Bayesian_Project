@@ -12,9 +12,12 @@ main/.DS_Store
 main/Dati_iniziali/
 main/Modello/.ipynb_checkpoints/
 main/Modello/stan/
-main/Datasets/Residuals_180.csv
-main/Datasets/Residuals_120.csv
+main/Modello/stan120/
+main/Modello/stan180/
+main/Datasets/res_180.csv
+main/Datasets/res_120.csv
 main/Datasets/eta_180.csv
+main/Datasets/eta_120.csv
 main/Modello/base.hpp
 main/Modello/base.stan
 main/Modello/base.exe
