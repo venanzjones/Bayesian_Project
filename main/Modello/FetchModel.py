@@ -301,7 +301,7 @@ generated quantities {
 }
 """
 
-code_dict = {
+hardcode_dict = {
     'model_120': code_120,
     'model_120_dummy': code_120_dummy
 }
@@ -317,38 +317,49 @@ class FetchModel:
     It is also possible to add new models by adding the stan file directly in the folder ./stan.
     Alternatively it can be done by adding the add_model = True argument when initializing and providing the model_code string.
     To remove a model, it is enough to delete the corresponding file in the folder. (hardcoded models cannot be removed)
+    It is possible to retrieve the code of the model by calling the get_code() method.
+    It is also possible to update the model by calling the update_model() method and providing the new model_code string.
     """
     def __init__(self, model_name = None, add_model = False, model_code = None):
         if not os.path.exists('./stan'):
             os.makedirs('./stan')
-        self.code_dict = code_dict
+        self.model_list = hardcode_dict.keys()
         self.update_list()
         if add_model:
-          if model_name in self.code_dict.keys():
-              raise ValueError('\nThe model you want to add is {}, which is already available.\nPlease choose another name.\nThe list of names already in use is:\n{}'.format(model_name, list(self.code_dict.keys())))
-          self.code_dict[model_name] = model_code
-          with open('./stan/{}.stan'.format(model_name), 'w') as f:
-            print(model_code, file=f)
-          self.update_list()
-          self.stan_file = "./stan/{}.stan".format(model_name)
-          print('The model {} has been added.\nThe updated model list is the following:\n{}'.format(model_name, list(self.code_dict.keys())))
+            if model_name in self.model_list:
+                raise ValueError('\nThe model you want to add is {}, which is already available.\nPlease choose another name.\nThe list of names already in use is:\n{}'.format(model_name, self.model_list))
+            self.model_list.append(model_name)
+            self.stan_file = "./stan/{}.stan".format(model_name)
+            with open(self.stan_file, 'w') as f:
+                print(model_code, file=f)
+            self.update_list()
+            print('The model {} has been added.\nThe updated model list is the following:\n{}'.format(model_name, self.model_list))
         else:
-          if model_name in self.code_dict.keys():
-              stan_file = "./stan/{}.stan".format(model_name)
-              if not os.path.exists(stan_file):
-                  with open(stan_file, "w") as f:
-                    print(self.code_dict[model_name], file=f)
-              self.stan_file = stan_file
-          else:
-              raise ValueError('\nThe requested model is {}, which is not available.\nPlease choose one among the following:\n{}'.format(model_name, list(self.code_dict.keys())))
+            if model_name in self.model_list:
+                self.stan_file = "./stan/{}.stan".format(model_name)
+                if not os.path.exists(self.stan_file): # this implies that the model is hardcoded
+                    with open(self.stan_file, "w") as f:
+                        print(hardcode_dict[model_name], file=f)
+            else:
+                raise ValueError('\nThe requested model is {}, which is not available.\nPlease choose one among the following:\n{}'.format(model_name, self.model_list))
+        return self
     
     def update_list(self):
         for file in os.listdir('./stan'):
             if file.endswith('.stan'):
-                if file.split('.')[0] not in self.code_dict.keys():
-                    with open('./stan/{}'.format(file), 'r') as f:
-                        self.code_dict[file.split('.')[0]] = f.read()
+                self.model_list.append(file.split('.')[0])
+        return self
 
     def compile(self):
         return CmdStanModel(stan_file=self.stan_file)
+    
+    def get_code(self):
+        with open(self.stan_file, 'r') as f:
+            return f.read()
+        
+    def update_model(self, model_code):
+        with open(self.stan_file, 'w') as f:
+            print(model_code, file=f)
+        print('The model {} has been updated.\nThe updated model list is the following:\n{}'.format(self.stan_file.split('/')[-1].split('.')[0], self.model_list))
+        return self
     
