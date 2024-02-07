@@ -318,12 +318,12 @@ class FetchModel:
     Alternatively it can be done by adding the add_model = True argument when initializing and providing the model_code string.
     To remove a model, it is enough to delete the corresponding file in the folder. (hardcoded models cannot be removed)
     It is possible to retrieve the code of the model by calling the get_code() method.
-    It is also possible to update the model by calling the update_model() method and providing the new model_code string.
+    It is also possible to update the model by calling the update_model() method and providing the new model_code string. (it is not possible to update hardcoded models)
     """
     def __init__(self, model_name = None, add_model = False, model_code = None):
         if not os.path.exists('./stan'):
             os.makedirs('./stan')
-        self.model_list = hardcode_dict.keys()
+        self.model_list = [hardcode_dict.keys()]
         self.update_list()
         if add_model:
             if model_name in self.model_list:
@@ -342,7 +342,7 @@ class FetchModel:
                         print(hardcode_dict[model_name], file=f)
             else:
                 raise ValueError('\nThe requested model is {}, which is not available.\nPlease choose one among the following:\n{}'.format(model_name, self.model_list))
-        return self
+            return None
     
     def update_list(self):
         for file in os.listdir('./stan'):
@@ -358,6 +358,8 @@ class FetchModel:
             return f.read()
         
     def update_model(self, model_code):
+        if self.stan_file in hardcode_dict.keys():
+            raise ValueError('\nThe model you want to update is hardcoded and cannot be updated.\nPlease choose another model.\nThe list of hardcoded models is:\n{}\nThe model list is the following:\n{}'.format(hardcode_dict.keys(), self.model_list))
         with open(self.stan_file, 'w') as f:
             print(model_code, file=f)
         print('The model {} has been updated.\nThe updated model list is the following:\n{}'.format(self.stan_file.split('/')[-1].split('.')[0], self.model_list))
