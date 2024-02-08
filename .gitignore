@@ -4,6 +4,8 @@
 .Ruserdata
 .RdataTmp
 .vscode
+.exe
+.hpp
 main/Dati_iniziali/datasetO3.csv
 main/Dati_iniziali/stazioni_O3.csv
 Theory/
@@ -18,3 +20,4 @@ main/Datasets/Space_estimate/
 main/Modello/base.hpp
 main/Modello/base.stan
 main/Modello/base.exe
+main/Modello/__pycache__/
