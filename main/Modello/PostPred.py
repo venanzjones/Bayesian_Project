@@ -35,7 +35,11 @@ class PostPred:
                 y_pred_obs = pd.concat([y_pred_obs, y_pred_obs_CI], axis=1)
         else:
             y_pred_obs = self.posterior.y_pred.quantile(quantiles, dim=['chain', 'draw']).T
-            y_pred_obs = pd.DataFrame(y_pred_obs.values, columns=['pred', f'{alpha/2}', f'{1-alpha/2}'], index = self.idx_obs)
+            y_pred_obs = pd.DataFrame(y_pred_obs.values, index = self.idx_obs)
+            if CI:
+                y_pred_obs.columns = ['pred', f'{alpha/2}', f'{1-alpha/2}']
+            else:
+                y_pred_obs.columns = ['pred']
 
         if 'y_pred_miss' in self.posterior:
             if use_mean:
@@ -47,7 +51,11 @@ class PostPred:
                     y_pred_miss = pd.concat([y_pred_miss, y_pred_miss_CI], axis=1)
             else:
                 y_pred_miss = self.posterior.y_pred_miss.quantile(quantiles, dim=['chain', 'draw']).T
-                y_pred_miss = pd.DataFrame(y_pred_miss.values, columns=['pred', f'{alpha/2}', f'{1-alpha/2}'], index = self.idx_miss)
+                y_pred_miss = pd.DataFrame(y_pred_miss.values, index = self.idx_miss)
+                if CI:
+                    y_pred_miss.columns = ['pred', f'{alpha/2}', f'{1-alpha/2}']
+                else:
+                    y_pred_miss.columns = ['pred']
             y_pred = pd.concat([y_pred_obs, y_pred_miss], axis=0).sort_index()
         else:
             y_pred = y_pred_obs.reset_index(drop=True)

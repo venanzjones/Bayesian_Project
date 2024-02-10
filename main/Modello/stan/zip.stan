@@ -75,7 +75,7 @@ model {
 
 generated quantities{
   vector[N] log_lik;
- vector[N] y_pred;
+  vector[N] y_pred;
  
   for(i in 1:N){
     if (y[i] == 0) {
