@@ -53,8 +53,12 @@ class FetchModel:
         hpp_file = './stan/compiled/{}.hpp'.format(self.model_name)
         if not os.path.exists(exe_file):
             CmdStanModel(stan_file=self.stan_file)
-            os.rename('./stan/{}.exe'.format(self.model_name), exe_file)
             os.rename('./stan/{}.hpp'.format(self.model_name), hpp_file)
+            os.rename('./stan/{}.exe'.format(self.model_name), exe_file)
+        if os.path.getmtime(self.stan_file) > os.path.getmtime(exe_file):
+            CmdStanModel(stan_file=self.stan_file)
+            os.replace('./stan/{}.exe'.format(self.model_name), exe_file)
+            os.replace('./stan/{}.hpp'.format(self.model_name), hpp_file)
         return CmdStanModel(stan_file=self.stan_file, exe_file=exe_file)
     
     def get_code(self):
