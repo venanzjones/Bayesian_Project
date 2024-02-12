@@ -1,4 +1,0 @@
-Migliorare lo space model:
-per ora il residuo spaziale è incluso nel modello con una relazione davvero semplice e basilare, che è significativa ma può essere modificata.
-Quindi nel flavour dei glm bisognerebbe calcolare la distribuzione del lambda predetto - lambda vero e su quello vedere come relazionare spazialmente i residui, dopo aver aggiunto il random effect per la stazione.
-Una volta fatto questo punto, aggiungere il random effect legato allo spazio come somma su il random della stazione, e eventualmente integrare fuori in un solo random effect.

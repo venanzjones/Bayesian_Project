@@ -73,6 +73,8 @@ class PostPred:
                 idx_obs_test = sorted(np.concatenate([self.idx_obs, self.idx_test]))
                 y_star = y_pred['pred'][idx_obs_test].reset_index(drop=True)
                 residuals = y_star - self.Y[idx_obs_test]
+                y_star_test = y_pred['pred'][self.idx_test].reset_index(drop=True)
+                residuals_test = y_star_test - self.Y[self.idx_test]
             else:
                 y_star = y_pred_obs['pred'].reset_index(drop=True)
                 residuals = y_star - self.Y_obs
@@ -95,11 +97,18 @@ class PostPred:
                     y_star_up = y_pred[f'{1-alpha/2}'][idx_obs_test].reset_index(drop=True)
                     y_star_low = y_pred[f'{alpha/2}'][idx_obs_test].reset_index(drop=True)
                     outliers = np.where((self.Y[idx_obs_test] > y_star_up) | (self.Y[idx_obs_test] < y_star_low))[0]
+                    y_star_up_test = y_pred[f'{1-alpha/2}'][self.idx_test].reset_index(drop=True)
+                    y_star_low_test = y_pred[f'{alpha/2}'][self.idx_test].reset_index(drop=True)
+                    outliers_test = np.where((self.Y[self.idx_test] > y_star_up_test) | (self.Y[self.idx_test] < y_star_low_test))[0]
+                    metrics['outliers_test'] = outliers_test
+                    percentage_inside = 1 - len(outliers)/len(self.Y[idx_obs_test])
+                    percentage_inside_test = 1 - len(outliers_test)/len(self.Y[self.idx_test])
+                    metrics['percentage_inside_CI_test'] = percentage_inside_test
                 else:
                     y_star_up = y_pred_obs[f'{1-alpha/2}'].reset_index(drop=True)
                     y_star_low = y_pred_obs[f'{alpha/2}'].reset_index(drop=True)
                     outliers = np.where((self.Y_obs > y_star_up) | (self.Y_obs < y_star_low))[0]
-                percentage_inside = 1 - len(outliers)/len(self.Y_obs)
+                    percentage_inside = 1 - len(outliers)/len(self.Y_obs)
                 metrics['outliers'] = outliers
                 metrics['percentage_inside_CI'] = percentage_inside
 
