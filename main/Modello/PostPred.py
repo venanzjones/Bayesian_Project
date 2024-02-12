@@ -90,6 +90,13 @@ class PostPred:
                 'mae': mae,
                 'mad': mad,
             }
+            if self.Y_test is not None and 'y_pred_miss' in self.posterior:
+                mse_test = np.mean(residuals_test**2)
+                mae_test = np.mean(np.abs(residuals_test))
+                mad_test = np.median(np.abs(residuals_test))
+                metrics['mse_test'] = mse_test
+                metrics['mae_test'] = mae_test
+                metrics['mad_test'] = mad_test
 
             if CI:
                 if self.Y_test is not None and 'y_pred_miss' in self.posterior:
