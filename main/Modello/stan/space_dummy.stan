@@ -61,6 +61,8 @@ model {
   sigma_eta ~ inv_gamma(2, 2);
   sigma_beta ~ inv_gamma(4, 2);
   sigma_xi ~ inv_gamma(4, 2);
+
+  dummy_beta ~ normal(-1, 2);
 }
 
 generated quantities {

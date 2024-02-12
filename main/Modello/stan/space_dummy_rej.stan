@@ -24,8 +24,6 @@ data {
 
   vector[N] dummy_obs;
   vector[N_miss] dummy_miss;
-
-  int<lower=0,upper=3> sampling_type;
 }
 
 transformed data {
@@ -38,7 +36,9 @@ parameters {
   vector[nyears] xi; // Random effects for years
   vector[nstations] w; //Random zero-mean effect for the space model
   real<lower = 0> sigma;
-  real<lower = 0> sigma0;
+  real<lower = 0> sigma_eta;
+  real<lower = 0> sigma_beta;
+  real<lower = 0> sigma_xi;
 
   vector[nstations] dummy_beta;
 }
@@ -71,20 +71,6 @@ transformed parameters {
   }
   intercept_miss = xi[year_miss] + eta[station_miss] + w[station_miss] + dummy_eff_miss;
   lambda_miss = exp(fix_eff_miss + intercept_miss);
-
-  /*
-  for (i in 1:N) {
-    if (lambda[i] > max_month[i]) {
-      lambda[i] = max_month[i];
-    }
-  }
-
-  for (i in 1:N_miss) {
-    if (lambda_miss[i] > max_month_miss[i]) {
-      lambda_miss[i] = max_month_miss[i];
-    }
-  }
-  */
 }
 
 model {
@@ -93,11 +79,13 @@ model {
     y[i] ~ poisson(lambda[i]);
   };
 
-  xi ~ normal(0, 2);
-  eta ~ normal(0, sigma0);
+  xi ~ normal(0, sigma_xi);
+  eta ~ normal(0, sigma_eta);
   w ~ multi_normal_cholesky(rep_vector(0, nstations), Lw);
   sigma ~ inv_gamma(2, 2);
-  sigma0 ~ inv_gamma(2, 2);
+  sigma_eta ~ inv_gamma(2, 2);
+  sigma_beta ~ inv_gamma(4, 2);
+  sigma_xi ~ inv_gamma(4, 2);
 
   dummy_beta ~ normal(-1, 2);
 }
@@ -110,74 +98,21 @@ generated quantities {
   for(i in 1:N) {
     log_lik [ i ] = poisson_lpmf (y[i] | lambda[i]);
   }
-
-  if (sampling_type == 0) {
-    for (i in 1:N) {
-     y_pred[i] = poisson_rng(lambda[i]);
-    }
-
-    for (i in 1:N_miss) {
-      y_pred_miss[i] = poisson_rng(lambda_miss[i]);
-    }
-  }
   
-  if (sampling_type == 1) {
-    for(i in 1:N){
-    real y_temp = max_month[i] + 1;
-      while (y_temp > max_month[i]) {
-        y_temp = poisson_rng(lambda[i]);
-      };
-      y_pred[i] = y_temp;
-    }
-
-    for(i in 1:N_miss){
-      real y_temp = max_month_miss[i] + 1;
-      while (y_temp > max_month_miss[i]){
-        y_temp = poisson_rng(lambda_miss[i]);
-      };
-      y_pred_miss[i] = y_temp;
-    }
-  }  
-
-  if (sampling_type == 2) {
-    for (i in 1:N) {
-      if (y_pred[i] > max_month[i]) {
-        y_pred[i] = max_month[i];
-      }
-    }
-
-    for (i in 1:N_miss) {
-      if (y_pred_miss[i] > max_month_miss[i]) {
-        y_pred_miss[i] = max_month_miss[i];
-      }
-    }
+  for(i in 1:N){
+  real y_temp = max_month[i] + 1;
+    while (y_temp > max_month[i]) {
+      y_temp = poisson_rng(lambda[i]);
+    };
+    y_pred[i] = y_temp;
   }
-  
-  if (sampling_type == 3) {
-    for (i in 1:N) {
-      real sum_p = 0;
-      real u = uniform_rng(0, 1);
-      for (b in 0:max_month[i]) {
-        sum_p = sum_p + exp(poisson_lpmf(b | lambda[i]) - poisson_lcdf(max_month[i] | lambda[i]));
-        if (sum_p >= u) {
-          y_pred[i] = b;
-          break;
-        }
-      }
-    }
 
-    for (i in 1:N_miss) {
-      real sum_p = 0;
-      real u = uniform_rng(0, 1);
-      for (b in 0:max_month[i]) {
-        sum_p = sum_p + exp(poisson_lpmf(b | lambda_miss[i]) - poisson_lcdf(max_month[i] | lambda_miss[i]));
-        if (sum_p >= u) {
-          y_pred_miss[i] = b;
-          break;
-        }
-      }
-    }
-  }
-  
+  for(i in 1:N_miss){
+    real y_temp = max_month_miss[i] + 1;
+    while (y_temp > max_month_miss[i]){
+      y_temp = poisson_rng(lambda_miss[i]);
+    };
+    y_pred_miss[i] = y_temp;
+  } 
 }
 
