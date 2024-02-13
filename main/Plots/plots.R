@@ -13,6 +13,8 @@ library(rnaturalearth)
 
 ozono <- read.csv("./Dati_iniziali/datasetO3.csv")
 stazioni <- read.csv("./Dati_iniziali/stazioni_O3.csv")
+# ozono <- read.csv("datasetO3.csv")
+# stazioni <- read.csv("stazioni_O3.csv")
 stazioni.usate <- stazioni[which(stazioni$IdSensore %in% unique(ozono$idSensore)), ]
 # rm(ozono)
 
@@ -22,8 +24,22 @@ italy_map <- ne_states(country = "Italy", returnclass = "sf")
 map_lombardia <- italy_map[which(italy_map$region == "Lombardia"),] %>% 
   group_by(region)  %>%
   summarise(n = n())
+stazioni.usate <- stazioni.usate[which(stazioni.usate$IdSensore < 17288),]
 
-not_to_keep = c(1)
+#  replace it with the 45 etas from model
+strength <- c(0.1034295 , -0.04536275,  0.00141684, -0.0782174 ,  0.0584358 ,
+              0.05399905, -0.138177  ,  0.133876  , -0.08207435, -0.236533  ,
+              0.07244055, -0.377156  , -0.1503305 ,  0.1263585 ,  0.0602766 ,
+              -0.03121085,  0.0636074 , -0.165159  ,  0.1033335 , -0.00332804,
+              -0.0415099 , -0.02852715,  0.100031  , -0.00575957,  0.123913  ,
+              0.1021255 , -0.1146205 ,  0.09392515, -0.0414952 , -0.03088155,
+              0.0838783 ,  0.405153  , -0.09756915,  0.07622735,  0.1293975 ,
+              0.05799955,  0.04157765,  0.06790785, -0.0289605 ,  0.00477636,
+              -0.174347  ,  0.0033469 ,  0.01861685,  0.0424593 ,  0.0512646 )
+
+color_palette <- colorNumeric(palette = "viridis", domain = strength)
+color_palette <- colorNumeric(palette = "YlOrRd", domain = strength)
+
 
 mappa <- leaflet( data = stazioni.usate) %>%
   addTiles() %>%
@@ -33,17 +49,19 @@ mappa <- leaflet( data = stazioni.usate) %>%
               fillOpacity = .2, fill = T, fillColor =  "blue")   %>%
   addCircleMarkers(
     ~ lng, ~ lat,
-    fillColor = ifelse(stazioni.usate$IdSensore < 17288, "green","red"),
-    # fillColor = "green",
     fillOpacity = 1,
-    stroke = F,
+    color = ~color_palette(strength) ,
     radius = 4
-  ) 
+  ) %>%
+  addLegend(
+    pal = color_palette,
+    values = ~strength,
+    title = "Eta",
+    opacity = 1
+  )
 
 mappa
 
-library(mapview)
-mapshot(mappa, file = "51stations.png", remove_controls = c("zoomControl","layersControl", "homeButton", "scaleBar", "drawToolbar", "easyButton"))
 
 
 # for when rgdal will be back
