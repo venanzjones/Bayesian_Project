@@ -12,6 +12,8 @@ data {
 parameters {
   vector[P] beta; // Coefficients for predictors
   vector[nyears] xi; // Random effects for years
+  real<lower = 0> sigma_beta;
+  real<lower = 0> sigma_xi;
 }
 
 transformed parameters {
@@ -26,10 +28,12 @@ transformed parameters {
 }
 
 model {
-  beta ~ normal(0, 2);
+  beta ~ normal(0, sigma_beta);
   y[1:N] ~ poisson(lambda[1:N]);
 
-  xi ~ normal(0, 2);
+  xi ~ normal(0, sigma_xi);
+  sigma_beta ~ inv_gamma(4, 2);
+  sigma_xi ~ inv_gamma(4, 2);
 }
 
 generated quantities{

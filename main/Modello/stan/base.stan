@@ -8,6 +8,7 @@ data {
 
 parameters {
   vector[P] beta; // Coefficients for predictors
+  real<lower = 0> sigma_beta;
 }
 
 transformed parameters {
@@ -20,8 +21,10 @@ transformed parameters {
 }
 
 model {
-  beta ~ normal(0, 2);
+  beta ~ normal(0, sigma_beta);
   y[1:N] ~ poisson(lambda[1:N]);
+
+  sigma_beta ~ inv_gamma(4, 2);
 }
 
 generated quantities{
