@@ -27,7 +27,7 @@ data {
 }
 
 transformed data {
-  matrix[nstations,nstations] H = exp(-(1/phi^2) * distances^2);
+  matrix[nstations,nstations] H = exp(-(1/phi) * distances);
 }
 
 parameters {
