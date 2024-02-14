@@ -2,14 +2,8 @@ library(leaflet)
 library(dplyr)
 library(tidyr)
 library(lubridate)
-# library(geojsonio)
-# library(viridis)
 library(rnaturalearth)
-# library(sf)
-# library(sp)
-# library(mapview)
-# devtools::install_github("ropensci/rnaturalearthhires")
-# library(rnaturalearthires)
+library(htmltools)
 
 ozono <- read.csv("./Dati_iniziali/datasetO3.csv")
 stazioni <- read.csv("./Dati_iniziali/stazioni_O3.csv")
@@ -27,36 +21,68 @@ map_lombardia <- italy_map[which(italy_map$region == "Lombardia"),] %>%
 stazioni.usate <- stazioni.usate[which(stazioni.usate$IdSensore < 17288),]
 
 #  replace it with the 45 etas from model
-strength <- c(0.1034295 , -0.04536275,  0.00141684, -0.0782174 ,  0.0584358 ,
-              0.05399905, -0.138177  ,  0.133876  , -0.08207435, -0.236533  ,
-              0.07244055, -0.377156  , -0.1503305 ,  0.1263585 ,  0.0602766 ,
-              -0.03121085,  0.0636074 , -0.165159  ,  0.1033335 , -0.00332804,
-              -0.0415099 , -0.02852715,  0.100031  , -0.00575957,  0.123913  ,
-              0.1021255 , -0.1146205 ,  0.09392515, -0.0414952 , -0.03088155,
-              0.0838783 ,  0.405153  , -0.09756915,  0.07622735,  0.1293975 ,
-              0.05799955,  0.04157765,  0.06790785, -0.0289605 ,  0.00477636,
-              -0.174347  ,  0.0033469 ,  0.01861685,  0.0424593 ,  0.0512646 )
+strength120 <- c(0.3477005 , -0.0680988 , -0.674555  , -0.8092395 ,  0.5908655 ,
+       -0.989601  , -1.12846   ,  0.826025  , -0.02671945, -0.09674225,
+       -0.169612  , -2.93162   , -0.6333455 ,  0.6763975 ,  0.473053  ,
+       -0.912664  , -0.141275  ,  0.1007385 ,  0.796203  , -0.6310385 ,
+       -0.176847  , -0.911738  , -0.02962505, -1.030415  ,  0.437789  ,
+       -0.155127  , -1.08409   ,  0.388442  , -0.624366  , -0.703545  ,
+        0.695023  ,  1.145555  , -1.26213   ,  0.6447765 ,  0.467545  ,
+       -0.1882655 , -0.803763  ,  0.114107  , -0.684858  ,  0.7084855 ,
+       -1.19519   , -0.3621425 , -0.531716  ,  0.595513  , -0.463031 )
 
-color_palette <- colorNumeric(palette = "viridis", domain = strength)
-color_palette <- colorNumeric(palette = "YlOrRd", domain = strength)
-
+color_palette <- colorNumeric(palette = "viridis", domain = strength120)
 
 mappa <- leaflet( data = stazioni.usate) %>%
   addTiles() %>%
   # addAwesomeMarkers(lng=stazioni$lng, lat=stazioni$lat) %>%
   addProviderTiles(providers$Esri.WorldTopoMap) %>%
-  addPolygons(data = map_lombardia, stroke = T, opacity = .4, color = "blue",
-              fillOpacity = .2, fill = T, fillColor =  "blue")   %>%
+  addPolygons(data = map_lombardia, stroke = T, opacity = 1, color = "blue",
+              fillOpacity = .1, fill = T, fillColor =  "blue",dashArray = "3" , weight = 1)   %>%
   addCircleMarkers(
     ~ lng, ~ lat,
     fillOpacity = 1,
-    color = ~color_palette(strength) ,
+    color = ~color_palette(strength120) ,
     radius = 4
   ) %>%
   addLegend(
     pal = color_palette,
-    values = ~strength,
-    title = "Eta",
+    values = ~strength120,
+    title = "&#x03B7; effect",
+    opacity = 1
+  )
+
+mappa
+
+
+strength180 <- c(0.3477005 , -0.0680988 , -0.674555  , -0.8092395 ,  0.5908655 ,
+                 -0.989601  , -1.12846   ,  0.826025  , -0.02671945, -0.09674225,
+                 -0.169612  , -2.93162   , -0.6333455 ,  0.6763975 ,  0.473053  ,
+                 -0.912664  , -0.141275  ,  0.1007385 ,  0.796203  , -0.6310385 ,
+                 -0.176847  , -0.911738  , -0.02962505, -1.030415  ,  0.437789  ,
+                 -0.155127  , -1.08409   ,  0.388442  , -0.624366  , -0.703545  ,
+                 0.695023  ,  1.145555  , -1.26213   ,  0.6447765 ,  0.467545  ,
+                 -0.1882655 , -0.803763  ,  0.114107  , -0.684858  ,  0.7084855 ,
+                 -1.19519   , -0.3621425 , -0.531716  ,  0.595513  , -0.463031 )
+
+color_palette <- colorNumeric(palette = "viridis", domain = strength180)
+
+mappa <- leaflet( data = stazioni.usate) %>%
+  addTiles() %>%
+  # addAwesomeMarkers(lng=stazioni$lng, lat=stazioni$lat) %>%
+  addProviderTiles(providers$Esri.WorldTopoMap) %>%
+  addPolygons(data = map_lombardia, stroke = T, opacity = 1, color = "blue",
+              fillOpacity = .1, fill = T, fillColor =  "blue",dashArray = "3" , weight = 1)   %>%
+  addCircleMarkers(
+    ~ lng, ~ lat,
+    fillOpacity = 1,
+    color = ~color_palette(strength180) ,
+    radius = 4
+  ) %>%
+  addLegend(
+    pal = color_palette,
+    values = ~strength180,
+    title = "&#x03B7; effect",
     opacity = 1
   )
 
@@ -64,15 +90,7 @@ mappa
 
 
 
-# for when rgdal will be back
-
-# library(rgdal)
-# library(sp)
-# 
-# italy = readOGR("Reg01012021_g/Reg01012021_g_WGS84.shp", GDAL1_integer64_policy = TRUE)
-# italy <- spTransform(italy, CRS("+proj=longlat +ellps=WGS84 +datum=WGS84"))
-# 
-# lombardia = italy[italy$DEN_REG=='Lombardia', ]
+# ------------------------------------------------------------------------------
 
 ozono$idOperatore <- NULL
 
