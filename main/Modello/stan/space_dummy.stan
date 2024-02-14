@@ -25,11 +25,11 @@ parameters {
   vector[nyears] xi; // Random effects for years
   vector[nstations] w; //Random zero-mean effect for the space model
   real<lower = 0> sigma;
-  real<lower = 0> sigma_eta;
   real<lower = 0> sigma_beta;
   real<lower = 0> sigma_xi;
+  real<lower=0> sigma_dummy;
 
-  vector[nstations] dummy_beta;
+  vector[nstations] gamma;
 }
 
 transformed parameters {
@@ -44,9 +44,9 @@ transformed parameters {
 
   fix_eff = X * beta;
   for (i in 1:N) {
-    dummy_eff[i] = dummy_obs[i] * dummy_beta[station[i]];
+    dummy_eff[i] = dummy_obs[i] * gamma[station[i]];
   }
-  intercept = xi[year] + eta[station] + w[station];
+  intercept = xi[year] + eta[station];
   lambda = exp(fix_eff + intercept + dummy_eff);
 }
 
@@ -55,14 +55,13 @@ model {
   y[1:N] ~ poisson(lambda[1:N]);
 
   xi ~ normal(0, sigma_xi);
-  eta ~ normal(0, sigma_eta);
-  w ~ multi_normal_cholesky(rep_vector(0, nstations), Lw);
+  eta ~ multi_normal_cholesky(rep_vector(0, nstations), Lw);
+  gamma ~ normal(0, sigma_dummy);
   sigma ~ inv_gamma(2, 2);
-  sigma_eta ~ inv_gamma(2, 2);
   sigma_beta ~ inv_gamma(4, 2);
   sigma_xi ~ inv_gamma(4, 2);
-
-  dummy_beta ~ normal(-1, 2);
+  sigma_dummy ~ inv_gamma(4, 2);
+  
 }
 
 generated quantities {

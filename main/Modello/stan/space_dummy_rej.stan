@@ -36,11 +36,11 @@ parameters {
   vector[nyears] xi; // Random effects for years
   vector[nstations] w; //Random zero-mean effect for the space model
   real<lower = 0> sigma;
-  real<lower = 0> sigma_eta;
   real<lower = 0> sigma_beta;
   real<lower = 0> sigma_xi;
+  real<lower = 0>sigma_dummy;
 
-  vector[nstations] dummy_beta;
+  vector[nstations] gamma;
 }
 
 transformed parameters {
@@ -60,16 +60,16 @@ transformed parameters {
 
   fix_eff = X * beta;
   for (i in 1:N) {
-    dummy_eff[i] = dummy_obs[i] * dummy_beta[station[i]];
+    dummy_eff[i] = dummy_obs[i] * gamma[station[i]];
   }
-  intercept = xi[year] + eta[station] + w[station] + dummy_eff;
+  intercept = xi[year] + eta[station] + dummy_eff;
   lambda = exp(fix_eff + intercept);
 
   fix_eff_miss = X_miss * beta;
   for (i in 1:N_miss) {
-    dummy_eff_miss[i] = dummy_miss[i] * dummy_beta[station_miss[i]];
+    dummy_eff_miss[i] = dummy_miss[i] * gamma[station_miss[i]];
   }
-  intercept_miss = xi[year_miss] + eta[station_miss] + w[station_miss] + dummy_eff_miss;
+  intercept_miss = xi[year_miss] + eta[station_miss]+ dummy_eff_miss;
   lambda_miss = exp(fix_eff_miss + intercept_miss);
 }
 
@@ -80,14 +80,13 @@ model {
   };
 
   xi ~ normal(0, sigma_xi);
-  eta ~ normal(0, sigma_eta);
-  w ~ multi_normal_cholesky(rep_vector(0, nstations), Lw);
+  eta ~ multi_normal_cholesky(rep_vector(0, nstations), Lw);
+  gamma ~ normal(0, sigma_dummy);
   sigma ~ inv_gamma(2, 2);
-  sigma_eta ~ inv_gamma(2, 2);
   sigma_beta ~ inv_gamma(4, 2);
   sigma_xi ~ inv_gamma(4, 2);
+  sigma_dummy ~ inv_gamma(4, 2);
 
-  dummy_beta ~ normal(-1, 2);
 }
 
 generated quantities {
