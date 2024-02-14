@@ -27,12 +27,10 @@ parameters {
   
   vector[nyears] xi; // Random effects for years
   vector[nstations] eta;//For the stations
-  vector[nstations] w; //Random zero-mean effect for the space model
   
   real<lower = 0> sigma;
   real<lower = 0> sigma_beta;
   real<lower = 0> sigma_xi;
-  real<lower = 0> sigma_eta;
 }
 
 transformed parameters {
@@ -43,7 +41,7 @@ transformed parameters {
   matrix[nstations,nstations] Lw = cholesky_decompose(Sigma_s);
 
   fix_eff = X * beta;
-  intercept = eta[stations] + xi[year] + w[stations];
+  intercept = eta[stations] + xi[year];
 
   lambda = exp(fix_eff + intercept);  
 }
@@ -52,10 +50,8 @@ model {
   beta ~ normal(0, sigma_beta);
 
   xi ~ normal(0, sigma_xi);
-  eta ~ normal(0, sigma_eta);
-  w ~ multi_normal_cholesky(rep_vector(0, nstations), Lw);
+  eta ~ multi_normal_cholesky(rep_vector(0, nstations), Lw);
   sigma ~ inv_gamma(2, 2);
-  sigma_eta ~ inv_gamma(2, 2);
   sigma_beta ~ inv_gamma(4, 2);
   sigma_xi ~ inv_gamma(4, 2);
 
