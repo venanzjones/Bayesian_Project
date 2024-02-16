@@ -34,11 +34,10 @@ parameters {
   vector[P] beta; // Coefficients for predictors
   vector[nstations] eta; // Random effects for comuni
   vector[nyears] xi; // Random effects for years
-  vector[nstations] w; //Random zero-mean effect for the space model
   real<lower = 0> sigma;
   real<lower = 0> sigma_beta;
   real<lower = 0> sigma_xi;
-  real<lower = 0>sigma_dummy;
+  real<lower = 0> sigma_dummy;
 
   vector[nstations] gamma;
 }
@@ -86,7 +85,6 @@ model {
   sigma_beta ~ inv_gamma(4, 2);
   sigma_xi ~ inv_gamma(4, 2);
   sigma_dummy ~ inv_gamma(4, 2);
-
 }
 
 generated quantities {
