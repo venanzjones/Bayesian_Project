@@ -1,6 +1,0 @@
-Ammesso che la dummy variable sul mese estivo e il modello geostatistico non risolvono il problema delle variabili fuori scala, va implementato il rejection sampling per le generated quantities:
-
-- mandare via tutte le osservazioni sopra soglia come se non ci fossero (letteralmente butto via quello che va sopra, c'è un rischio che non ci siano osservazioni sotto i 30/31, nel caso dobbiamo capire cosa fare)
-- settare a 30 tutto ciò che va sopra, con i problemi che questo crea, di ammassamento sui 30 dei valori.
-
-Idea è provarli entrambi e vedere quale rende meglio.
