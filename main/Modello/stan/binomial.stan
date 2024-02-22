@@ -31,10 +31,8 @@ parameters {
   vector[P] beta; // Coefficients for predictors
   vector[nstations] eta; // Random effects for comuni
   vector[nyears] xi; // Random effects for years
-  vector[nstations] w;
   real<lower = 0> sigma;
   real<lower = 0> sigma_xi;
-  real<lower = 0> sigma_eta;
 
 }
 
@@ -47,18 +45,18 @@ transformed parameters {
   vector[N_miss] fix_eff_miss;
   vector[N_miss] intercept_miss;
 
-  matrix[nstations,nstations] Sigma_s = sigma * sigma * H; //To be added the variance
+  matrix[nstations,nstations] Sigma_s = sigma * H; //To be added the variance
   matrix[nstations,nstations] Lw = cholesky_decompose(Sigma_s);
 
 
   fix_eff = X * beta;
 
-  intercept = xi[year] + eta[station] + w[station];
+  intercept = xi[year] + eta[station];
   alpha = fix_eff + intercept;
 
   fix_eff_miss = X_miss * beta;
 
-  intercept_miss = xi[year_miss] + eta[station_miss]+ w[station_miss];
+  intercept_miss = xi[year_miss] + eta[station_miss];
   alpha_miss = fix_eff_miss + intercept_miss;
 }
 
@@ -68,12 +66,10 @@ model {
     y[i] ~ binomial_logit(max_month[i], alpha[i]);
   };
 
-  xi ~ normal(0, sigma_xi);
-  eta ~ normal(0, sigma_eta);
-  w ~ multi_normal_cholesky(rep_vector(0, nstations), Lw);
+  xi ~ normal(0, sqrt(sigma_xi));
+  eta ~ multi_normal_cholesky(rep_vector(0, nstations), Lw);
   sigma ~ inv_gamma(4, 2);
   sigma_xi ~ inv_gamma(4, 2);
-  sigma_eta ~ inv_gamma(4, 2);
 
 }
 
