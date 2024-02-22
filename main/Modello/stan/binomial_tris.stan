@@ -21,8 +21,10 @@ data {
   real phi;
   matrix[nstations, nstations] distances;
 
-  vector[N] dummy_obs;
-  vector[N_miss] dummy_miss;
+  vector[N] dummy_obs_jul;
+  vector[N_miss] dummy_miss_jul;
+  vector[N] dummy_obs_apr;
+  vector[N_miss] dummy_miss_apr;
 
 }
 
@@ -37,7 +39,8 @@ parameters {
   real<lower = 0> sigma;
   real<lower = 0> sigma_xi;
   real<lower = 0> sigma_dummy;
-  vector[nstations] gamma;
+  vector[nstations] gamma_jul;
+  vector[nstations] gamma_apr;
 
 }
 
@@ -45,12 +48,14 @@ transformed parameters {
   vector[N] alpha;
   vector[N] fix_eff;
   vector[N] intercept;
-  vector[N] dummy_eff;
+  vector[N] dummy_eff_jul;
+  vector[N] dummy_eff_apr;
 
   vector[N_miss] alpha_miss;
   vector[N_miss] fix_eff_miss;
   vector[N_miss] intercept_miss;
-  vector[N_miss] dummy_eff_miss;
+  vector[N_miss] dummy_eff_miss_jul;
+  vector[N_miss] dummy_eff_miss_apr;
 
   matrix[nstations,nstations] Sigma_s = sigma * sigma * H; //To be added the variance
   matrix[nstations,nstations] Lw = cholesky_decompose(Sigma_s);
@@ -58,16 +63,18 @@ transformed parameters {
 
   fix_eff = X * beta;
   for (i in 1:N) {
-    dummy_eff[i] = dummy_obs[i] * gamma[station[i]];
+    dummy_eff_jul[i] = dummy_obs_jul[i] * gamma_jul[station[i]];
+    dummy_eff_apr[i] = dummy_obs_apr[i] * gamma_apr[station[i]];
   }
-  intercept = xi[year] + eta[station] + dummy_eff;
+  intercept = xi[year] + eta[station] + dummy_eff_jul + dummy_eff_apr;
   alpha = fix_eff + intercept;
 
   fix_eff_miss = X_miss * beta;
   for (i in 1:N_miss) {
-    dummy_eff_miss[i] = dummy_miss[i] * gamma[station_miss[i]];
+    dummy_eff_miss_jul[i] = dummy_miss_jul[i] * gamma_jul[station_miss[i]];
+    dummy_eff_miss_apr[i] = dummy_miss_apr[i] * gamma_apr[station_miss[i]];
   }
-  intercept_miss = xi[year_miss] + eta[station_miss] + dummy_eff_miss;
+  intercept_miss = xi[year_miss] + eta[station_miss] + dummy_eff_miss_jul + dummy_eff_miss_apr;
   alpha_miss = fix_eff_miss + intercept_miss;
 }
 
@@ -79,7 +86,8 @@ model {
 
   xi ~ normal(0, sigma_xi);
   eta ~ multi_normal_cholesky(rep_vector(0, nstations), Lw);
-  gamma ~ normal(0, sigma_dummy);
+  gamma_jul ~ normal(0, sigma_dummy);
+  gamma_apr ~ normal(0, sigma_dummy);
 
   sigma ~ inv_gamma(4, 2);
   sigma_xi ~ inv_gamma(4, 2);
