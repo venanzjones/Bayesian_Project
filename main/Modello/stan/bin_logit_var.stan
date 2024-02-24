@@ -49,7 +49,7 @@ transformed parameters {
   vector[N_miss] fix_eff_miss;
   vector[N_miss] intercept_miss;
 
-  matrix[nstations,nstations] Sigma_s = sigma2 * H + sigma2_eta * identity_matrix(nstations); //To be added the variance
+  matrix[nstations,nstations] Sigma_s = sigma2 * H + sigma2_eta * identity_matrix(nstations); 
   matrix[nstations,nstations] Lw = cholesky_decompose(Sigma_s);
 
 
@@ -68,7 +68,7 @@ transformed parameters {
 model {
   beta ~ normal(0, 1);
   for (i in 1:N) {
-    y[i] ~ binomial(max_month[i], inv_logit(alpha[i]));
+    y[i] ~ binomial_logit(max_month[i], alpha[i]);
   }
 
   for (i in 1:nyears) {
