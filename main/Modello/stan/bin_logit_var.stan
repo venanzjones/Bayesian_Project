@@ -37,6 +37,7 @@ parameters {
   real<lower = 0> sigma2;
   vector<lower = 0>[nyears] sigma2_xi;
   vector<lower = 0>[nmonths] sigma2_gamma;
+  real<lower = 0> sigma2_eta;
 }
 
 transformed parameters {
@@ -48,7 +49,7 @@ transformed parameters {
   vector[N_miss] fix_eff_miss;
   vector[N_miss] intercept_miss;
 
-  matrix[nstations,nstations] Sigma_s = sigma2 * H; //To be added the variance
+  matrix[nstations,nstations] Sigma_s = sigma2 * H + sigma2_eta * identity_matrix(nstations); //To be added the variance
   matrix[nstations,nstations] Lw = cholesky_decompose(Sigma_s);
 
 
@@ -70,12 +71,18 @@ model {
     y[i] ~ binomial(max_month[i], inv_logit(alpha[i]));
   }
 
-  xi[1:nyears] ~ normal(0, sqrt(sigma2_xi[1:nyears]));
-  gamma[1:nmonths] ~ normal(0, sqrt(sigma2_gamma[1:nmonths]));
+  for (i in 1:nyears) {
+    xi[i] ~ normal(0, sqrt(sigma2_xi[i]));
+  }
+  for (i in 1:nmonths) {
+    gamma[i] ~ normal(0, sqrt(sigma2_gamma[i]));
+  }
+
   w ~ multi_normal_cholesky(rep_vector(0, nstations), Lw);
   sigma2 ~ inv_gamma(4, 2);
   sigma2_xi ~ inv_gamma(4, 2);
   sigma2_gamma ~ inv_gamma(4, 2);
+  sigma2_eta ~ inv_gamma(4, 2);
 }
 
 generated quantities {

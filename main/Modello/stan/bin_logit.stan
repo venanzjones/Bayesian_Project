@@ -37,6 +37,7 @@ parameters {
   real<lower = 0> sigma2;
   real<lower = 0> sigma2_xi;
   real<lower = 0> sigma2_gamma;
+  real<lower = 0> sigma2_eta;
 }
 
 transformed parameters {
@@ -48,7 +49,7 @@ transformed parameters {
   vector[N_miss] fix_eff_miss;
   vector[N_miss] intercept_miss;
 
-  matrix[nstations,nstations] Sigma_s = sigma2 * H; //To be added the variance
+  matrix[nstations,nstations] Sigma_s = sigma2 * H + sigma2_eta * identity_matrix(nstations); //To be added the variance
   matrix[nstations,nstations] Lw = cholesky_decompose(Sigma_s);
 
 
@@ -76,6 +77,7 @@ model {
   sigma2 ~ inv_gamma(4, 2);
   sigma2_xi ~ inv_gamma(4, 2);
   sigma2_gamma ~ inv_gamma(4, 2);
+  sigma2_eta ~ inv_gamma(4, 2);
 }
 
 generated quantities {
