@@ -37,7 +37,7 @@ parameters {
   real<lower = 0> sigma2;
   vector<lower = 0>[nyears] sigma2_xi;
   vector<lower = 0>[nmonths] sigma2_gamma;
-  real<lower = 0> sigma2_eta;
+  vector<lower = 0>[nstations] sigma2_eta;
 }
 
 transformed parameters {
@@ -49,7 +49,7 @@ transformed parameters {
   vector[N_miss] fix_eff_miss;
   vector[N_miss] intercept_miss;
 
-  matrix[nstations,nstations] Sigma_s = sigma2 * H + sigma2_eta * identity_matrix(nstations); 
+  matrix[nstations,nstations] Sigma_s = sigma2 * H + diag_matrix(sigma2_eta); 
   matrix[nstations,nstations] Lw = cholesky_decompose(Sigma_s);
 
 
@@ -79,6 +79,7 @@ model {
   }
 
   w ~ multi_normal_cholesky(rep_vector(0, nstations), Lw);
+  
   sigma2 ~ inv_gamma(4, 2);
   sigma2_xi ~ inv_gamma(4, 2);
   sigma2_gamma ~ inv_gamma(4, 2);
