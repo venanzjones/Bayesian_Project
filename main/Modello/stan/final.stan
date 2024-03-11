@@ -74,19 +74,19 @@ model {
 
   mu_xi ~ normal(0, 1);
   for (i in 1:nyears) {
-    xi[i] ~ normal(mu_xi[i], sqrt(sigma2_xi[i]));
+    xi[i] ~ normal(mu_xi[i], sigma2_xi[i]);
   }
   mu_gamma ~ normal(0, 1);
   for (i in 1:nmonths) {
-    gamma[i] ~ normal(mu_gamma[i], sqrt(sigma2_gamma[i]));
+    gamma[i] ~ normal(mu_gamma[i], sigma2_gamma[i]);
   }
 
   w ~ multi_normal_cholesky(rep_vector(0, nstations), Lw);
   
-  sigma2 ~ cauchy(0,1);
-  sigma2_xi ~cauchy(0,1);
-  sigma2_gamma ~ cauchy(0,1);
-  sigma2_eta ~ cauchy(0,1);
+  sigma2 ~ inv_gamma(4,2);
+  sigma2_xi ~cauchy(0,5);
+  sigma2_gamma ~ cauchy(0,5);
+  sigma2_eta ~ inv_gamma(4,2);
 }
 
 generated quantities {
