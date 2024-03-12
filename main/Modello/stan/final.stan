@@ -33,12 +33,12 @@ parameters {
   vector[P] beta; // Coefficients for predictors
   vector[nstations] w; // Random effects for comuni
   vector[nyears] xi; // Random effects for years
-  vector[nyears] mu_xi;
+  real mu_xi;
   vector[nmonths] gamma;
-  vector[nmonths] mu_gamma;
+  real mu_gamma;
   real<lower = 0> sigma2;
-  vector<lower = 0>[nyears] sigma2_xi;
-  vector<lower = 0>[nmonths] sigma2_gamma;
+  real<lower = 0> sigma2_xi;
+  real<lower = 0> sigma2_gamma;
   vector<lower = 0>[nstations] sigma2_eta;
 }
 
@@ -74,18 +74,18 @@ model {
 
   mu_xi ~ normal(0, 1);
   for (i in 1:nyears) {
-    xi[i] ~ normal(mu_xi[i], sigma2_xi[i]);
+    xi[i] ~ normal(mu_xi, sqrt(sigma2_xi));
   }
   mu_gamma ~ normal(0, 1);
   for (i in 1:nmonths) {
-    gamma[i] ~ normal(mu_gamma[i], sigma2_gamma[i]);
+    gamma[i] ~ normal(mu_gamma, sqrt(sigma2_gamma));
   }
 
   w ~ multi_normal_cholesky(rep_vector(0, nstations), Lw);
   
   sigma2 ~ inv_gamma(4,2);
-  sigma2_xi ~cauchy(0,5);
-  sigma2_gamma ~ cauchy(0,5);
+  sigma2_xi ~inv_gamma(4,2);
+  sigma2_gamma ~ inv_gamma(4,2);
   sigma2_eta ~ inv_gamma(4,2);
 }
 
